@@ -16,7 +16,7 @@ async function scan(page, label) {
 }
 
 test('3D mode overlay: no critical or serious axe issues in any state', async ({ page }) => {
-  test.setTimeout(120_000);
+  test.setTimeout(300_000); // CI runners (2 vCPU, software WebGL) are far slower than local runs
   await boot(page);
   await scan(page, 'welcome + pre-check');
   await page.locator('.assessment-item .choice-btn').first().click();

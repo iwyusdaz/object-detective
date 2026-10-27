@@ -56,7 +56,7 @@ test('main case is solvable in 3D mode: full expert score', async ({ page }) => 
 });
 
 test('main case is solvable in TEXT mode with the same decisions (parity)', async ({ page }) => {
-  test.setTimeout(120_000);
+  test.setTimeout(300_000); // CI runners (2 vCPU, software WebGL) are far slower than local runs
   await boot(page, { textMode: true });
   await expect(page.locator('html')).toHaveAttribute('data-textmode', 'on');
   await page.locator('.module-nav button').nth(2).click();
@@ -176,7 +176,7 @@ test('captions setting hides cinematic captions; settings never move the gallery
 });
 
 test('tools: raking light, magnifier, measure in cm and inches, true size, compare', async ({ page }) => {
-  test.setTimeout(120_000);
+  test.setTimeout(300_000); // CI runners (2 vCPU, software WebGL) are far slower than local runs
   await boot(page);
   await page.locator('.module-nav button').nth(2).click();
   await page.waitForFunction(() => window.__TEST__.inspection.primary?.id === 'davenport-motor');
@@ -213,7 +213,7 @@ test('tools: raking light, magnifier, measure in cm and inches, true size, compa
 });
 
 test('magnifier: hi-res scan stays at true scale, measure is sane, base model returns, lens must cover the mark', async ({ page }) => {
-  test.setTimeout(120_000);
+  test.setTimeout(300_000); // CI runners (2 vCPU, software WebGL) are far slower than local runs
   await boot(page);
   await page.locator('.module-nav button').nth(2).click();
   await page.locator('.step-nav button', { hasText: 'Inspect' }).click();
@@ -292,7 +292,7 @@ test('WebGL unavailable: fallback message and text mode', async ({ browser }) =>
 });
 
 test('High preset: post pipeline runs with AO and never falls back (SP1)', async ({ page }) => {
-  test.setTimeout(180_000);
+  test.setTimeout(300_000); // CI runners (2 vCPU, software WebGL) are far slower than local runs
   await page.addInitScript(() => {
     for (const k of Object.keys(localStorage)) if (k.startsWith('object-detective:')) localStorage.removeItem(k);
     localStorage.setItem('object-detective:quality', 'high');
