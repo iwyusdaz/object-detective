@@ -17,7 +17,7 @@ A draft museum label makes bold claims. You examine **real Smithsonian 3D scans*
 | Framing | The **Lantern Museum** is fictional. Its staff and documents are fictional and labelled as fictional in the app |
 
 ## Trailer
-*Placeholder: a captioned trailer of 60 seconds or less will be added here (recorded later by the orchestrator).*
+**Trailer:** [docs/trailer.webm](docs/trailer.webm) (55 s, captioned; WebVTT sidecar at [docs/trailer.vtt](docs/trailer.vtt)).
 
 ## The problem
 Sourcing, corroboration and stating uncertainty are core historical-thinking skills. Students mostly meet artifacts as flat photos with confident labels, so they treat the label as fact and mix up what they *see* with what they *infer*.

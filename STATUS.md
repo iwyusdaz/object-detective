@@ -12,7 +12,7 @@ Status values: **done**, **done (agent review)** (done, with an agent review sti
 | Both cases solvable; scripted playthrough passes | done | Unit solvability + expert playthrough; Playwright: tutorial (3D), Case 2 (3D and text mode) |
 | Text mode supports every decision | done (agent review) | Same `CaseView`/`CaseEngine`; Case 2 solved in text mode by test; `design/text-mode.md` |
 | Cinematics ≤ 90 s, skippable, captioned | done | 32 s total (S1 18 s, S2 14 s); Esc/Skip tested; captions + description + reduced-motion stills tested |
-| Performance budgets met | not possible (builder) | Headed GPU runs and Lighthouse are the orchestrator's job. Download sizes, triangle counts and file sizes are within budget (evaluation/METHODS.md) |
+| Performance budgets met | done (orchestrator, headed Apple M1, 2026-10-27 after the revisions): Medium 60 fps (budget ≥ 55), 37 draw calls, 300k triangles, menu interactive 0.10 s, 3.18 MB before first interaction. High 42 fps / Ultra 32 fps — the AO+MSAA pass costs frame rate on the optional presets; documented in `evaluation/results/perf-2026-10-27.json` |
 | Release `v1.0.0` published with the build archive, checksum and `showcase.json`; sub-path test passes | owner | Sub-path test passes; `showcase.json` validates (`node scripts/validate-showcase.mjs 1.0.0`); release workflow ready. The builder was told not to tag |
 | README: play link, trailer, realism rationale, evaluation notice | done (trailer: owner) | README has the notice verbatim, the play link (pending deployment), the realism section, and a trailer placeholder |
 
