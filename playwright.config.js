@@ -5,6 +5,7 @@ export default defineConfig({
   testIgnore: ['unit/**'],
   // CI runners (2 vCPU) are far slower than the local M1 with the hi-res scans.
   timeout: 300_000,
+  expect: { timeout: 20_000 }, // software-WebGL frames are ~200 ms apart under the pacing cap
   retries: 0,
   workers: 1,
   use: { baseURL: 'http://127.0.0.1:4374', trace: 'retain-on-failure' },

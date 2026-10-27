@@ -9,10 +9,33 @@ import * as THREE from 'three';
 import { QualityManager } from './quality.js';
 import { createPost } from './post.js';
 
+/**
+ * Detect a software WebGL implementation (SwiftShader, llvmpipe, ...). Headless
+ * test browsers always use one, and on a 2-vCPU CI runner a back-to-back render
+ * loop starves the main thread so badly that overlay clicks time out.
+ * @returns {string|null} the renderer string when it is a software renderer
+ */
+function detectSoftwareGL() {
+  try {
+    const c = document.createElement('canvas');
+    const gl = c.getContext('webgl2');
+    if (!gl) return null;
+    const ext = gl.getExtension('WEBGL_debug_renderer_info');
+    const name = String(ext ? gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER));
+    gl.getExtension('WEBGL_lose_context')?.loseContext();
+    return /swiftshader|llvmpipe|softpipe|software|basic render/i.test(name) ? name : null;
+  } catch {
+    return null;
+  }
+}
+
 export class Engine {
   constructor(canvas, opts = {}) {
     this.canvas = canvas;
-    this.renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: 'high-performance', preserveDrawingBuffer: Boolean(opts.preserveDrawingBuffer) });
+    // Software WebGL: no MSAA, Low preset at half resolution, ~5 fps cap (see DECISIONS.md).
+    this.softwareGL = detectSoftwareGL();
+    this.minFrameMs = this.softwareGL ? 200 : 0;
+    this.renderer = new THREE.WebGLRenderer({ canvas, antialias: !this.softwareGL, powerPreference: 'high-performance', preserveDrawingBuffer: Boolean(opts.preserveDrawingBuffer) });
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 1.0;
@@ -24,7 +47,8 @@ export class Engine {
     this.camera = new THREE.PerspectiveCamera(45, 1, 0.01, 200);
     this.baseFov = this.camera.fov;
 
-    this.quality = new QualityManager(this.renderer, opts.preset);
+    this.quality = new QualityManager(this.renderer, opts.preset || (this.softwareGL ? 'low' : undefined));
+    if (this.softwareGL && !opts.preset) { this.quality.auto = false; this.quality.resolutionScale = 0.5; }
     this.clock = new THREE.Clock();
     this._updateFns = [];
     this._overlayPasses = [];
@@ -78,15 +102,22 @@ export class Engine {
     if (this._running) return;
     this._running = true;
     this.clock.start();
+    // Keep rendering at or below ~50% of the main thread so the overlay stays
+    // responsive when a single frame is expensive (software WebGL on CI).
+    const schedule = (delayMs) => {
+      if (delayMs > 4) setTimeout(() => requestAnimationFrame(tick), delayMs);
+      else requestAnimationFrame(tick);
+    };
     const tick = () => {
       if (!this._running) return;
-      requestAnimationFrame(tick);
-      if (this._paused || !this._visible) return;
-      if (this.canvas.style.visibility === 'hidden') return; // text mode: no GPU work
+      if (this._paused || !this._visible) { schedule(100); return; }
+      if (this.canvas.style.visibility === 'hidden') { schedule(100); return; } // text mode: no GPU work
       const dt = Math.min(this.clock.getDelta(), 0.1);
       const t = this.clock.elapsedTime;
+      const t0 = performance.now();
       for (const fn of this._updateFns) fn(dt, t);
       this.renderOnce();
+      const cost = performance.now() - t0;
       this.frames++; this._fpsFrames++;
       this._fpsT += dt;
       if (this._fpsT >= 1) { this.fps = this._fpsFrames / this._fpsT; this._fpsT = 0; this._fpsFrames = 0; }
@@ -97,6 +128,7 @@ export class Engine {
           this._benchFrames = 0; this._benchT = 0;
         }
       }
+      schedule(Math.max(cost > 20 ? cost : 0, this.minFrameMs - cost));
     };
     requestAnimationFrame(tick);
   }
