@@ -1,0 +1,10 @@
+# Build size (release build), 2026-10-27
+dist total: 57432 KB, 113 files
+files over 20 MB: 0
+largest files:
+10083284 dist/assets/models/page-induction-coil-4k-0c832bedd9.glb
+9311112 dist/assets/models/chester-relay-4k-abb6f10267.glb
+7846380 dist/assets/models/henry-trough-battery-4k-fcc6de0f64.glb
+7582452 dist/assets/models/morse-vail-key-4k-ece8213900.glb
+2059556 dist/assets/models/davenport-motor-3f9e17063b.glb
+2054548 dist/assets/models/page-induction-coil-d1c477bb34.glb

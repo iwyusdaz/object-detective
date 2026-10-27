@@ -1,5 +1,5 @@
 {
-  "_about": "Real Smithsonian objects used in the game. Every field under `record` is copied verbatim from the Smithsonian Open Access API record (api.si.edu, retrieved 2026-10-27; see research/object-verification-log.md). `description` and `features` are the builder's own audio-description-style text, written from renders of the CC0 3D scan (research/scan-renders/). Nothing here is invented about the objects; anything not in the record is marked as an observation from the scan.",
+  "_about": "Real Smithsonian objects used in the game. Every field under `record` is copied verbatim from the Smithsonian Open Access API record (api.si.edu, retrieved 2026-10-27; see research/object-verification-log.md). `description` and `features` are the builder's own audio-description-style text, written from renders of the CC0 3D scan (scripts/render-views.mjs; the same renders ship as the text-mode photos in public/assets/photos/). Nothing here is invented about the objects; anything not in the record is marked as an observation from the scan.",
   "objects": [
     {
       "id": "morse-vail-key",

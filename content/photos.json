@@ -202,5 +202,21 @@
       "view": "raking-front",
       "file": "assets/photos/tangent-galvanometer-raking-front-d3652c8d53.jpg"
     }
-  ]
+  ],
+  "_findings": {
+    "f-number": "assets/photos/finding-f-number-24396fb232.jpg",
+    "f-materials": "assets/photos/finding-f-materials-251a5c9f8c.jpg",
+    "f-length": "assets/photos/finding-f-length-db8741b5ff.jpg",
+    "f-underside": "assets/photos/finding-f-underside-27dc77484a.jpg",
+    "f-dav-magnets": "assets/photos/finding-f-dav-magnets-c95db78ce2.jpg",
+    "f-dav-size": "assets/photos/finding-f-dav-size-6f6244a28d.jpg",
+    "f-dav-base": "assets/photos/finding-f-dav-base-a24ca460b1.jpg",
+    "f-bat-plates": "assets/photos/finding-f-bat-plates-e2c4f9c82c.jpg",
+    "f-bat-stamp": "assets/photos/finding-f-bat-stamp-9de14be291.jpg",
+    "f-relay-number": "assets/photos/finding-f-relay-number-600f2b5d48.jpg",
+    "f-relay-base": "assets/photos/finding-f-relay-base-af1daf36fc.jpg",
+    "f-relay-length": "assets/photos/finding-f-relay-length-33fe68aa7d.jpg",
+    "f-coil-number": "assets/photos/finding-f-coil-number-43fbef5098.jpg",
+    "f-coil-length": "assets/photos/finding-f-coil-length-bd988095cc.jpg"
+  }
 }

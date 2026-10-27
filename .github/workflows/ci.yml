@@ -20,6 +20,8 @@ jobs:
       - run: npx playwright install chromium --with-deps
       - name: Unit tests
         run: npm test
+      - name: Content audit (alignment, text-mode parity, fiction labels, cinematic budget)
+        run: node scripts/check-content.mjs
       - name: Build (with test hooks)
         run: npm run build
         env:

@@ -43,7 +43,8 @@ test('tutorial case is solvable in 3D mode with the inspection tools', async ({ 
 });
 
 test('main case is solvable in 3D mode: full expert score', async ({ page }) => {
-  test.setTimeout(180_000);
+  // Headless Chromium renders WebGL in software; 10 hotspots x tool toggles is slow.
+  test.setTimeout(360_000);
   await boot(page);
   await page.locator('.module-nav button').nth(2).click();
   await solveCase(page, 'main');
@@ -181,6 +182,23 @@ test('tools: raking light, magnifier, measure in cm and inches, true size, compa
   await page.getByRole('button', { name: /Turn object right/ }).click();
   const yaws = await page.evaluate(() => window.__TEST__.inspection.slots.map((s) => +s.holder.rotation.y.toFixed(4)));
   expect(yaws[0]).toBe(yaws[1]);
+});
+
+test('mobile emulation (390x844, touch): stacked layout, tools and case panel usable', async ({ browser }) => {
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, deviceScaleFactor: 2 });
+  const page = await ctx.newPage();
+  await boot(page);
+  await page.getByRole('button', { name: /Start the shift/ }).tap();
+  await expect(page.locator('.module-nav button').nth(1)).toHaveAttribute('aria-current', 'step');
+  const vp = await page.locator('#viewport').boundingBox();
+  const panel = await page.locator('#panel').boundingBox();
+  expect(panel.y).toBeGreaterThanOrEqual(vp.y + vp.height - 1); // panel stacked below the 3D view
+  await page.locator('.step-nav button', { hasText: 'Inspect' }).tap();
+  await page.locator('.poi-list button[data-poi="f-materials"]').tap();
+  await page.getByRole('button', { name: 'Record what I see' }).tap();
+  await expect(page.locator('.poi-card .classify-row').first()).toBeVisible();
+  expect(await page.evaluate(() => window.__TEST__.engine.quality.name)).toBe('low');
+  await ctx.close();
 });
 
 test('WebGL unavailable: fallback message and text mode', async ({ browser }) => {

@@ -1,0 +1,5 @@
+# Unit tests (vitest 5.0.5), 2026-10-27
+ ✓ tests/unit/case-engine.test.js (20 tests) 9ms
+ ✓ tests/unit/tools-and-facts.test.js (22 tests) 21ms
+ Test Files  2 passed (2)
+      Tests  42 passed (42)
