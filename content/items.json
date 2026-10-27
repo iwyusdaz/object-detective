@@ -36,9 +36,9 @@
         "id": "pre-4",
         "prompt": "Which label sentence states uncertainty honestly?",
         "options": [
-          { "id": "a", "text": "This key definitely sent the first telegraph message.", "why": "\"Definitely\" claims more than the evidence supports." },
-          { "id": "b", "text": "This key is believed to come from the first Baltimore–Washington line, but we cannot say whether it sent the first message.", "why": "Yes. It says what the record supports and marks what remains unknown." },
-          { "id": "c", "text": "Nobody knows anything about this key.", "why": "That throws away what the evidence does show." }
+          { "id": "a", "text": "This lantern was used by the keeper every night for forty years.", "why": "\"Used every night for forty years\" is a story about use. The label gives no evidence for it." },
+          { "id": "b", "text": "This lantern is believed to date from the 1880s, but the maker's records were lost, so we cannot be certain.", "why": "Yes. It says what the record supports and marks what remains unknown." },
+          { "id": "c", "text": "Nobody knows anything about this lantern.", "why": "That throws away what the evidence does show." }
         ],
         "correct": "b"
       }

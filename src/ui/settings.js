@@ -102,8 +102,10 @@ export class Settings {
     q.querySelector('form').addEventListener('submit', (e) => {
       e.preventDefault();
       if (this.quality) {
-        const v = $('select#set-quality').value;
-        if (v !== this.quality.name) this.quality.set(v);
+        // Always apply on Save — even when the value equals the current preset —
+        // so a manual choice beats the warm-up benchmark (quality.set turns
+        // auto off and stores the choice; agent review SP2).
+        this.quality.set($('select#set-quality').value);
       }
       this.state.textSize = $('select#set-textsize').value;
       this.state.contrast = $('select#set-contrast').value;

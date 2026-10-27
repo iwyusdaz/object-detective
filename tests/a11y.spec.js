@@ -82,7 +82,7 @@ test('text mode accessibility tree (ariaSnapshot): finding, transcription and co
   await page.locator('.look-actions button', { hasText: 'Look closely (magnifier)' }).click();
   const tree = await page.locator('#panel').ariaSnapshot();
   expect(tree).toContain('heading "End of the wooden base (painted number)"');
-  expect(tree).toMatch(/Transcription: .*181411/);
+  expect(tree).toMatch(/strong: "Transcription:"\s*\n\s*- text: 181411/);
   expect(tree).toMatch(/radio "Observation"/);
   expect(tree).toMatch(/radio "Inference"/);
   expect(tree).toMatch(/img "End of the wooden base/);

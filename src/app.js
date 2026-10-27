@@ -27,6 +27,8 @@ import { CaseView } from './ui/case-view.js';
 import { renderWelcome, renderTransfer, renderWrapUp } from './ui/chapters.js';
 import { ToolController } from './app-tools.js';
 import { openHelp } from './ui/help.js';
+import { openDialog, closeDialog } from './a11y/focus.js';
+import { h } from './ui/dom.js';
 
 export const SLUG = 'object-detective';
 window.__SLUG__ = SLUG;
@@ -36,7 +38,7 @@ const SAVE_KEY = `${SLUG}:save`;
 
 export class App {
   constructor() {
-    document.body.insertAdjacentHTML('afterbegin', '<dialog id="settings-dialog" aria-label="Settings"></dialog><dialog id="progress-dialog" aria-label="My progress"></dialog><dialog id="help-dialog" aria-labelledby="help-h"></dialog>');
+    document.body.insertAdjacentHTML('afterbegin', '<dialog id="settings-dialog" aria-label="Settings"></dialog><dialog id="progress-dialog" aria-label="My progress"></dialog><dialog id="help-dialog" aria-labelledby="help-h"></dialog><dialog id="restart-dialog" aria-labelledby="restart-h"></dialog>');
     this.shell = new Shell({ slug: SLUG, title: 'The Object Detective — an evening at the Lantern Museum (fictional)', moduleLabels: CHAPTERS, onModuleChange: (i) => this.gotoChapter(i) });
     this.record = new LearningRecord(SLUG);
     this.motion = new MotionPrefs(SLUG);
@@ -81,7 +83,7 @@ export class App {
     this.shell.setTextMode(startText, { silent: true });
     this.shell.on('textmode', () => this.setTextMode(!this.shell.textMode));
     this.shell.on('replay-s1', () => this.playS1());
-    this.shell.on('restart', () => this.restartAll());
+    this.shell.on('restart', (btn) => this.confirmRestart(btn));
     this.gotoChapter(this.save.chapter || 0, { resume: true });
     if (__TEST_HOOKS__) {
       window.__TEST__ = { app: this, engine: this.engine, cases: this.cases, inspection: this.inspection, rake: this.rake, magnifier: this.magnifier, measure: this.measure, gallery: this.gallery, player: this.player, scene: this.engine?.scene };
@@ -227,6 +229,24 @@ export class App {
       nextChapter: () => this.gotoChapter(caseId === 'tutorial' ? 2 : 3),
       restartCase: () => { this.cases[caseId].engine = new CaseEngine(this.caseDefs[caseId]); this.persist(); this.gotoChapter(this.chapter); },
     };
+  }
+
+  /**
+   * "Restart the whole game" asks for confirmation first: one click must not
+   * be able to wipe a 35-minute session (agent review SP5).
+   */
+  confirmRestart(trigger) {
+    const d = document.getElementById('restart-dialog');
+    d.replaceChildren(
+      h('h2', { id: 'restart-h' }, 'Restart the whole game?'),
+      h('p', {}, 'This clears all your answers in both cases, the pre-check and the transfer task, and cannot be undone. You can download your record first from ', h('strong', {}, 'My progress'), ' in the menu.'),
+      h('menu', {},
+        h('button', { type: 'button', id: 'restart-cancel', onclick: () => closeDialog(d) }, 'Cancel'),
+        h('button', { type: 'button', id: 'restart-download', onclick: (e) => { this.record.download(); e.currentTarget.textContent = 'Record downloaded ✓'; } }, 'Download my record first'),
+        h('button', { type: 'button', id: 'restart-confirm', class: 'primary', onclick: () => { closeDialog(d); this.restartAll(); } }, 'Restart everything'),
+      ),
+    );
+    openDialog(d, trigger);
   }
 
   restartAll() {

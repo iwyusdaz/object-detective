@@ -3,11 +3,16 @@
  * alternative (WCAG 2.5.1), and every control is a native, labelled form
  * element (keyboard operable). Groups: View, Raking light, Magnifier, Measure,
  * True size, Compare. The keyboard shortcuts shown are the CURRENT bindings.
+ * The whole pad can be collapsed behind a toggle; on narrow screens it starts
+ * collapsed so it does not cover the object (agent review SP6).
  * @module ui/tool-pad
  */
 import { h, clear } from './dom.js';
 import { PRESET_VIEWS } from '../scenes/inspection.js';
 import { KeyMap } from '../core/keymap.js';
+
+/** Visible legend naming the true-size references (agent review SP8). */
+export const TRUE_SIZE_LEGEND = 'References: 30 cm ruler (ticks in cm) · US quarter, 24.26 mm across · bank card, 85.6 × 54 mm.';
 
 export class ToolPad {
   /**
@@ -20,12 +25,16 @@ export class ToolPad {
     this.api = api;
     this.root = h('aside', { class: 'tool-pad', 'aria-label': 'Inspection tools' });
     host.appendChild(this.root);
+    this.collapsed = null; // decided on first render (narrow screens start collapsed)
+    this._lastArgs = {};
     this.render({});
   }
 
   k(id) { return KeyMap.pretty(this.api.keys.map[id]); }
 
-  render({ compareOptions = [], compareId = null, raking = { azimuth: 300, elevation: 12, intensity: 3.2 }, rakingOn = false, magOn = false, magZoom = 4, trueSize = false, pointMeasure = false, measureText = '' } = {}) {
+  render({ compareOptions = [], compareId = null, raking = { azimuth: 300, elevation: 12, intensity: 3.2 }, rakingOn = false, magOn = false, magZoom = 4, trueSize = false, pointMeasure = false, measureText = '', trueSizeText = '' } = {}) {
+    this._lastArgs = arguments[0] || {};
+    if (this.collapsed === null) this.collapsed = window.matchMedia('(max-width: 760px)').matches;
     clear(this.root);
     const btn = (label, action, aria) => h('button', { type: 'button', 'aria-label': aria || label, title: aria || label, onclick: () => this.api.do(action) }, label);
 
@@ -85,20 +94,33 @@ export class ToolPad {
     const size = h('details', { class: 'tool-group', open: trueSize },
       h('summary', {}, 'True size'),
       h('label', { class: 'check' }, h('input', { type: 'checkbox', checked: trueSize, onchange: (e) => this.api.toggleTrueSize(e.target.checked) }), ` Show beside a ruler, a coin and a card (${this.k('trueSize')})`),
+      // The references are named in visible text, not only in the live region,
+      // and the record's dimensions are stated in text (agent review SP8).
+      h('p', { class: 'tool-hint' }, TRUE_SIZE_LEGEND),
+      trueSizeText ? h('p', { class: 'true-size-out', 'aria-live': 'polite' }, trueSizeText) : null,
     );
 
-    this.root.append(view, rakingGroup, mag, measure, size);
+    // Collapse toggle: the pad must not cover the object on small screens.
+    const toggle = h('button', {
+      type: 'button',
+      class: 'pad-toggle',
+      'aria-expanded': String(!this.collapsed),
+      onclick: () => { this.collapsed = !this.collapsed; this.render(this._lastArgs); },
+    }, `${this.collapsed ? '▸' : '▾'} Inspection tools`);
 
+    const body = h('div', { class: 'pad-body' }, view, rakingGroup, mag, measure, size);
     if (compareOptions.length) {
       const sel = h('select', { id: 'compare-select', onchange: (e) => this.api.setCompare(e.target.value || null) },
         h('option', { value: '' }, 'No comparison (one object)'),
         ...compareOptions.map((o) => h('option', { value: o.id, selected: o.id === compareId }, o.title)),
       );
-      this.root.append(h('details', { class: 'tool-group', open: Boolean(compareId) },
+      body.append(h('details', { class: 'tool-group', open: Boolean(compareId) },
         h('summary', {}, 'Compare'),
         h('label', { for: 'compare-select' }, 'Put a second object beside this one (both turn together):'),
         sel,
       ));
     }
+    this.root.classList.toggle('collapsed', this.collapsed);
+    this.root.append(toggle, body);
   }
 }

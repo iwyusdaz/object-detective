@@ -50,7 +50,9 @@
     "media3dAccess": [
       "CC0"
     ],
-    "voyagerStatus": 200
+    "voyagerStatus": 200,
+    "sourceDisputed": true,
+    "sourceNote": "disputed (agent review SP13, 2026-10-27): object-verification-log.md says the live content call returned HTTP 429 for this object and its screenshot renders the saved search response (data/raw/si3d.json). The 'live content endpoint' entry here could not be re-verified. The CC0 status itself is corroborated for all six records by data/raw/si3d.json."
   },
   {
     "slug": "page-induction-coil",
@@ -64,7 +66,9 @@
     "media3dAccess": [
       "CC0"
     ],
-    "voyagerStatus": 200
+    "voyagerStatus": 200,
+    "sourceDisputed": true,
+    "sourceNote": "disputed (agent review SP13, 2026-10-27): object-verification-log.md says the live content call returned HTTP 429 for this object and its screenshot renders the saved search response (data/raw/si3d.json). The 'live content endpoint' entry here could not be re-verified. The CC0 status itself is corroborated for all six records by data/raw/si3d.json."
   },
   {
     "slug": "tangent-galvanometer",
@@ -78,6 +82,8 @@
     "media3dAccess": [
       "CC0"
     ],
-    "voyagerStatus": 200
+    "voyagerStatus": 200,
+    "sourceDisputed": true,
+    "sourceNote": "disputed (agent review SP13, 2026-10-27): object-verification-log.md says the live content call returned HTTP 429 for this object and its screenshot renders the saved search response (data/raw/si3d.json). The 'live content endpoint' entry here could not be re-verified. The CC0 status itself is corroborated for all six records by data/raw/si3d.json."
   }
 ]

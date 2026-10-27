@@ -43,20 +43,23 @@ Status values: **done**, **done (agent review)** (done, with an agent review sti
 | 6 Cinematics | done | S1, S2 in `content/cinematics.json` |
 | 7 UI, text mode, a11y | done (agent review) | axe clean in all states; remappable keys; screen-reader testing not done |
 | 8 True-size + release build | done (tag: owner) | Poster 1200×630 (webp 11 KB, jpg 30 KB) from the real scene |
-| 9 Content, verification, reviews, write-up | done (agent review) | 7 agent reviews in; 13 revisions made; trailer pending (orchestrator) |
+| 9 Content, verification, reviews, write-up | done (agent review) | 7 agent reviews + an independent second pass in; 13 + 14 revisions made; trailer pending (orchestrator) |
 
 ## Agent review and revisions
 
 | Item | Status | Evidence |
 |---|---|---|
 | Agent reviews (7 reports: visual, heuristics, cognitive walkthrough, multimedia, realism/cinematics, accessibility, expert-style personas) | done (agent review) | `evaluation/reviews/agent-review-*.md` + `screenshots/`. These are reviewer sub-agents, not experts, learners or assistive-technology users |
-| Revisions from the reviews | done | 13 revisions (R-01–R-13) in DECISIONS.md "Revision log", each with finding → change → evidence |
+| Second-pass independent review (fresh reviewer, post-R-01..R-13 evidence spot-checks) | done (agent review) | `evaluation/reviews/agent-review-second-pass.md` + `screenshots/second-pass/`. 0 critical, 6 major, 7 minor; its fact spot-check (F1–F11) matched all 11 visible facts |
+| Revisions from the reviews | done | 13 revisions (R-01–R-13) from the first seven reports plus 14 second-pass entries (SP-01–SP-14) in DECISIONS.md "Revision log", each with finding → change → evidence |
 | Fact audit runs in CI | done | `tests/fixtures/si-records.json` (6 trimmed CC0 records with licence fields) is committed. `tests/unit/tools-and-facts.test.js` audits it with no skip. The raw `data/raw/si3d.json` is only an optional refresh check |
 
 ### Open findings (not fixed in this revision pass)
+- **Magnifier lens shows a faint square behind the ring** (second pass SP3, minor): the scissor render is square while the lens is a CSS circle. Proper fix is a render target with a circular composite or a stencil mask; deferred as risky for the remaining revision time.
+- **CC0 screenshot provenance is disputed for 3 of 6 objects** (SP13, minor): `capture-log.json` says "live content endpoint" where the verification log says the saved search response was rendered; both files now record the dispute (`sourceDisputed: true`). Re-capturing needs live API access (owner).
 - **Camera moves not announced** (accessibility A4; heuristics H6): turn and tilt give no live-region text or view readout. Open for lack of time; POI jumps, flips and raking changes are announced.
 - **Nested live regions** (A5), **canvas label static** (A7), **no single-key shortcut off switch** (A9), **`.tool-hint` size** (A10), **Tab distance to the POI list** (A11): minor; open for lack of time.
-- **Tool pad covers about 25% of the viewport** (V5), **ceiling, plinths, S1 first frame, Davenport shadow** (V6–V10, C6, MM2): visual polish, open. V8/C6 need a re-framed S1 path and fresh screenshots.
+- **Tool pad covers about 25% of the viewport** (V5): partly addressed — the pad is collapsible everywhere and starts collapsed on phones (SP6); the desktop default remains open. **Ceiling, plinths, S1 first frame, Davenport shadow** (V6–V10, C6, MM2): visual polish, open. V8/C6 need a re-framed S1 path and fresh screenshots. The per-preset screenshots in the reviews predate the SP1/SP2 post-pipeline fixes.
 - **No in-scene ring at the mark** (MM3, partly done: the lens now starts on the mark). **Close-up render beside the statements in 3D** (MM4), **evidence board segmenting** (MM6), **records glossary** (MM7): open.
 - **Memo caller vs the real donor** (E1), **provenance in M5** (E2), **"Museums often paint…" generalisation** (E3), **record "date" wording** (E5), **EM prefix** (E4: needs a source, otherwise UNVERIFIED): content edits, open. They need care so the fiction/record line stays clear.
 - **Lesson timing / two-period option** (E9), **copy debrief summary** (E11), **Case 2 opt-in hints** (H7), **auto-open tool section** (H8), **status line count** (H9), **Brier wording** (H10), **pre-check counter**, **Archive "opened" marker**: open for lack of time.

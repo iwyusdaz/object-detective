@@ -196,9 +196,11 @@ test('tools: raking light, magnifier, measure in cm and inches, true size, compa
   expect(await page.evaluate(() => window.__TEST__.magnifier.on)).toBe(true);
   await expect(page.locator('.magnifier-lens')).toBeVisible();
   await page.keyboard.press('KeyM');
-  // true size
+  // true size: the size statement is VISIBLE text, not only a live region (SP8)
   await page.keyboard.press('KeyG');
   expect(await page.evaluate(() => window.__TEST__.app.tools.refs.group.visible)).toBe(true);
+  await expect(page.locator('.true-size-out')).toContainText(/quarters|bank cards/);
+  await expect(page.locator('.tool-pad', { hasText: 'US quarter, 24.26 mm across' })).toBeVisible();
   await page.keyboard.press('KeyG');
   // compare: two objects, synchronized rotation
   const cmp = page.locator('.tool-pad details', { has: page.locator('summary', { hasText: 'Compare' }) });
@@ -215,8 +217,11 @@ test('magnifier: hi-res scan stays at true scale, measure is sane, base model re
   await boot(page);
   await page.locator('.module-nav button').nth(2).click();
   await page.locator('.step-nav button', { hasText: 'Inspect' }).click();
+  await page.keyboard.press('KeyF'); // turn the motor over first (SP4: the pose must not carry over)
   await page.locator('.object-chooser button', { hasText: OBJECTS['chester-relay'].title }).click();
   await page.waitForFunction(() => window.__TEST__.inspection.primary?.id === 'chester-relay');
+  // SP4: a flipped pose must not carry over to the next object
+  expect(await page.evaluate(() => window.__TEST__.inspection.view.pose)).toBe('upright');
   const longest = () => page.evaluate(() => { const s = window.__TEST__.inspection.localSize('chester-relay'); return Math.max(s.x, s.y, s.z); });
   const base = await longest();
   await page.locator('.poi-list button[data-poi="f-relay-number"]').click();
@@ -259,6 +264,15 @@ test('mobile emulation (390x844, touch): stacked layout, tools and case panel us
   await page.getByRole('button', { name: 'Record what I see' }).tap();
   await expect(page.locator('.poi-card .classify-row').first()).toBeVisible();
   expect(await page.evaluate(() => window.__TEST__.engine.quality.name)).toBe('low');
+  // SP6: chapter buttons stay on one scrollable row and the tool pad starts collapsed
+  for (const b of await page.locator('.module-nav button').all()) {
+    const box = await b.boundingBox();
+    const nav = await page.locator('.module-nav').boundingBox();
+    expect(box.height).toBeLessThan(nav.height + 1);
+  }
+  await expect(page.locator('.tool-pad .pad-toggle')).toHaveAttribute('aria-expanded', 'false');
+  await page.locator('.tool-pad .pad-toggle').tap();
+  await expect(page.locator('.tool-pad .pad-toggle')).toHaveAttribute('aria-expanded', 'true');
   await ctx.close();
 });
 
@@ -275,4 +289,71 @@ test('WebGL unavailable: fallback message and text mode', async ({ browser }) =>
   await expect(page.locator('html')).toHaveAttribute('data-textmode', 'on');
   await expect(page.locator('#panel')).toContainText('Welcome to the evening shift');
   await ctx.close();
+});
+
+test('High preset: post pipeline runs with AO and never falls back (SP1)', async ({ page }) => {
+  test.setTimeout(180_000);
+  await page.addInitScript(() => {
+    for (const k of Object.keys(localStorage)) if (k.startsWith('object-detective:')) localStorage.removeItem(k);
+    localStorage.setItem('object-detective:quality', 'high');
+    localStorage.setItem('object-detective:save', JSON.stringify({ s1Seen: true }));
+  });
+  const problems = [];
+  page.on('console', (m) => { if (m.type() === 'warning' || m.type() === 'error') problems.push(m.text()); });
+  await page.goto('/');
+  await page.waitForFunction(() => window.__APP_READY__ === true, null, { timeout: 30_000 });
+  expect(problems.join('\n')).not.toContain('post pipeline unavailable');
+  // Class names are minified in the production bundle, so detect the AO pass by
+  // its n8ao configuration object. With the old wrong import the composer fell
+  // back to NONE (no passes) and logged the warning above.
+  const ao = await page.evaluate(() => {
+    const passes = window.__TEST__?.engine?.post?.composer?.passes || [];
+    return passes.some((p) => p.configuration && typeof p.configuration.aoRadius === 'number');
+  });
+  expect(ao).toBe(true);
+});
+
+test('settings: saving the already-active preset stores it and stops the auto benchmark (SP2)', async ({ page }) => {
+  await boot(page);
+  await page.locator('header').getByRole('button', { name: 'Settings' }).click();
+  await page.getByRole('button', { name: 'Save settings' }).click(); // value unchanged on purpose
+  const q = await page.evaluate(() => ({
+    name: window.__TEST__.engine.quality.name,
+    auto: window.__TEST__.engine.quality.auto,
+    stored: localStorage.getItem('object-detective:quality'),
+  }));
+  expect(q.auto).toBe(false);
+  expect(q.stored).toBe(q.name);
+});
+
+test('display settings saved earlier apply at start-up (SP7)', async ({ page }) => {
+  await boot(page);
+  await page.locator('header').getByRole('button', { name: 'Settings' }).click();
+  await page.getByLabel('Contrast').selectOption('high');
+  await page.getByLabel('Text size').selectOption('large');
+  await page.getByRole('button', { name: 'Save settings' }).click();
+  await expect(page.locator('html')).toHaveAttribute('data-contrast', 'high');
+  await page.reload();
+  await page.waitForFunction(() => window.__APP_READY__ === true, null, { timeout: 30_000 });
+  await expect(page.locator('html')).toHaveAttribute('data-contrast', 'high');
+  await expect(page.locator('html')).toHaveAttribute('data-text-size', 'large');
+});
+
+test('restart asks for confirmation; cancel keeps progress, confirm wipes it (SP5)', async ({ page }) => {
+  await boot(page);
+  await page.locator('.assessment-item').first().locator('.choice-btn').nth(1).click();
+  const dlg = page.locator('#restart-dialog');
+  await page.getByRole('button', { name: 'Menu' }).click();
+  await page.getByRole('button', { name: 'Restart the whole game' }).click();
+  await expect(dlg).toBeVisible();
+  await expect(dlg).toContainText('clears all your answers');
+  await page.locator('#restart-cancel').click();
+  await expect(dlg).toBeHidden();
+  expect(await page.evaluate(() => window.__TEST__.app.save.pre['pre-1'])).toBe('b');
+  await page.getByRole('button', { name: 'Menu' }).click();
+  await page.getByRole('button', { name: 'Restart the whole game' }).click();
+  await page.locator('#restart-confirm').click();
+  await expect(dlg).toBeHidden();
+  expect(await page.evaluate(() => window.__TEST__.app.chapter)).toBe(0);
+  expect(await page.evaluate(() => window.__TEST__.app.save.pre['pre-1'] || null)).toBe(null);
 });

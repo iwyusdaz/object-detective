@@ -33,7 +33,7 @@ You are a new evening intern. Each case gives you a fictional draft label with c
 
 Then a pre-check / transfer pair: a new object (tangent galvanometer) with no hints.
 
-Evidence in Case 2 includes the **catalog numbers painted on the objects themselves** (relay 335.588, coil 309254), which you find with the magnifier and match to the records. It also includes a documented uncertainty: Davenport's motor is a *replacement* for a model destroyed in the 1836 Patent Office fire. One trap is a family story about Joseph Henry, where "can't tell yet" is the honest answer.
+Evidence in Case 2 includes the **catalog numbers painted or written on the objects themselves** (relay 335.588, coil 309254), which you find with the magnifier and match to the records. It also includes a documented uncertainty: Davenport's motor is a *replacement* for a model destroyed in the 1836 Patent Office fire. One trap is a family story about Joseph Henry, where "can't tell yet" is the honest answer.
 
 ## Key design decisions
 Full list in [DECISIONS.md](DECISIONS.md).

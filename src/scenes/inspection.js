@@ -95,6 +95,11 @@ export class Inspection {
       this.stage.add(holder);
       return { id, holder, model };
     });
+    // A new object starts at its Front preset: a flipped pose or tilted camera
+    // from the previous object must not carry over (agent review SP4).
+    const front = PRESET_VIEWS.front;
+    this.view.hotspot = null;
+    Object.assign(this.view, { yaw: front.yaw, elev: front.elev, pose: front.pose });
     this._layout();
     this._applyPose();
     this.fitDistance();

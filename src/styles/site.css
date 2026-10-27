@@ -49,6 +49,9 @@ a { color: var(--accent); }
 .all-projects { padding: 0.35rem 0.6rem; }
 
 .module-nav { display: flex; gap: 0.35rem; padding: 0.35rem 1rem; overflow-x: auto; background: color-mix(in srgb, var(--surface) 80%, var(--bg)); }
+/* One scrollable row: chapter buttons keep their label on one line instead of
+   wrapping into tall boxes on phones (agent review SP6). */
+.module-nav button { flex: 0 0 auto; white-space: nowrap; }
 .module-nav button.active { background: var(--accent-strong); border-color: var(--accent-strong); color: #fff; }
 .hud { padding: 0.25rem 1rem; font-size: 0.9rem; color: var(--muted); background: var(--bg); min-height: 1.6rem; }
 
@@ -65,6 +68,8 @@ a { color: var(--accent); }
 
 /* tool pad */
 .tool-pad { position: absolute; top: 0.6rem; left: 0.6rem; width: 15.5rem; max-height: calc(100% - 1.2rem); overflow-y: auto; background: color-mix(in srgb, var(--surface) 94%, transparent); border: 1px solid color-mix(in srgb, var(--muted) 35%, transparent); border-radius: 10px; padding: 0.4rem 0.55rem; font-size: 0.88rem; z-index: 6; }
+.pad-toggle { width: 100%; text-align: left; font-weight: 600; }
+.tool-pad.collapsed .pad-body { display: none; }
 .tool-group { border-top: 1px solid color-mix(in srgb, var(--muted) 25%, transparent); padding: 0.3rem 0; }
 .tool-group:first-child { border-top: none; }
 .tool-group > summary { cursor: pointer; font-weight: 600; padding: 0.2rem 0; }
@@ -78,6 +83,7 @@ a { color: var(--accent); }
 label.check { display: block; margin: 0.25rem 0; }
 .tool-hint { color: var(--muted); font-size: 0.82rem; margin: 0.3rem 0; }
 .measure-out { font-variant-numeric: tabular-nums; font-weight: 600; }
+.true-size-out { margin: 0.3rem 0; padding: 0.35rem 0.5rem; background: color-mix(in srgb, var(--accent) 12%, transparent); border-left: 3px solid var(--accent); border-radius: 4px; }
 .tool-pad select { width: 100%; }
 .magnifier-lens { position: absolute; border-radius: 50%; border: 3px solid var(--focus); box-shadow: 0 0 0 2px #000, 0 6px 18px rgba(0, 0, 0, 0.5); pointer-events: none; z-index: 5; }
 

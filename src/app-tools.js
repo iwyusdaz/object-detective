@@ -31,6 +31,7 @@ export class ToolController {
     this.trueSize = false;
     this.compareId = null;
     this.measureText = '';
+    this.trueSizeText = '';
     this.refs = buildReferences();
     this.refs.group.visible = false;
     inspection.stage.add(this.refs.group);
@@ -169,12 +170,23 @@ export class ToolController {
     if (on) {
       this._layoutRefs();
       this.inspection.view.elev = 38;
-      this.inspection.fitDistance();
-      this.inspection.view.dist *= 1.6;
+      // Frame the object AND the three references, so the coin and card are in
+      // shot (agent review SP8).
+      const box = new THREE.Box3();
+      for (const s of this.inspection.slots) box.expandByObject(s.model);
+      box.expandByObject(this.refs.group);
+      if (!box.isEmpty()) {
+        const r = box.getBoundingSphere(new THREE.Sphere()).radius;
+        const fov = (this.engine.camera.fov * Math.PI) / 180;
+        this.inspection.view.dist = THREE.MathUtils.clamp((r / Math.sin(fov / 2)) * 1.15, 0.12, 3);
+        this.inspection.view.fitDist = this.inspection.view.dist;
+      }
       this.inspection._applyCamera();
       const obj = this.app.objects[this.inspection.primary?.id];
-      if (obj) announce(`True-size view. ${sizeStatement(obj)}`);
+      this.trueSizeText = obj ? sizeStatement(obj) : '';
+      if (obj) announce(`True-size view. ${this.trueSizeText}`);
     } else {
+      this.trueSizeText = '';
       this.inspection.fitDistance();
       this.inspection._applyCamera();
       announce('True-size view off.');
@@ -220,6 +232,7 @@ export class ToolController {
       raking: this.rake.state, rakingOn: this.rake.on,
       magOn: this.magnifier.on, magZoom: this.magnifier.zoom,
       trueSize: this.trueSize, pointMeasure: this.pointMeasure, measureText: this.measureText,
+      trueSizeText: this.trueSizeText || '',
     });
   }
 }
