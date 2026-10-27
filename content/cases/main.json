@@ -1,0 +1,290 @@
+{
+  "id": "main",
+  "title": "Case 2: The \"Sparks\" case label",
+  "objects": ["davenport-motor", "henry-trough-battery", "chester-relay", "page-induction-coil"],
+  "assessed": true,
+  "intro": [
+    "Good work on the key. Now the real job. The Lantern Museum (fictional) found an old draft label for a whole display case of early electrical instruments. The four objects are real: Smithsonian Open Access 3D scans of objects in the National Museum of American History.",
+    "The draft label makes six claims. For each one, inspect the scans, open the records drawer, pin your evidence, and decide: confirmed, refuted, or can't tell yet. Then write the corrected label."
+  ],
+  "fictionalDocument": {
+    "id": "card-main",
+    "title": "Draft case label, \"Sparks: Electricity Arrives\" (fictional document created for this game)",
+    "author": "Unsigned; found in the Lantern Museum's old exhibit files (fictional)",
+    "date": "Typed, undated",
+    "body": "SPARKS: ELECTRICITY ARRIVES. All four instruments in this case were made in the 1830s, the first decade of electrical invention. Thomas Davenport's motor is the very model he filed with his 1837 patent. Two of the four objects are patent models. The number painted on the relay's marble base is its serial number. The trough battery was built by Joseph Henry himself. The largest object in the case is Davenport's motor.",
+    "sourcingNotes": "No author, no date, no references. A label draft is a set of claims to test, not evidence for them."
+  },
+  "claims": [
+    {
+      "id": "M1",
+      "text": "All four instruments were made in the 1830s.",
+      "verdict": "refuted",
+      "expert": "The records date the battery to 1832 and the motor to about 1837, but the relay to about 1860 and the induction coil to about 1868. Two of the four are decades later, so the claim is refuted. A careful label would give each object its own date."
+    },
+    {
+      "id": "M2",
+      "text": "Davenport's motor is the very model he filed with his 1837 patent.",
+      "verdict": "refuted",
+      "expert": "The record says Davenport made this model \"as a replacement for his original patent model. The original was destroyed in the 1836 fire at the US Patent Office.\" It also warns that he \"may have incorporated improvements … not reflected in the patent drawings.\" The claim is refuted, and the label should say \"replacement model\"."
+    },
+    {
+      "id": "M3",
+      "text": "Two of the four objects are patent models.",
+      "verdict": "confirmed",
+      "expert": "Both the motor record (patent number 132) and the induction coil record (patent number 76654) give the object type as \"Patent Model\". The battery and relay records do not. Confirmed, with one caution from M2: the motor is a replacement patent model."
+    },
+    {
+      "id": "M4",
+      "text": "The number painted on the relay's marble base is its serial number.",
+      "verdict": "refuted",
+      "expert": "The base reads 335.588. The record gives catalog number 335588 and a separate serial number, 589. The painted number matches the catalog number, so it is the museum's number, not the maker's. The serial number is a red herring: the relay has one, but it is not the number you can see."
+    },
+    {
+      "id": "M5",
+      "text": "The trough battery was built by Joseph Henry himself.",
+      "verdict": "cant-tell",
+      "expert": "The record's title is \"Henry trough battery\" and the credit line reads \"from Mary A. Henry\", but no maker is listed. The only document naming a builder is a fictional memo based on a family story, written decades later. A shared name is a clue, not proof. The honest verdict is can't tell yet, and the next step is to look for a primary source."
+    },
+    {
+      "id": "M6",
+      "text": "The largest object in the case is Davenport's motor.",
+      "verdict": "confirmed",
+      "expert": "Measured on the scans, the motor is about 38 cm on its longest side. The induction coil is about 23 cm, the relay about 21 cm and the battery about 20 cm. The records agree: the motor is 15 in (38.1 cm), and the next largest is the coil at 8 3/4 in (22.225 cm). Confirmed by both measurement and record."
+    }
+  ],
+  "findings": [
+    {
+      "id": "f-dav-magnets",
+      "objectId": "davenport-motor",
+      "tool": "view",
+      "hotspot": { "id": "hs-dav-top", "label": "Motor from above (the ring)", "yaw": 0, "elev": 82, "pose": "upright", "point": [0.5, 0.75, 0.5], "zoom": 1.6 },
+      "description": "Seen from above: a round wooden ring holds several reddish-orange coils of wound wire arranged in a circle. A metal bar crosses the ring and joins a vertical shaft at the centre. Above it are two spoked wheels, one painted green.",
+      "statements": [
+        { "id": "s1", "text": "Reddish-orange wire coils sit in a circle inside a wooden ring.", "kind": "observation", "why": "Colour, shape and arrangement are all visible." },
+        { "id": "s2", "text": "These coils are the electromagnets that made the motor turn.", "kind": "inference", "why": "This is a conclusion about how the motor works. The record describes \"four rough electro-magnets, painted red\", which supports it." }
+      ]
+    },
+    {
+      "id": "f-dav-size",
+      "objectId": "davenport-motor",
+      "tool": "measure",
+      "measurePreset": "longest",
+      "hotspot": { "id": "hs-dav-size", "label": "Motor, longest side (measure)", "yaw": 0, "elev": 25, "pose": "upright", "point": [0.5, 0.4, 0.5], "zoom": 1.0 },
+      "description": "Measured on the scan, the longest side of the motor is about 37.8 cm (14.9 in). The record gives overall measurements of 15 in x 10 in x 15 in (38.1 cm x 25.4 cm x 38.1 cm).",
+      "statements": [
+        { "id": "s1", "text": "The motor's longest side measures about 38 cm on the scan.", "kind": "observation", "why": "A measurement made with a tool is an observation." },
+        { "id": "s2", "text": "The motor was too big to be practical for factories.", "kind": "inference", "why": "This judges usefulness. Neither the scan nor the record says anything about factories." }
+      ]
+    },
+    {
+      "id": "f-dav-base",
+      "objectId": "davenport-motor",
+      "tool": "raking",
+      "hotspot": { "id": "hs-dav-under", "label": "Underside of the motor's base (turn it over)", "yaw": 0, "elev": 70, "pose": "flipped", "point": [0.5, 0.0, 0.5], "zoom": 1.3 },
+      "description": "Turned over under a low raking light, the underside shows light, unpainted wood, the four curved legs joined at the corners, a small square metal plate near one end, and a round wooden collar around the end of the central shaft. No lettering is visible on the plate in the scan.",
+      "statements": [
+        { "id": "s1", "text": "A small square metal plate is fixed to the underside, with no visible lettering.", "kind": "observation", "why": "You can see the plate. The scan shows no letters on it." },
+        { "id": "s2", "text": "The plate once carried a maker's name that has worn away.", "kind": "inference", "why": "This is a guess about the past. The record says only \"No extant markings\"." }
+      ]
+    },
+    {
+      "id": "f-bat-plates",
+      "objectId": "henry-trough-battery",
+      "tool": "view",
+      "hotspot": { "id": "hs-bat-top", "label": "Battery from above (inside the trough)", "yaw": 0, "elev": 82, "pose": "upright", "point": [0.5, 0.9, 0.5], "zoom": 1.4 },
+      "description": "A long, shallow wooden trough painted red, worn through to bare wood at the edges. From above, a row of more than twenty thin, dark, upright plates stands in slots across the trough, evenly spaced.",
+      "statements": [
+        { "id": "s1", "text": "More than twenty thin dark plates stand side by side across the trough.", "kind": "observation", "why": "You can see and count the plates." },
+        { "id": "s2", "text": "The plates are made of zinc and copper.", "kind": "inference", "why": "The record lists no materials for this battery. Naming the metals is an inference, and an unsupported one." }
+      ]
+    },
+    {
+      "id": "f-bat-stamp",
+      "objectId": "henry-trough-battery",
+      "tool": "raking",
+      "hotspot": { "id": "hs-bat-under", "label": "Underside of the trough (turn it over)", "yaw": 0, "elev": 75, "pose": "flipped", "point": [0.5, 0.0, 0.5], "zoom": 1.6 },
+      "description": "Turned over, the underside is red paint worn to dark wood, with two small screw heads near the ends. Under raking light, a short line of faint pale characters shows near the middle. In the scan they are too faint and blurred to read with confidence.",
+      "transcription": "Faint characters near the middle of the underside; not legible in the scan (no transcription possible).",
+      "statements": [
+        { "id": "s1", "text": "There is a short line of faint pale characters on the underside.", "kind": "observation", "why": "You can see that marks are there, even though you cannot read them." },
+        { "id": "s2", "text": "The faint characters are Joseph Henry's signature.", "kind": "inference", "why": "You cannot read the marks, so this is a guess. It is exactly the kind of leap a label must not make." }
+      ]
+    },
+    {
+      "id": "f-relay-number",
+      "objectId": "chester-relay",
+      "tool": "magnify",
+      "hotspot": { "id": "hs-relay-number", "label": "Edge of the relay's marble base (painted number)", "yaw": 180, "elev": 8, "pose": "upright", "point": [0.13, 0.08, 0.0], "zoom": 4.0 },
+      "description": "Close view of one long edge of the white base. Small dark numerals with a dot read 335.588.",
+      "transcription": "335.588 (dark paint or ink, on the edge of the marble base; transcribed from the scan)",
+      "statements": [
+        { "id": "s1", "text": "The edge of the base carries the number 335.588 in small dark numerals.", "kind": "observation", "why": "This is a transcription of visible marks." },
+        { "id": "s2", "text": "335.588 is the serial number Charles Chester gave this relay.", "kind": "inference", "why": "This says who wrote the number and why. Check it against the record's numbers." }
+      ]
+    },
+    {
+      "id": "f-relay-base",
+      "objectId": "chester-relay",
+      "tool": "view",
+      "hotspot": { "id": "hs-relay-front", "label": "Relay, front view", "yaw": 0, "elev": 15, "pose": "upright", "point": [0.5, 0.5, 0.5], "zoom": 1.0 },
+      "description": "A thick rectangular base of white stone with faint grey veining and bevelled top edges. On it are two dark coils lying side by side, a brass frame with adjusting screws, and four brass terminal posts near the corners.",
+      "statements": [
+        { "id": "s1", "text": "The base is white stone with faint grey veins.", "kind": "observation", "why": "Colour and veining are visible." },
+        { "id": "s2", "text": "A marble base was chosen because it does not conduct electricity.", "kind": "inference", "why": "This is a reason, not something you can see. The record says only that the relay \"includes a marble base\"." }
+      ]
+    },
+    {
+      "id": "f-relay-length",
+      "objectId": "chester-relay",
+      "tool": "measure",
+      "measurePreset": "longest",
+      "hotspot": { "id": "hs-relay-length", "label": "Relay base, longest side (measure)", "yaw": 0, "elev": 30, "pose": "upright", "point": [0.5, 0.3, 0.5], "zoom": 1.0 },
+      "description": "Measured on the scan, the relay is about 21.1 cm (8.3 in) on its longest side. The record gives 8 3/8 in (21.2725 cm).",
+      "statements": [
+        { "id": "s1", "text": "The relay measures about 21 cm on its longest side.", "kind": "observation", "why": "A tool measurement is an observation." },
+        { "id": "s2", "text": "The relay was designed to fit on a standard telegraph desk.", "kind": "inference", "why": "This is a claim about purpose. Nothing here supports it." }
+      ]
+    },
+    {
+      "id": "f-coil-number",
+      "objectId": "page-induction-coil",
+      "tool": "magnify",
+      "hotspot": { "id": "hs-coil-number", "label": "Paper band on the coil (handwritten number)", "yaw": 90, "elev": 8, "pose": "upright", "point": [0.0, 0.45, 0.48], "zoom": 3.0 },
+      "description": "A pale paper or card band wraps the blue-green coil. Written on it in dark ink, running down the band, is the number 309254.",
+      "transcription": "309254 (handwritten in dark ink, on a paper band around the coil; transcribed from the scan)",
+      "statements": [
+        { "id": "s1", "text": "A paper band on the coil has 309254 written on it.", "kind": "observation", "why": "This is a transcription of visible writing." },
+        { "id": "s2", "text": "309254 was the coil's patent number.", "kind": "inference", "why": "This says what the number means. The record gives the patent number as 76654 and the catalog number as 309254." }
+      ]
+    },
+    {
+      "id": "f-coil-length",
+      "objectId": "page-induction-coil",
+      "tool": "measure",
+      "measurePreset": "longest",
+      "hotspot": { "id": "hs-coil-length", "label": "Coil base, longest side (measure)", "yaw": 90, "elev": 25, "pose": "upright", "point": [0.5, 0.3, 0.5], "zoom": 1.0 },
+      "description": "Measured on the scan, the induction coil is about 23.1 cm (9.1 in) on its longest side. The record gives 8 3/4 in (22.225 cm).",
+      "statements": [
+        { "id": "s1", "text": "The coil measures about 23 cm on its longest side.", "kind": "observation", "why": "A tool measurement is an observation." },
+        { "id": "s2", "text": "The coil is a full-size working instrument, not a model.", "kind": "inference", "why": "Size alone cannot tell you this. The record calls it a patent model." }
+      ]
+    }
+  ],
+  "archive": [
+    {
+      "id": "rec-davenport",
+      "kind": "record",
+      "objectId": "davenport-motor",
+      "title": "Smithsonian record: Davenport electric motor, US patent #132",
+      "sourcing": { "author": "Smithsonian National Museum of American History catalog", "date": "Retrieved 2026-10-27 from the Smithsonian Open Access API", "purpose": "Museum catalog record", "reliability": "Strong. It cites a published reference (W. James King, 1962) and openly states what is uncertain (\"may have incorporated improvements\")." },
+      "excerpts": [
+        "ID Number: EM.252644; patent number: 132. Object type: Patent Model",
+        "Date made: ca 1837. Maker: Davenport, Thomas",
+        "Measurements: overall: 15 in x 10 in x 15 in; 38.1 cm x 25.4 cm x 38.1 cm",
+        "\"Model to accompany US patent number 132, \"Electric Motor, issued to Thomas Davenport, 25 February 1837. This is the first US patent issued for an electric motor. No extant markings.\"",
+        "\"Wooden base, 9 by 14 in., supported on four curved legs, carrying a circular frame, in which there are four rough electro-magnets, painted red, made to revolve within a ring of steel magnets.\"",
+        "\"This model was made by Vermont blacksmith Thomas Davenport (1802-1851) as a replacement for his original patent model. The original was destroyed in the 1836 fire at the US Patent Office. Davenport may have incorporated improvements in this model that are not reflected in the patent drawings.\""
+      ]
+    },
+    {
+      "id": "rec-battery",
+      "kind": "record",
+      "objectId": "henry-trough-battery",
+      "title": "Smithsonian record: Henry trough battery",
+      "sourcing": { "author": "Smithsonian National Museum of American History catalog", "date": "Retrieved 2026-10-27 from the Smithsonian Open Access API", "purpose": "Museum catalog record", "reliability": "Strong for date, number and measurements, but brief: it lists no maker, no materials and no description." },
+      "excerpts": [
+        "ID Number: EM.181178; catalog number: 181178; accession number: 27225",
+        "Object name: Battery. Date made: 1832",
+        "Maker: (none listed)",
+        "Credit line: from Mary A. Henry",
+        "Measurements: overall: 1 7/8 in x 8 in x 2 5/8 in; 4.7625 cm x 20.32 cm x 6.6675 cm",
+        "Location: Currently not on view"
+      ]
+    },
+    {
+      "id": "rec-relay",
+      "kind": "record",
+      "objectId": "chester-relay",
+      "title": "Smithsonian record: Chester telegraph relay",
+      "sourcing": { "author": "Smithsonian National Museum of American History catalog", "date": "Retrieved 2026-10-27 from the Smithsonian Open Access API", "purpose": "Museum catalog record", "reliability": "Strong. It lists the catalog number and the serial number as separate fields." },
+      "excerpts": [
+        "ID Number: EM.335588; catalog number: 335588; accession number: 323535; serial number: 589",
+        "Date made: ca 1860. Maker: Chester, Charles T.",
+        "Physical description: brass, marble, fabric, copper (overall materials)",
+        "Measurements: overall: 3 1/2 in x 8 3/8 in x 5 3/8 in; 8.89 cm x 21.2725 cm x 13.6525 cm",
+        "\"A relay detected a weak signal and used a battery to strengthen the signal so that the receiver would operate.\"",
+        "\"This relay includes a marble base and was made by Charles T. Chester of New York City.\""
+      ]
+    },
+    {
+      "id": "rec-page",
+      "kind": "record",
+      "objectId": "page-induction-coil",
+      "title": "Smithsonian record: patent model, Page induction coil, US #76654",
+      "sourcing": { "author": "Smithsonian National Museum of American History catalog", "date": "Retrieved 2026-10-27 from the Smithsonian Open Access API", "purpose": "Museum catalog record", "reliability": "Strong for numbers, date and measurements; no descriptive history." },
+      "excerpts": [
+        "ID Number: EM.309254; catalog number: 309254; patent number: 76654",
+        "Object type: Patent Model. Object name: Induction Coil",
+        "Date made: ca 1868. Maker: Charles G. Page",
+        "Measurements: overall: 7 in x 8 3/4 in x 4 3/4 in; 17.78 cm x 22.225 cm x 12.065 cm"
+      ]
+    },
+    {
+      "id": "memo-henry",
+      "kind": "fictional",
+      "title": "Lantern Museum memo about the battery (fictional document created for this game)",
+      "sourcing": { "author": "A Lantern Museum staff member (fictional), writing from a phone call", "date": "Dated 1971, about 140 years after the battery was made (fictional)", "purpose": "An internal note to remember what a caller said", "reliability": "Weak. It is second-hand, written long after the event, and based on a family story with no document behind it." },
+      "excerpts": [
+        "\"Caller says her family always told the story that this battery was built by Joseph Henry himself, at his own workbench. No papers survive. Worth adding to the label? — J.T.\""
+      ]
+    },
+    {
+      "id": "card-main",
+      "kind": "fictional",
+      "title": "Draft case label (fictional document created for this game)",
+      "sourcing": { "author": "Unknown (fictional)", "date": "Undated (fictional)", "purpose": "A draft for public display", "reliability": "None as evidence. These are the claims you are testing." },
+      "excerpts": [
+        "\"All four instruments in this case were made in the 1830s … Thomas Davenport's motor is the very model he filed with his 1837 patent … The number painted on the relay's marble base is its serial number. The trough battery was built by Joseph Henry himself.\""
+      ]
+    }
+  ],
+  "sourcingQuestions": [
+    {
+      "id": "sq-memo",
+      "docId": "memo-henry",
+      "prompt": "How much weight should the 1971 memo carry for claim M5 (Joseph Henry built the battery)?",
+      "options": [
+        { "id": "a", "text": "A lot. It is a museum document, so it is reliable." },
+        { "id": "b", "text": "Some, but not enough. It records a family story second-hand, about 140 years later, with no papers behind it." },
+        { "id": "c", "text": "None. Family stories are always false." }
+      ],
+      "correct": "b",
+      "why": "Sourcing asks who wrote it, when and why. A late, second-hand note of an oral story is a lead worth following, not proof. Dismissing it completely is also a mistake."
+    },
+    {
+      "id": "sq-record",
+      "docId": "rec-davenport",
+      "prompt": "Why is the Davenport record strong evidence for claim M2?",
+      "options": [
+        { "id": "a", "text": "It is long." },
+        { "id": "b", "text": "It is the museum's catalog record, it cites a published reference, and it states plainly that the original model was destroyed in 1836." },
+        { "id": "c", "text": "It agrees with the draft label." }
+      ],
+      "correct": "b",
+      "why": "Reliability comes from who made the source, what it is based on, and how directly it speaks to the claim. Length and agreement are not reasons."
+    }
+  ],
+  "expertMap": {
+    "M1": { "supports": [], "contradicts": ["rec-relay", "rec-page"], "key": ["rec-relay", "rec-page"] },
+    "M2": { "supports": [], "contradicts": ["rec-davenport"], "key": ["rec-davenport"] },
+    "M3": { "supports": ["rec-davenport", "rec-page"], "contradicts": [], "key": ["rec-davenport", "rec-page"] },
+    "M4": { "supports": [], "contradicts": ["f-relay-number", "rec-relay"], "key": ["f-relay-number", "rec-relay"] },
+    "M5": { "supports": [], "contradicts": [], "unclear": ["rec-battery", "memo-henry", "f-bat-stamp"], "key": ["rec-battery", "memo-henry"] },
+    "M6": { "supports": ["f-dav-size", "rec-davenport"], "contradicts": [], "key": ["f-dav-size"] }
+  },
+  "label": {
+    "exemplar": "Sparks: Electricity Arrives. These four instruments span about 35 years. The trough battery is dated 1832 and Thomas Davenport's motor about 1837. The motor is a replacement model: his original patent model burned in the 1836 Patent Office fire. Charles Chester's relay dates from about 1860 and Charles Page's induction coil from about 1868. The motor and the coil are both patent models. The numbers written on the relay and the coil are the museum's catalog numbers. A family story says Joseph Henry built the battery, but no record confirms who made it.",
+    "objectLine": "Objects: Smithsonian National Museum of American History (3D scans, CC0)"
+  }
+}

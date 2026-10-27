@@ -1,0 +1,70 @@
+{
+  "morse-vail-key": {
+    "file": "assets/models/morse-vail-key-8d76c81e7e.glb",
+    "bytes": 1344184,
+    "sha256": "8d76c81e7eeb8ac1b245d88e289318f5c95116896f59e9663f8013f9b27b7c5b",
+    "boundsMetres": [
+      0.1691,
+      0.0766,
+      0.0508
+    ],
+    "hiRes": "assets/models/morse-vail-key-4k-ece8213900.glb",
+    "hiResBytes": 7582452
+  },
+  "davenport-motor": {
+    "file": "assets/models/davenport-motor-3f9e17063b.glb",
+    "bytes": 2059556,
+    "sha256": "3f9e17063b3da9904894606e1dc1ccd79fd9d0df3319589e36906e312394b4cf",
+    "boundsMetres": [
+      0.2626,
+      0.37,
+      0.3778
+    ]
+  },
+  "henry-trough-battery": {
+    "file": "assets/models/henry-trough-battery-b8c285ffd5.glb",
+    "bytes": 1381588,
+    "sha256": "b8c285ffd5c3a365173fbc2e8bf9a2f400db5e1b0f9dd2a3606391d80207607a",
+    "boundsMetres": [
+      0.1994,
+      0.0505,
+      0.0682
+    ],
+    "hiRes": "assets/models/henry-trough-battery-4k-fcc6de0f64.glb",
+    "hiResBytes": 7846380
+  },
+  "chester-relay": {
+    "file": "assets/models/chester-relay-44730b83c7.glb",
+    "bytes": 1795172,
+    "sha256": "44730b83c713bf2afd5a1aeb6ed784b5c84b1897df41fa46096ca433fe4a6bd1",
+    "boundsMetres": [
+      0.2114,
+      0.0853,
+      0.1381
+    ],
+    "hiRes": "assets/models/chester-relay-4k-abb6f10267.glb",
+    "hiResBytes": 9311112
+  },
+  "page-induction-coil": {
+    "file": "assets/models/page-induction-coil-d1c477bb34.glb",
+    "bytes": 2054548,
+    "sha256": "d1c477bb34cb45a866fd7a619cbdec6a82c078edd8cd6fc58ca4750783a8872f",
+    "boundsMetres": [
+      0.1181,
+      0.1664,
+      0.2309
+    ],
+    "hiRes": "assets/models/page-induction-coil-4k-0c832bedd9.glb",
+    "hiResBytes": 10083284
+  },
+  "tangent-galvanometer": {
+    "file": "assets/models/tangent-galvanometer-5fc32b5d65.glb",
+    "bytes": 1904088,
+    "sha256": "5fc32b5d65260d84aa460bf03a45c4f3f416172b662b98aa63c394ec8b46c748",
+    "boundsMetres": [
+      0.1375,
+      0.1442,
+      0.1445
+    ]
+  }
+}

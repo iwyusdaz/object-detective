@@ -1,0 +1,113 @@
+{
+  "id": "tutorial",
+  "title": "Case 1 (tutorial): The key with a number",
+  "objects": ["morse-vail-key"],
+  "assessed": false,
+  "intro": [
+    "Welcome to your first evening shift at the Lantern Museum (a fictional museum). We are building an online case called \"Sparks of the Telegraph Age\" from real Smithsonian Open Access 3D scans.",
+    "A volunteer (fictional) wrote a draft label card for the first scan, a telegraph key. Before anything goes on the wall, check it. Is this label right? What can we say for sure?"
+  ],
+  "fictionalDocument": {
+    "id": "card-tutorial",
+    "title": "Draft label card (fictional document created for this game)",
+    "author": "R. Fenwick, volunteer (fictional)",
+    "date": "Undated, handwritten",
+    "body": "TELEGRAPH KEY. Made of brass and wood. The number 181411 painted on the base is the date and serial number stamped by the factory. This very key sent the first message on the Baltimore–Washington line in 1844!",
+    "sourcingNotes": "A volunteer wrote this card from memory to save time. It has no references. Treat it as a set of claims to check, not as evidence."
+  },
+  "claims": [
+    {
+      "id": "T1",
+      "text": "The key is made of brass and wood.",
+      "verdict": "confirmed",
+      "expert": "The scan shows a wooden base and metal working parts, and the Smithsonian record lists the materials as \"wood (overall material)\" and \"brass (overall material)\". Looking alone cannot prove the metal is brass, but the record and the scan agree, so this is confirmed."
+    },
+    {
+      "id": "T2",
+      "text": "The number 181411 painted on the base is a factory date and serial number.",
+      "verdict": "refuted",
+      "expert": "The painted number 181411 is identical to the catalog number in the Smithsonian record (ID Number EM.181411, catalog number 181411). Museums often paint a catalog number on an object. Nothing in the record calls it a factory or serial number, so the card's claim is refuted."
+    },
+    {
+      "id": "T3",
+      "text": "This exact key sent the first message on the Baltimore–Washington line in 1844.",
+      "verdict": "cant-tell",
+      "expert": "The record says the key is \"believed to be from the first Baltimore-Washington telegraph line\". \"Believed to be\" is a hedge, and being from the line is not the same as sending the first message. Nothing on the object can settle it. The honest verdict is \"can't tell yet\"."
+    }
+  ],
+  "findings": [
+    {
+      "id": "f-number",
+      "objectId": "morse-vail-key",
+      "tool": "magnify",
+      "hotspot": { "id": "hs-number", "label": "End of the wooden base (painted number)", "yaw": 90, "elev": 10, "pose": "upright", "point": [0.0, 0.12, 0.28], "zoom": 3.2 },
+      "description": "Close view of one short end of the wooden base. Near the bottom corner, small white numerals are painted on the dark wood: 1 8 1 4 1 1.",
+      "transcription": "181411 (white paint, on the end of the base; transcribed from the scan)",
+      "statements": [
+        { "id": "s1", "text": "Small white numerals reading 181411 are painted near the bottom corner of the base.", "kind": "observation", "why": "You can see this directly in the scan. Anyone looking would agree." },
+        { "id": "s2", "text": "The number was painted on by the museum, not by the maker.", "kind": "inference", "why": "This is a conclusion about who painted it and why. It needs other evidence, such as the record's catalog number." }
+      ]
+    },
+    {
+      "id": "f-materials",
+      "objectId": "morse-vail-key",
+      "tool": "view",
+      "hotspot": { "id": "hs-overview", "label": "Whole key, front view", "yaw": 0, "elev": 12, "pose": "upright", "point": [0.5, 0.5, 0.5], "zoom": 1.0 },
+      "description": "The key sits on a rectangular wooden block with a dark reddish-brown finish. On top are dull, greenish-brown metal parts: a long lever ending in a flat round knob, two round screw heads at one end, and a curved metal spring under the lever.",
+      "statements": [
+        { "id": "s1", "text": "The base is a wooden block with visible grain and a reddish-brown finish.", "kind": "observation", "why": "Grain and colour are visible features." },
+        { "id": "s2", "text": "The metal parts look dull and greenish-brown.", "kind": "observation", "why": "This describes what you can see. It does not yet say what the metal is." },
+        { "id": "s3", "text": "The metal parts are brass that has darkened with age.", "kind": "inference", "why": "Colour suggests brass, but naming the metal goes beyond what you can see. The record's materials list can confirm it." }
+      ]
+    },
+    {
+      "id": "f-length",
+      "objectId": "morse-vail-key",
+      "tool": "measure",
+      "measurePreset": "overall-length",
+      "hotspot": { "id": "hs-length", "label": "Base, end to end (measure)", "yaw": 0, "elev": 30, "pose": "upright", "point": [0.5, 0.3, 0.5], "zoom": 1.0 },
+      "description": "Measured on the scan, end to end along the long side: about 16.9 cm (6.7 in). The Smithsonian record gives 6 3/4 in (17.145 cm) for this dimension.",
+      "statements": [
+        { "id": "s1", "text": "The scan measures about 16.9 cm from end to end.", "kind": "observation", "why": "A measurement is an observation, made with a tool." },
+        { "id": "s2", "text": "This scan shows the same object the Smithsonian record describes.", "kind": "inference", "why": "Matching dimensions support this conclusion, but they do not prove it on their own." }
+      ]
+    },
+    {
+      "id": "f-underside",
+      "objectId": "morse-vail-key",
+      "tool": "raking",
+      "hotspot": { "id": "hs-underside", "label": "Underside of the base (turn it over)", "yaw": 0, "elev": 70, "pose": "flipped", "point": [0.5, 0.0, 0.5], "zoom": 1.2 },
+      "description": "Turned over under a low raking light, the underside of the base shows four round holes drilled into the wood and a light-coloured scrape where the dark finish has worn off.",
+      "statements": [
+        { "id": "s1", "text": "There are four round holes in the underside of the base.", "kind": "observation", "why": "You can count them." },
+        { "id": "s2", "text": "The key was once screwed down to a desk or a larger board.", "kind": "inference", "why": "A plausible explanation, but other explanations exist. Nothing in the record mentions it." }
+      ]
+    }
+  ],
+  "archive": [
+    {
+      "id": "rec-morse",
+      "kind": "record",
+      "objectId": "morse-vail-key",
+      "title": "Smithsonian record: Morse-Vail Telegraph Key (National Museum of American History)",
+      "sourcing": { "author": "Smithsonian National Museum of American History catalog", "date": "Retrieved 2026-10-27 from the Smithsonian Open Access API", "purpose": "Museum catalog record: documents what the museum knows about the object", "reliability": "Strong for catalog numbers, measurements and materials. Descriptive history may contain hedges; read them closely." },
+      "excerpts": [
+        "ID Number: EM.181411; catalog number: 181411; accession number: 31652",
+        "Date made: 1844. Maker: Vail, Alfred; Morse, Samuel Finley Breese",
+        "Physical description: wood (overall material); brass (overall material)",
+        "Measurements: overall: 3 in x 2 in x 6 3/4 in; 7.62 cm x 5.08 cm x 17.145 cm",
+        "Description: \"Alfred Vail made this key, believed to be from the first Baltimore-Washington telegraph line, as an improvement on Samuel Morse's original transmitter.\"",
+        "Credit line: from Western Union Telegraph Co."
+      ]
+    }
+  ],
+  "expertMap": {
+    "T1": { "supports": ["f-materials", "rec-morse"], "contradicts": [], "key": ["rec-morse"] },
+    "T2": { "supports": [], "contradicts": ["f-number", "rec-morse"], "key": ["f-number", "rec-morse"] },
+    "T3": { "supports": [], "contradicts": [], "unclear": ["rec-morse"], "key": ["rec-morse"] }
+  },
+  "label": {
+    "exemplar": "Telegraph key, 1844. Made by Alfred Vail, who worked with Samuel Morse. Wood and brass. The Smithsonian believes this key came from the first Baltimore–Washington telegraph line, but we cannot say whether it sent that line's first message. The number 181411 on its base is the museum's catalog number.",
+    "objectLine": "Morse-Vail telegraph key, 1844 — Smithsonian National Museum of American History (3D scan, CC0)"
+  }
+}

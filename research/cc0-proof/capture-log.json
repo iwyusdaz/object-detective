@@ -1,0 +1,83 @@
+[
+  {
+    "slug": "morse-vail-key",
+    "apiUrl": "https://api.si.edu/openaccess/api/v1.0/content/ld1-1643398853934-1643398870277-0?api_key=DEMO_KEY",
+    "voyagerUrl": "https://3d-api.si.edu/voyager/3d_package:ed99f44d-3c60-4111-b666-e2908e1b64ef",
+    "capturedAt": "2026-10-27T11:58:32.226Z",
+    "apiStatus": 200,
+    "recordId": "nmah_1096762",
+    "recordAccess": "CC0",
+    "media3dAccess": [
+      "CC0"
+    ],
+    "voyagerStatus": 200
+  },
+  {
+    "slug": "davenport-motor",
+    "apiUrl": "https://api.si.edu/openaccess/api/v1.0/content/ld1-1643398853934-1643398870885-0?api_key=DEMO_KEY",
+    "voyagerUrl": "https://3d-api.si.edu/voyager/3d_package:a18922b9-a00f-4c9e-988a-f526382b15cc",
+    "capturedAt": "2026-10-27T11:58:54.564Z",
+    "apiStatus": 200,
+    "recordId": "nmah_703302",
+    "recordAccess": "CC0",
+    "media3dAccess": [
+      "CC0"
+    ],
+    "voyagerStatus": 200
+  },
+  {
+    "slug": "henry-trough-battery",
+    "apiUrl": "https://api.si.edu/openaccess/api/v1.0/content/ld1-1643398853934-1643398870231-1?api_key=DEMO_KEY",
+    "voyagerUrl": "https://3d-api.si.edu/voyager/3d_package:1f7d20f0-6b3f-4780-b754-91c2f9f91602",
+    "capturedAt": "2026-10-27T11:59:09.867Z",
+    "apiStatus": 200,
+    "recordId": "nmah_703292",
+    "recordAccess": "CC0",
+    "media3dAccess": [
+      "CC0"
+    ],
+    "voyagerStatus": 200
+  },
+  {
+    "slug": "chester-relay",
+    "apiUrl": "https://api.si.edu/openaccess/api/v1.0/content/ld1-1643398853934-1643398876321-0?api_key=DEMO_KEY",
+    "voyagerUrl": "https://3d-api.si.edu/voyager/3d_package:d44e9327-834b-47b7-aad6-6c416c9e1cbb",
+    "capturedAt": "2026-10-27T12:00:47.919Z",
+    "apiStatus": 200,
+    "source": "live content endpoint",
+    "recordId": "nmah_712417",
+    "recordAccess": "CC0",
+    "media3dAccess": [
+      "CC0"
+    ],
+    "voyagerStatus": 200
+  },
+  {
+    "slug": "page-induction-coil",
+    "apiUrl": "https://api.si.edu/openaccess/api/v1.0/content/ld1-1643398853934-1643398871180-0?api_key=DEMO_KEY",
+    "voyagerUrl": "https://3d-api.si.edu/voyager/3d_package:40cf5b52-0b21-4063-95fc-aa07998eb4dd",
+    "capturedAt": "2026-10-27T12:01:46.353Z",
+    "apiStatus": 200,
+    "source": "live content endpoint",
+    "recordId": "nmah_703318",
+    "recordAccess": "CC0",
+    "media3dAccess": [
+      "CC0"
+    ],
+    "voyagerStatus": 200
+  },
+  {
+    "slug": "tangent-galvanometer",
+    "apiUrl": "https://api.si.edu/openaccess/api/v1.0/content/ld1-1643398853934-1643398875223-0?api_key=DEMO_KEY",
+    "voyagerUrl": "https://3d-api.si.edu/voyager/3d_package:b8360103-172b-4ab2-a6ac-ab7ee9786876",
+    "capturedAt": "2026-10-27T12:02:00.760Z",
+    "apiStatus": 200,
+    "source": "live content endpoint",
+    "recordId": "nmah_703325",
+    "recordAccess": "CC0",
+    "media3dAccess": [
+      "CC0"
+    ],
+    "voyagerStatus": 200
+  }
+]

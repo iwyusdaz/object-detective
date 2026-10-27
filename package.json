@@ -1,0 +1,33 @@
+{
+  "name": "object-detective",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "A donation arrives with a questionable label. Examine museum objects under raking light, measure and compare them, corroborate with archival records, and write a corrected museum label that states what you know and how sure you are.",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "node scripts/sync-content.mjs && vite",
+    "build": "node scripts/sync-content.mjs && node scripts/gen-attribution.mjs && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "test:subpath": "playwright test tests/sub-path.spec.js",
+    "check:a11y": "playwright test tests/a11y.spec.js",
+    "check:content": "node scripts/check-content.mjs",
+    "poster": "node scripts/render-poster.mjs",
+    "attribution": "node scripts/gen-attribution.mjs"
+  },
+  "dependencies": {
+    "n8ao": "2.0.1",
+    "postprocessing": "6.39.5",
+    "three": "0.186.1"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
+    "@playwright/test": "1.64.1",
+    "vite": "8.3.5",
+    "vitest": "5.0.5"
+  }
+}
