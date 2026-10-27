@@ -1,0 +1,100 @@
+[
+  {
+    "asset": "3D scan: Morse-Vail Telegraph Key (NMAH, EM.181411)",
+    "author": "Smithsonian National Museum of American History (3D: Smithsonian Digitization Program Office)",
+    "source": "https://3d-api.si.edu/voyager/3d_package:ed99f44d-3c60-4111-b666-e2908e1b64ef",
+    "license": "CC0 1.0",
+    "changes": "Unmodified std Draco GLB (2048 px) and 150k-4096 GLB, renamed with a content hash"
+  },
+  {
+    "asset": "3D scan: Davenport electric motor, US patent #132 (NMAH, EM.252644)",
+    "author": "Smithsonian National Museum of American History (3D: Smithsonian Digitization Program Office)",
+    "source": "https://3d-api.si.edu/voyager/3d_package:a18922b9-a00f-4c9e-988a-f526382b15cc",
+    "license": "CC0 1.0",
+    "changes": "Unmodified std Draco GLB (2048 px), renamed with a content hash"
+  },
+  {
+    "asset": "3D scan: Henry trough battery (NMAH, EM.181178)",
+    "author": "Smithsonian National Museum of American History (3D: Smithsonian Digitization Program Office)",
+    "source": "https://3d-api.si.edu/voyager/3d_package:1f7d20f0-6b3f-4780-b754-91c2f9f91602",
+    "license": "CC0 1.0",
+    "changes": "Unmodified std Draco GLB (2048 px) and 150k-4096 GLB, renamed with a content hash"
+  },
+  {
+    "asset": "3D scan: Chester telegraph relay (NMAH, EM.335588)",
+    "author": "Smithsonian National Museum of American History (3D: Smithsonian Digitization Program Office)",
+    "source": "https://3d-api.si.edu/voyager/3d_package:d44e9327-834b-47b7-aad6-6c416c9e1cbb",
+    "license": "CC0 1.0",
+    "changes": "Unmodified std Draco GLB (2048 px) and 150k-4096 GLB, renamed with a content hash"
+  },
+  {
+    "asset": "3D scan: Page induction coil patent model, US #76654 (NMAH, EM.309254)",
+    "author": "Smithsonian National Museum of American History (3D: Smithsonian Digitization Program Office)",
+    "source": "https://3d-api.si.edu/voyager/3d_package:40cf5b52-0b21-4063-95fc-aa07998eb4dd",
+    "license": "CC0 1.0",
+    "changes": "Unmodified std Draco GLB (2048 px) and 150k-4096 GLB, renamed with a content hash"
+  },
+  {
+    "asset": "3D scan: Western Electric tangent galvanometer (NMAH, EM.332099)",
+    "author": "Smithsonian National Museum of American History (3D: Smithsonian Digitization Program Office)",
+    "source": "https://3d-api.si.edu/voyager/3d_package:b8360103-172b-4ab2-a6ac-ab7ee9786876",
+    "license": "CC0 1.0",
+    "changes": "Unmodified std Draco GLB (2048 px), renamed with a content hash; used for photos in the transfer task"
+  },
+  {
+    "asset": "Object record metadata (6 records above)",
+    "author": "Smithsonian Institution",
+    "source": "https://api.si.edu/openaccess/api/v1.0/ (Open Access API)",
+    "license": "CC0 1.0",
+    "changes": "Excerpts quoted verbatim in content/objects.json and case archives"
+  },
+  {
+    "asset": "HDRI: Brown Photostudio 02 (1k)",
+    "author": "Sergej Majboroda",
+    "source": "https://polyhaven.com/a/brown_photostudio_02",
+    "license": "CC0 1.0",
+    "changes": "None (renamed with a content hash)"
+  },
+  {
+    "asset": "Texture: Wood Floor 043 (1K)",
+    "author": "ambientCG (Lennart Demes)",
+    "source": "https://ambientcg.com/view?id=WoodFloor043",
+    "license": "CC0 1.0",
+    "changes": "Colour, NormalGL, Roughness maps resized to 1024 px, re-encoded JPEG"
+  },
+  {
+    "asset": "Texture: Plaster 001 (1K)",
+    "author": "ambientCG (Lennart Demes)",
+    "source": "https://ambientcg.com/view?id=Plaster001",
+    "license": "CC0 1.0",
+    "changes": "Colour, NormalGL, Roughness maps resized to 512 px, re-encoded JPEG; tinted in-engine"
+  },
+  {
+    "asset": "Texture: Fabric 026 (1K)",
+    "author": "ambientCG (Lennart Demes)",
+    "source": "https://ambientcg.com/view?id=Fabric026",
+    "license": "CC0 1.0",
+    "changes": "Colour, NormalGL, Roughness maps resized to 512 px, re-encoded JPEG; tinted in-engine"
+  },
+  {
+    "asset": "Text-mode photo sets (public/assets/photos)",
+    "author": "Rendered by this project from the CC0 scans above",
+    "source": "scripts/render-views.mjs",
+    "license": "CC0 1.0 (derived from CC0 scans)",
+    "changes": "Renders of the scans in the game's inspection lighting"
+  },
+  {
+    "asset": "Draco and Basis decoders",
+    "author": "Google (Draco), Binomial (Basis Universal), via three.js 0.186.1",
+    "source": "https://github.com/mrdoob/three.js/tree/r186/examples/jsm/libs",
+    "license": "Apache-2.0",
+    "changes": "Copied unmodified into dist/decoders at build time"
+  },
+  {
+    "asset": "Gallery architecture, display cases, inspection table, sweep, reference ruler/coin/card models, favicon",
+    "author": "Built for this project (procedural)",
+    "source": "This repository",
+    "license": "MIT (code) / CC BY 4.0 (content)",
+    "changes": "Original"
+  }
+]

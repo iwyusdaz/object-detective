@@ -1,0 +1,206 @@
+{
+  "morse-vail-key": [
+    {
+      "view": "front",
+      "file": "assets/photos/morse-vail-key-front-2386a1ba3e.jpg"
+    },
+    {
+      "view": "back",
+      "file": "assets/photos/morse-vail-key-back-afdb2ea8ff.jpg"
+    },
+    {
+      "view": "left",
+      "file": "assets/photos/morse-vail-key-left-b06c9a50c5.jpg"
+    },
+    {
+      "view": "right",
+      "file": "assets/photos/morse-vail-key-right-6a204ee683.jpg"
+    },
+    {
+      "view": "top",
+      "file": "assets/photos/morse-vail-key-top-277b5ddb5d.jpg"
+    },
+    {
+      "view": "bottom",
+      "file": "assets/photos/morse-vail-key-bottom-533e51b83b.jpg"
+    },
+    {
+      "view": "raking-top",
+      "file": "assets/photos/morse-vail-key-raking-top-a1237208e0.jpg"
+    },
+    {
+      "view": "raking-front",
+      "file": "assets/photos/morse-vail-key-raking-front-f9140e63e0.jpg"
+    }
+  ],
+  "davenport-motor": [
+    {
+      "view": "front",
+      "file": "assets/photos/davenport-motor-front-0304dae68f.jpg"
+    },
+    {
+      "view": "back",
+      "file": "assets/photos/davenport-motor-back-271d9d8ede.jpg"
+    },
+    {
+      "view": "left",
+      "file": "assets/photos/davenport-motor-left-ffe0192027.jpg"
+    },
+    {
+      "view": "right",
+      "file": "assets/photos/davenport-motor-right-174c18d4c1.jpg"
+    },
+    {
+      "view": "top",
+      "file": "assets/photos/davenport-motor-top-07c5e29811.jpg"
+    },
+    {
+      "view": "bottom",
+      "file": "assets/photos/davenport-motor-bottom-adddce7e29.jpg"
+    },
+    {
+      "view": "raking-top",
+      "file": "assets/photos/davenport-motor-raking-top-c1cf0a732f.jpg"
+    },
+    {
+      "view": "raking-front",
+      "file": "assets/photos/davenport-motor-raking-front-f44b13f60c.jpg"
+    }
+  ],
+  "henry-trough-battery": [
+    {
+      "view": "front",
+      "file": "assets/photos/henry-trough-battery-front-f145dcbb8f.jpg"
+    },
+    {
+      "view": "back",
+      "file": "assets/photos/henry-trough-battery-back-370c9a21e3.jpg"
+    },
+    {
+      "view": "left",
+      "file": "assets/photos/henry-trough-battery-left-eb276f70d5.jpg"
+    },
+    {
+      "view": "right",
+      "file": "assets/photos/henry-trough-battery-right-5108b6c0f4.jpg"
+    },
+    {
+      "view": "top",
+      "file": "assets/photos/henry-trough-battery-top-91c28a4fba.jpg"
+    },
+    {
+      "view": "bottom",
+      "file": "assets/photos/henry-trough-battery-bottom-0a3a67caab.jpg"
+    },
+    {
+      "view": "raking-top",
+      "file": "assets/photos/henry-trough-battery-raking-top-63986cfd5c.jpg"
+    },
+    {
+      "view": "raking-front",
+      "file": "assets/photos/henry-trough-battery-raking-front-137fd1ef13.jpg"
+    }
+  ],
+  "chester-relay": [
+    {
+      "view": "front",
+      "file": "assets/photos/chester-relay-front-7177926ea8.jpg"
+    },
+    {
+      "view": "back",
+      "file": "assets/photos/chester-relay-back-d83884eb24.jpg"
+    },
+    {
+      "view": "left",
+      "file": "assets/photos/chester-relay-left-89ce03bb81.jpg"
+    },
+    {
+      "view": "right",
+      "file": "assets/photos/chester-relay-right-aa45bb8f7c.jpg"
+    },
+    {
+      "view": "top",
+      "file": "assets/photos/chester-relay-top-3d75267bcd.jpg"
+    },
+    {
+      "view": "bottom",
+      "file": "assets/photos/chester-relay-bottom-2b46f24d17.jpg"
+    },
+    {
+      "view": "raking-top",
+      "file": "assets/photos/chester-relay-raking-top-fcb6bc708e.jpg"
+    },
+    {
+      "view": "raking-front",
+      "file": "assets/photos/chester-relay-raking-front-19bb2e766c.jpg"
+    }
+  ],
+  "page-induction-coil": [
+    {
+      "view": "front",
+      "file": "assets/photos/page-induction-coil-front-1b1742b4f3.jpg"
+    },
+    {
+      "view": "back",
+      "file": "assets/photos/page-induction-coil-back-d84716d24f.jpg"
+    },
+    {
+      "view": "left",
+      "file": "assets/photos/page-induction-coil-left-fdd148e7d9.jpg"
+    },
+    {
+      "view": "right",
+      "file": "assets/photos/page-induction-coil-right-ebe97d89a2.jpg"
+    },
+    {
+      "view": "top",
+      "file": "assets/photos/page-induction-coil-top-6251ffbad7.jpg"
+    },
+    {
+      "view": "bottom",
+      "file": "assets/photos/page-induction-coil-bottom-2857c4ccf3.jpg"
+    },
+    {
+      "view": "raking-top",
+      "file": "assets/photos/page-induction-coil-raking-top-e7a7d76e3d.jpg"
+    },
+    {
+      "view": "raking-front",
+      "file": "assets/photos/page-induction-coil-raking-front-a826a3d4a2.jpg"
+    }
+  ],
+  "tangent-galvanometer": [
+    {
+      "view": "front",
+      "file": "assets/photos/tangent-galvanometer-front-c782fed634.jpg"
+    },
+    {
+      "view": "back",
+      "file": "assets/photos/tangent-galvanometer-back-0e30050d92.jpg"
+    },
+    {
+      "view": "left",
+      "file": "assets/photos/tangent-galvanometer-left-cc2cc4325f.jpg"
+    },
+    {
+      "view": "right",
+      "file": "assets/photos/tangent-galvanometer-right-5e19359f2f.jpg"
+    },
+    {
+      "view": "top",
+      "file": "assets/photos/tangent-galvanometer-top-b015c0b482.jpg"
+    },
+    {
+      "view": "bottom",
+      "file": "assets/photos/tangent-galvanometer-bottom-88b1be6277.jpg"
+    },
+    {
+      "view": "raking-top",
+      "file": "assets/photos/tangent-galvanometer-raking-top-7c3ea0473b.jpg"
+    },
+    {
+      "view": "raking-front",
+      "file": "assets/photos/tangent-galvanometer-raking-front-d3652c8d53.jpg"
+    }
+  ]
+}

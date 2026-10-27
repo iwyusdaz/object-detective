@@ -150,11 +150,11 @@
       "id": "f-coil-number",
       "objectId": "page-induction-coil",
       "tool": "magnify",
-      "hotspot": { "id": "hs-coil-number", "label": "Paper band on the coil (handwritten number)", "yaw": 90, "elev": 8, "pose": "upright", "point": [0.0, 0.45, 0.48], "zoom": 3.0 },
-      "description": "A pale paper or card band wraps the blue-green coil. Written on it in dark ink, running down the band, is the number 309254.",
-      "transcription": "309254 (handwritten in dark ink, on a paper band around the coil; transcribed from the scan)",
+      "hotspot": { "id": "hs-coil-number", "label": "Bracket at one end of the coil (handwritten number)", "yaw": 90, "elev": 8, "pose": "upright", "point": [0.0, 0.45, 0.48], "zoom": 3.0 },
+      "description": "The blue-green coil rests in two pale metal brackets. On one bracket, a number is handwritten in dark ink, running down the bracket: 309254.",
+      "transcription": "309254 (handwritten in dark ink on a bracket holding the coil; transcribed from the scan)",
       "statements": [
-        { "id": "s1", "text": "A paper band on the coil has 309254 written on it.", "kind": "observation", "why": "This is a transcription of visible writing." },
+        { "id": "s1", "text": "One of the coil's brackets has 309254 written on it.", "kind": "observation", "why": "This is a transcription of visible writing." },
         { "id": "s2", "text": "309254 was the coil's patent number.", "kind": "inference", "why": "This says what the number means. The record gives the patent number as 76654 and the catalog number as 309254." }
       ]
     },

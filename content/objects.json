@@ -7,24 +7,38 @@
       "frontYaw": 0,
       "recordUrl": "https://n2t.net/ark:/65665/ng49ca746a9-46b1-704b-e053-15f76fa0b4fa",
       "voyagerUrl": "https://3d-api.si.edu/voyager/3d_package:ed99f44d-3c60-4111-b666-e2908e1b64ef",
-      "dimensionsCm": [7.62, 5.08, 17.145],
+      "dimensionsCm": [
+        7.62,
+        5.08,
+        17.145
+      ],
       "measurementsText": "overall: 3 in x 2 in x 6 3/4 in; 7.62 cm x 5.08 cm x 17.145 cm",
       "record": {
         "recordId": "nmah_1096762",
         "unit": "National Museum of American History",
         "idNumber": "EM.181411",
         "dateMade": "1844",
-        "makers": ["Vail, Alfred", "Morse, Samuel Finley Breese"],
+        "makers": [
+          "Vail, Alfred",
+          "Morse, Samuel Finley Breese"
+        ],
         "placeMade": "United States: New Jersey, Morristown",
-        "placesUsed": ["United States: Maryland, Baltimore", "United States: District of Columbia, Washington"],
-        "materials": ["wood (overall material)", "brass (overall material)"],
+        "placesUsed": [
+          "United States: Maryland, Baltimore",
+          "United States: District of Columbia, Washington"
+        ],
+        "materials": [
+          "wood (overall material)",
+          "brass (overall material)"
+        ],
         "creditLine": "from Western Union Telegraph Co.",
         "descriptions": [
           "Alfred Vail made this key, believed to be from the first Baltimore-Washington telegraph line, as an improvement on Samuel Morse's original transmitter. Vail helped Morse develop a practical system for sending and receiving coded electrical signals over a wire, which was successfully demonstrated in 1844.",
           "Morse's telegraph marked the arrival of instant long-distance communication in America. The revolutionary technology excited the public imagination, inspiring predictions that the telegraph would bring about economic prosperity, national unity, and even world peace."
         ],
         "inscriptions": null
-      }
+      },
+      "scaleVerified": true
     },
     {
       "id": "davenport-motor",
@@ -32,14 +46,21 @@
       "frontYaw": 0,
       "recordUrl": "https://n2t.net/ark:/65665/ng49ca746ab-d1df-704b-e053-15f76fa0b4fa",
       "voyagerUrl": "https://3d-api.si.edu/voyager/3d_package:a18922b9-a00f-4c9e-988a-f526382b15cc",
-      "dimensionsCm": [38.1, 25.4, 38.1],
+      "dimensionsCm": [
+        38.1,
+        25.4,
+        38.1
+      ],
       "measurementsText": "overall: 15 in x 10 in x 15 in; 38.1 cm x 25.4 cm x 38.1 cm",
       "record": {
         "recordId": "nmah_703302",
         "unit": "National Museum of American History",
         "idNumber": "EM.252644",
         "dateMade": "ca 1837",
-        "makers": ["Davenport", "Davenport, Thomas"],
+        "makers": [
+          "Davenport",
+          "Davenport, Thomas"
+        ],
         "objectType": "Patent Model",
         "patentNumber": "132",
         "creditLine": null,
@@ -48,7 +69,8 @@
           "This model was made by Vermont blacksmith Thomas Davenport (1802-1851) as a replacement for his original patent model. The original was destroyed in the 1836 fire at the US Patent Office. Davenport may have incorporated improvements in this model that are not reflected in the patent drawings."
         ],
         "inscriptions": "No extant markings."
-      }
+      },
+      "scaleVerified": true
     },
     {
       "id": "henry-trough-battery",
@@ -56,7 +78,11 @@
       "frontYaw": 0,
       "recordUrl": "https://n2t.net/ark:/65665/ng49ca746a5-1ff7-704b-e053-15f76fa0b4fa",
       "voyagerUrl": "https://3d-api.si.edu/voyager/3d_package:1f7d20f0-6b3f-4780-b754-91c2f9f91602",
-      "dimensionsCm": [4.7625, 20.32, 6.6675],
+      "dimensionsCm": [
+        4.7625,
+        20.32,
+        6.6675
+      ],
       "measurementsText": "overall: 1 7/8 in x 8 in x 2 5/8 in; 4.7625 cm x 20.32 cm x 6.6675 cm",
       "record": {
         "recordId": "nmah_703292",
@@ -69,7 +95,8 @@
         "location": "Currently not on view",
         "descriptions": [],
         "inscriptions": null
-      }
+      },
+      "scaleVerified": true
     },
     {
       "id": "chester-relay",
@@ -77,7 +104,11 @@
       "frontYaw": 0,
       "recordUrl": "https://n2t.net/ark:/65665/ng49ca746a5-3a3a-704b-e053-15f76fa0b4fa",
       "voyagerUrl": "https://3d-api.si.edu/voyager/3d_package:d44e9327-834b-47b7-aad6-6c416c9e1cbb",
-      "dimensionsCm": [8.89, 21.2725, 13.6525],
+      "dimensionsCm": [
+        8.89,
+        21.2725,
+        13.6525
+      ],
       "measurementsText": "overall: 3 1/2 in x 8 3/8 in x 5 3/8 in; 8.89 cm x 21.2725 cm x 13.6525 cm",
       "record": {
         "recordId": "nmah_712417",
@@ -85,15 +116,23 @@
         "idNumber": "EM.335588",
         "serialNumber": "589",
         "dateMade": "ca 1860",
-        "makers": ["Chester, Charles T."],
-        "materials": ["brass (overall material)", "marble (overall material)", "fabric (overall material)", "copper (overall material)"],
+        "makers": [
+          "Chester, Charles T."
+        ],
+        "materials": [
+          "brass (overall material)",
+          "marble (overall material)",
+          "fabric (overall material)",
+          "copper (overall material)"
+        ],
         "creditLine": "from Janet Lewis",
         "descriptions": [
           "Telegraph relays amplified electrical signals in a telegraph line. Telegraph messages traveled as a series of electrical pulses through a wire from a transmitter to a receiver. Short pulses made a dot, slightly longer pulses a dash. The pulses faded in strength as they traveled through the wire, to the point where the incoming signal was too weak to directly operate a receiving sounder or register. A relay detected a weak signal and used a battery to strengthen the signal so that the receiver would operate.",
           "This relay includes a marble base and was made by Charles T. Chester of New York City. The electromagnet coils are fixed but the steel core can be moved to adjust the strength of the magnetic field."
         ],
         "inscriptions": null
-      }
+      },
+      "scaleVerified": true
     },
     {
       "id": "page-induction-coil",
@@ -101,20 +140,27 @@
       "frontYaw": 0,
       "recordUrl": "https://n2t.net/ark:/65665/ng49ca746b1-fe41-704b-e053-15f76fa0b4fa",
       "voyagerUrl": "https://3d-api.si.edu/voyager/3d_package:40cf5b52-0b21-4063-95fc-aa07998eb4dd",
-      "dimensionsCm": [17.78, 22.225, 12.065],
+      "dimensionsCm": [
+        17.78,
+        22.225,
+        12.065
+      ],
       "measurementsText": "overall: 7 in x 8 3/4 in x 4 3/4 in; 17.78 cm x 22.225 cm x 12.065 cm",
       "record": {
         "recordId": "nmah_703318",
         "unit": "National Museum of American History",
         "idNumber": "EM.309254",
         "dateMade": "ca 1868",
-        "makers": ["Charles G. Page"],
+        "makers": [
+          "Charles G. Page"
+        ],
         "objectType": "Patent Model",
         "patentNumber": "76654",
         "creditLine": null,
         "descriptions": [],
         "inscriptions": null
-      }
+      },
+      "scaleVerified": true
     },
     {
       "id": "tangent-galvanometer",
@@ -123,20 +169,34 @@
       "frontYaw": 0,
       "recordUrl": "https://n2t.net/ark:/65665/ng49ca746a5-1ec6-704b-e053-15f76fa0b4fa",
       "voyagerUrl": "https://3d-api.si.edu/voyager/3d_package:b8360103-172b-4ab2-a6ac-ab7ee9786876",
-      "dimensionsCm": [21.59, 19.05, 20.32],
+      "dimensionsCm": [
+        21.59,
+        19.05,
+        20.32
+      ],
       "measurementsText": "overall: 8 1/2 in x 7 1/2 in x 8 in; 21.59 cm x 19.05 cm x 20.32 cm",
       "record": {
         "recordId": "nmah_703325",
         "unit": "National Museum of American History",
         "idNumber": "EM.332099",
         "dateMade": "ca 1870",
-        "makers": ["Western Electric"],
-        "materials": ["rubber (part: material)", "glass (part: material)", "brass (part: material)", "copper (part: material)", "steel (part: material)"],
+        "makers": [
+          "Western Electric"
+        ],
+        "materials": [
+          "rubber (part: material)",
+          "glass (part: material)",
+          "brass (part: material)",
+          "copper (part: material)",
+          "steel (part: material)"
+        ],
         "creditLine": "from Western Union Corporation",
         "exhibition": "Lighting a Revolution, National Museum of American History",
         "descriptions": [],
         "inscriptions": null
-      }
+      },
+      "scaleVerified": false,
+      "scaleNote": "The scan's bounding box (about 14.5 cm on its longest side) does not match the record's measurements (8 1/2 in x 7 1/2 in x 8 in; 21.59 cm x 19.05 cm x 20.32 cm). The reason is unknown (the scan may not be at true scale, or the record may measure a different configuration). The game therefore does not measure this scan or show it in the true-size view; it is used only for photos in the transfer task."
     }
   ]
 }

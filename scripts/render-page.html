@@ -1,0 +1,26 @@
+<!doctype html>
+<!--
+  Render page used by scripts/render-views.mjs (dev server only; never built).
+  Boots the game's own Engine + Gallery + Inspection + RakingLight so text-mode
+  photos and builder-verification renders use exactly the in-game lighting.
+-->
+<html><head><meta charset="utf-8"><title>render page</title>
+<style>html,body{margin:0;height:100%;background:#000}canvas{width:100%;height:100%;display:block}</style></head>
+<body><canvas id="c"></canvas>
+<script type="module">
+import { Engine } from '/src/core/engine.js';
+import { Gallery } from '/src/scenes/gallery.js';
+import { Inspection } from '/src/scenes/inspection.js';
+import { RakingLight } from '/src/systems/raking-light.js';
+const models = await (await fetch('/content/models.json')).json();
+const textures = await (await fetch('/content/textures.json')).json();
+const hdri = (await (await fetch('/content/environment.json')).json()).hdri;
+const engine = new Engine(document.getElementById('c'), { preset: new URLSearchParams(location.search).get('q') || 'medium', preserveDrawingBuffer: true });
+const gallery = new Gallery(engine.scene, engine.renderer, textures, hdri);
+gallery.setMode('inspect');
+const insp = new Inspection(engine, models, {});
+const rake = new RakingLight(engine.scene, gallery);
+window.D = { engine, gallery, insp, rake };
+engine.start();
+window.READY = true;
+</script></body></html>

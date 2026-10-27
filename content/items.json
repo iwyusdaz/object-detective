@@ -1,0 +1,74 @@
+{
+  "preCheck": {
+    "intro": "Four quick questions before your first shift. They are not graded. They show you and your teacher where you are starting.",
+    "items": [
+      {
+        "id": "pre-1",
+        "prompt": "Which of these is an OBSERVATION about an object, not an inference?",
+        "options": [
+          { "id": "a", "text": "The handle is worn smooth because it was used every day.", "why": "\"Because it was used every day\" is an explanation. It goes beyond what you can see." },
+          { "id": "b", "text": "The handle is smoother and paler than the rest of the wood.", "why": "Yes. This describes what anyone looking would see, without explaining it." },
+          { "id": "c", "text": "The object belonged to a carpenter.", "why": "This is a conclusion about the owner. It would need evidence." }
+        ],
+        "correct": "b"
+      },
+      {
+        "id": "pre-2",
+        "prompt": "A label card says an object is \"the very first one ever made.\" What should you ask FIRST?",
+        "options": [
+          { "id": "a", "text": "Who wrote this card, when, and how did they know?", "why": "Yes. That is sourcing: before you believe a document, ask who made it, when and why." },
+          { "id": "b", "text": "Does the object look old?", "why": "Looking old cannot show that something was the first of its kind." },
+          { "id": "c", "text": "Nothing. Museum labels are always checked.", "why": "Drafts, donor cards and old labels can be wrong. Checking them is part of the job." }
+        ],
+        "correct": "a"
+      },
+      {
+        "id": "pre-3",
+        "prompt": "Two sources disagree about when an object was made. What is the best next step?",
+        "options": [
+          { "id": "a", "text": "Pick the one that sounds more confident.", "why": "Confidence is not evidence." },
+          { "id": "b", "text": "Look for more evidence and compare how reliable each source is.", "why": "Yes. That is corroboration: compare sources and weigh their reliability." },
+          { "id": "c", "text": "Average the two dates.", "why": "Averaging does not make either source more accurate." }
+        ],
+        "correct": "b"
+      },
+      {
+        "id": "pre-4",
+        "prompt": "Which label sentence states uncertainty honestly?",
+        "options": [
+          { "id": "a", "text": "This key definitely sent the first telegraph message.", "why": "\"Definitely\" claims more than the evidence supports." },
+          { "id": "b", "text": "This key is believed to come from the first Baltimore–Washington line, but we cannot say whether it sent the first message.", "why": "Yes. It says what the record supports and marks what remains unknown." },
+          { "id": "c", "text": "Nobody knows anything about this key.", "why": "That throws away what the evidence does show." }
+        ],
+        "correct": "b"
+      }
+    ]
+  },
+  "transfer": {
+    "objectId": "tangent-galvanometer",
+    "intro": "Last task, on your own: a new object with no hints. A visitor's comment card (fictional) makes three claims about this Smithsonian scan. Use the photos and the record excerpt to decide.",
+    "card": {
+      "title": "Visitor comment card (fictional document created for this game)",
+      "body": "\"I think this compass was made by Western Electric in the 1830s, and it was donated by the inventor's family.\""
+    },
+    "recordExcerpt": [
+      "Object name: Galvanometer, Tangent; galvanometer",
+      "Date made: ca 1870. Maker: Western Electric",
+      "Physical description: rubber, glass, brass, copper, steel (part materials)",
+      "Credit line: from Western Union Corporation",
+      "Measurements: overall: 8 1/2 in x 7 1/2 in x 8 in; 21.59 cm x 19.05 cm x 20.32 cm"
+    ],
+    "statements": [
+      { "id": "ts1", "text": "A thin pointer sits over a pale round dial inside a horizontal ring.", "kind": "observation", "why": "Visible in the top photo." },
+      { "id": "ts2", "text": "The instrument was used to measure electric current.", "kind": "inference", "why": "This is about purpose. The record names it a galvanometer but the photos alone cannot show its use." },
+      { "id": "ts3", "text": "The tall hoop is made of copper.", "kind": "inference", "why": "The record lists copper among its materials, but which part is copper cannot be seen in a photo." }
+    ],
+    "claims": [
+      { "id": "X1", "text": "It was made by Western Electric.", "verdict": "confirmed", "why": "The record lists the maker as Western Electric." },
+      { "id": "X2", "text": "It was made in the 1830s.", "verdict": "refuted", "why": "The record dates it to about 1870." },
+      { "id": "X3", "text": "It was donated by the inventor's family.", "verdict": "refuted", "why": "The credit line says it came \"from Western Union Corporation\", a company, not a family. (Who invented this design is not in the record.)" }
+    ],
+    "labelPrompt": "Write one sentence for a public label about this object that states what is known and how sure we are.",
+    "exemplar": "Tangent galvanometer made by Western Electric around 1870, which came to the Smithsonian from Western Union Corporation."
+  }
+}

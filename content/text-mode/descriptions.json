@@ -1,0 +1,44 @@
+{
+  "_about": "Audio-description-style physical descriptions for text mode, written by the builder from renders of each CC0 Smithsonian 3D scan (scripts/render-views.mjs). They describe only what is visible in the scan. Facts about history, makers and dates come only from the Smithsonian record (content/objects.json). Transcriptions of visible numbers are in the case findings and were checked against the record's catalog numbers.",
+  "views": {
+    "front": "front view",
+    "back": "back view",
+    "left": "left end",
+    "right": "right end",
+    "top": "seen from directly above",
+    "bottom": "turned over, underside",
+    "raking-top": "from above under a low raking light from the left",
+    "raking-front": "front view under a low raking light"
+  },
+  "objects": {
+    "morse-vail-key": {
+      "summary": "A small telegraph key: a rectangular wooden block with metal working parts on top.",
+      "description": "A low, rectangular wooden block about the length of a hand forms the base. Its finish is dark reddish-brown, with visible grain and worn, paler patches along the edges. Fixed to the top at one end is a small metal frame with two round, flat-topped screw heads. A long, slim metal lever runs from the frame along the length of the base and ends in a flat, round knob, like a small spoon. Under the lever, a thin curved metal strip arcs down to the base. All the metal is dull, greenish-brown and slightly mottled. One short end of the base has small white numerals painted near its bottom corner. The underside has four round holes drilled into the wood and a pale scrape where the finish has worn away.",
+      "raking": "Under a low raking light from the side, the long shadow of the lever and screw heads falls across the base. The grain and small dents in the wooden top stand out as ridges. Turned over, the drilled holes in the underside become dark circles with bright rims."
+    },
+    "davenport-motor": {
+      "summary": "A wooden stand on four curved legs carrying a ring of coils and two spoked wheels.",
+      "description": "A rectangular board of light, unpainted wood stands on four curved legs that sweep outward like rockers. Turned wooden posts rise from the board and hold a round wooden ring. Inside the ring, several reddish-orange coils of wound wire sit in a circle around a vertical metal shaft. A metal bar crosses the top of the ring. Above it, two thin spoked wheels stand upright on a horizontal rod, one of them painted green. At one end of the board, a tall tapered wooden post supports the far end of the rod. The wood is scuffed and darkened at the edges. Turned over, the underside shows the legs joined at the corners, a small square metal plate with no visible lettering, and a round wooden collar around the end of the shaft.",
+      "raking": "Under a low raking light, the coils throw small rounded shadows across one another and the spokes of the wheels cast long thin lines over the board. Saw marks and scuffs on the board's surface catch the light."
+    },
+    "henry-trough-battery": {
+      "summary": "A long, shallow wooden trough painted red, holding a row of thin upright plates.",
+      "description": "A long, narrow wooden box, open at the top, about as long as a school ruler and only a few centimetres high. It is painted bright red, and the paint is worn through to bare, pale wood along the edges and corners. The corners show interlocking joints. Seen from above, more than twenty thin, dark, upright plates stand across the trough in a straight row, evenly spaced, with narrow gaps between them. The plates look rough and uneven at their top edges. Turned over, the underside is red paint worn to dark wood, with two small screw heads near the ends and a short line of faint pale characters near the middle.",
+      "raking": "Under a low raking light, the top edges of the plates form a jagged bright line over deep shadow. On the underside, the faint characters catch a little light but stay too blurred in the scan to read."
+    },
+    "chester-relay": {
+      "summary": "A white stone base with two dark coils, a brass frame and four brass terminal posts.",
+      "description": "A thick rectangular base of white stone with faint grey veining and bevelled top edges. On top, two dark, blue-green cylindrical coils lie side by side, joined at one end by a curved metal piece. A brass frame stands beside them, with an upright pillar, a crossbar and several adjusting screws with round knurled heads. Four small brass terminal posts stand near the four corners of the base. Thin wires run from the posts. Small dark numerals with a dot are written along one long edge of the base. Turned over, the underside is pale and stained, with drilled holes, the round ends of the terminal posts, and shallow grooves cut between them.",
+      "raking": "Under a low raking light, the coils and the brass frame cast long shadows across the white base, and the grooves on the underside show as dark channels."
+    },
+    "page-induction-coil": {
+      "summary": "A bright blue-green coil held in brass brackets on a red wooden base with ball feet.",
+      "description": "A red-stained wooden board stands on four round wooden ball feet. Lying along it is a long cylinder wound with bright blue-green thread or covered wire, held at each end by a curved brass bracket. One of the pale brackets has a number handwritten on it in dark ink. Turned brass pillars and small brass fittings stand at both ends, with knobs, a small cup and a curved arm. A thin wire with a red sleeve loops over the top between two fittings. Turned over, the underside of the board shows streaky red and orange staining, two round brass fittings and some loose wire.",
+      "raking": "Under a low raking light, the fine ridges of the winding on the coil stand out as parallel lines, and the brass fittings throw tall shadows along the board."
+    },
+    "tangent-galvanometer": {
+      "summary": "A round instrument: a dial in a horizontal ring, crossed by a tall upright metal hoop, on a round base.",
+      "description": "A round, dark reddish-brown base sits on small feet. Above it, short turned pillars hold a horizontal ring that contains a pale, round dial with a thin pointer. A tall, flat metal hoop stands upright through the middle of the instrument, crossing over the dial like a handle. At one edge of the base are a row of small terminals and a pair of screw fittings. The metal surfaces are dark and worn, with lighter scratches. Turned over, the base shows two round brass knobs, small screws and a short row of faint marks."
+    }
+  }
+}

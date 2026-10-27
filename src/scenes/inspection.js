@@ -149,6 +149,7 @@ export class Inspection {
   }
 
   _applyCamera() {
+    if (this.cameraLocked) return; // a cinematic owns the camera
     const cam = this.engine.camera;
     const t = this.view.target.clone().add(this.stage.position);
     const e = this.view.elev * DEG;

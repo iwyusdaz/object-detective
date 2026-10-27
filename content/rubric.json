@@ -1,0 +1,56 @@
+{
+  "starters": [
+    "The Smithsonian record states that ",
+    "Evidence suggests that ",
+    "It is likely that ",
+    "Measurements of the scan show ",
+    "We cannot yet say whether ",
+    "A family story says , but no record confirms it.",
+    "The number painted on the base is "
+  ],
+  "criteria": [
+    {
+      "id": "accuracy",
+      "name": "Accuracy",
+      "levels": [
+        { "id": "1", "text": "Repeats one or more claims the evidence refutes." },
+        { "id": "2", "text": "Mostly accurate; one statement goes beyond the evidence." },
+        { "id": "3", "text": "Every statement matches the record or the scan." }
+      ]
+    },
+    {
+      "id": "evidence",
+      "name": "Evidence cited",
+      "levels": [
+        { "id": "1", "text": "No source or evidence is mentioned." },
+        { "id": "2", "text": "Mentions evidence in general (\"records show\")." },
+        { "id": "3", "text": "Points to specific evidence (a date, a number, a measurement, the record)." }
+      ]
+    },
+    {
+      "id": "uncertainty",
+      "name": "Uncertainty language",
+      "levels": [
+        { "id": "1", "text": "States everything as certain, or nothing at all." },
+        { "id": "2", "text": "Hedges, but not where the evidence is actually weak." },
+        { "id": "3", "text": "Certain where the evidence is strong, hedged where it is weak, and names what is unknown." }
+      ]
+    },
+    {
+      "id": "clarity",
+      "name": "Clarity for the public",
+      "levels": [
+        { "id": "1", "text": "Hard to follow, or uses unexplained jargon." },
+        { "id": "2", "text": "Clear, but too long for a wall label." },
+        { "id": "3", "text": "Short, plain sentences a visitor can read in under a minute." }
+      ]
+    }
+  ],
+  "selfCheck": [
+    "Did I correct every claim I refuted?",
+    "Did I give each object its own date, as the records do?",
+    "Did I say plainly what we cannot tell yet?",
+    "Did I avoid repeating the family story as fact?",
+    "Could a 12-year-old visitor follow it?"
+  ]
+}

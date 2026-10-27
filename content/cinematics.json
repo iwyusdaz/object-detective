@@ -1,0 +1,39 @@
+{
+  "id": "od-cinematics",
+  "budgetSeconds": 90,
+  "shots": [
+    {
+      "id": "S1",
+      "title": "After hours",
+      "purpose": "orient",
+      "objective": "Motivation; framing for objective 2 (sourcing the draft label)",
+      "duration": 18,
+      "easing": "easeInOut",
+      "path": [[-3.6, 1.75, -6.6], [-2.2, 1.65, -2.6], [-0.9, 1.5, 0.6], [0, 1.35, 1.25]],
+      "target": [0, 0.95, 0],
+      "targetFrom": [0, 1.2, -4.2],
+      "captions": [
+        "The Lantern Museum (a fictional museum), after closing time. The galleries are dark.",
+        "On the inspection table: a scanned object and a draft label card. Your question tonight: is this label right, and what can we say for sure?"
+      ],
+      "description": "A slow camera move at standing eye height past three glass display cases on dark plinths, each lit by a warm spotlight, toward a wooden inspection table with a grey photographic backdrop. A small cream card lies on the table. Caption 1: The Lantern Museum (a fictional museum), after closing time. The galleries are dark. Caption 2: On the inspection table: a scanned object and a draft label card. Your question tonight: is this label right, and what can we say for sure?",
+      "reducedMotion": "Single still frame of the inspection table with the card, with both captions."
+    },
+    {
+      "id": "S2",
+      "title": "The reveal",
+      "purpose": "reveal",
+      "objective": "Objective 4 (the label as the product of the investigation)",
+      "duration": 14,
+      "easing": "easeOut",
+      "path": [[0.35, 1.3, -3.35], [0.9, 1.45, -2.4], [1.7, 1.6, -1.3]],
+      "target": [0.15, 1.15, -4.2],
+      "captions": [
+        "Your corrected label now stands beside the object in its case.",
+        "It says what the evidence supports, and it says what we cannot tell yet."
+      ],
+      "description": "The camera starts close to the centre display case, where the object now sits on dark felt under a spotlight, with a small label stand beside it showing the learner's own label text. The camera pulls back and to the right to show the whole case in the dim gallery. Caption 1: Your corrected label now stands beside the object in its case. Caption 2: It says what the evidence supports, and it says what we cannot tell yet.",
+      "reducedMotion": "Single still frame of the case with the object and the new label, with both captions."
+    }
+  ]
+}

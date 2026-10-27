@@ -119,14 +119,24 @@ export class CaseEngine {
   unpin(claimId, evidenceId) { if (this.state.pins[claimId]) delete this.state.pins[claimId][evidenceId]; }
   pinsFor(claimId) { return this.state.pins[claimId] || {}; }
 
+  /** Set a verdict; keeps an existing confidence rating, else defaults to 2 ("Somewhat sure"). */
   setVerdict(claimId, verdict, confidence) {
     if (!this.claim(claimId) || !VERDICTS[verdict]) return false;
-    const c = Math.min(4, Math.max(1, Math.round(confidence || 2)));
+    const prev = this.state.verdicts[claimId];
+    const c = Math.min(4, Math.max(1, Math.round(confidence || prev?.confidence || 2)));
     this.state.verdicts[claimId] = { verdict, confidence: c };
     return true;
   }
 
-  allVerdictsSet() { return this.def.claims.every((c) => this.state.verdicts[c.id]); }
+  /** Set confidence (1–4) independently of the verdict (either may come first). */
+  setConfidence(claimId, confidence) {
+    if (!this.claim(claimId)) return false;
+    const c = Math.min(4, Math.max(1, Math.round(confidence)));
+    this.state.verdicts[claimId] = { verdict: this.state.verdicts[claimId]?.verdict || null, confidence: c };
+    return true;
+  }
+
+  allVerdictsSet() { return this.def.claims.every((c) => this.state.verdicts[c.id]?.verdict); }
 
   /* ---------------- label ---------------- */
   setLabel(text) { this.state.label = String(text).slice(0, 2000); }

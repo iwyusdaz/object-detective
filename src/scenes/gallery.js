@@ -62,6 +62,38 @@ export function makeSweep(width = 1.4, flat = 0.55, radius = 0.25, rise = 0.55, 
   return g;
 }
 
+/** Greedy word wrap to a max character width. */
+export function wrapText(text, width) {
+  const out = [];
+  for (const para of String(text).split(/\n+/)) {
+    let line = '';
+    for (const word of para.split(/\s+/).filter(Boolean)) {
+      if ((line + ' ' + word).trim().length > width) { if (line) out.push(line); line = word; } else line = (line + ' ' + word).trim();
+    }
+    if (line) out.push(line);
+  }
+  return out;
+}
+
+function textTexture(lines, { w, h, bg, fg, font, firstBold = true }) {
+  const c = document.createElement('canvas');
+  c.width = w; c.height = h;
+  const g = c.getContext('2d');
+  g.fillStyle = bg; g.fillRect(0, 0, w, h);
+  g.fillStyle = fg;
+  g.textBaseline = 'top';
+  let y = font * 0.9;
+  lines.forEach((l, i) => {
+    g.font = `${i === 0 && firstBold ? 'bold ' : ''}${font}px Georgia, serif`;
+    g.fillText(l, font * 0.8, y);
+    y += font * (i === 0 ? 1.6 : 1.3);
+  });
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace;
+  t.anisotropy = 4;
+  return t;
+}
+
 export class Gallery {
   constructor(scene, renderer, textures, hdriPath) {
     this.scene = scene;
@@ -186,6 +218,50 @@ export class Gallery {
     this.key.shadow.bias = -0.0004;
     this.key.shadow.normalBias = 0.01;
     this.root.add(this.key, this.key.target);
+  }
+
+  /** Flat paper card on the inspection table (the draft label, seen in S1). */
+  setCard(visible, title = 'DRAFT LABEL', sub = 'Lantern Museum (fictional)') {
+    if (!this.card) {
+      const tex = textTexture([title, '', sub], { w: 512, h: 320, bg: '#efe6d2', fg: '#2a241c', font: 44 });
+      this.card = new THREE.Mesh(new THREE.PlaneGeometry(0.15, 0.094), new THREE.MeshStandardMaterial({ map: tex, roughness: 0.9 }));
+      this.card.rotation.x = -Math.PI / 2;
+      this.card.rotation.z = 0.25;
+      this.card.position.set(0.42, TABLE_Y + 0.002, 0.3);
+      this.card.receiveShadow = true;
+      this.root.add(this.card);
+    }
+    this.card.visible = visible;
+  }
+
+  /**
+   * Put a copy of the object on the centre case deck with the learner's label
+   * on a small stand beside it (shot S2). Pass null to clear.
+   */
+  showInCase(model, labelText) {
+    if (this._caseGroup) { this.root.remove(this._caseGroup); this._caseGroup = null; }
+    if (!model) return;
+    const g = new THREE.Group();
+    const copy = model.clone(true);
+    const box = new THREE.Box3().setFromObject(copy);
+    const size = box.getSize(new THREE.Vector3());
+    const centre = box.getCenter(new THREE.Vector3());
+    copy.position.sub(new THREE.Vector3(centre.x, box.min.y, centre.z));
+    const holder = new THREE.Group();
+    holder.add(copy);
+    holder.position.set(-0.1, CASE_POS.y + 0.011, CASE_POS.z);
+    holder.rotation.y = 0.35;
+    const lines = wrapText(labelText || '', 34).slice(0, 12);
+    const tex = textTexture(['YOUR LABEL', ...lines], { w: 640, h: 800, bg: '#f4efe4', fg: '#1d1a16', font: 30, firstBold: true });
+    const plaque = new THREE.Mesh(new THREE.PlaneGeometry(0.16, 0.2), new THREE.MeshStandardMaterial({ map: tex, roughness: 0.8 }));
+    plaque.position.set(0.24, CASE_POS.y + 0.11, CASE_POS.z + 0.18);
+    plaque.rotation.set(-0.35, -0.3, 0);
+    const stand = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.1, 0.02), new THREE.MeshStandardMaterial({ color: '#2b2b2b', roughness: 0.4, metalness: 0.6 }));
+    stand.position.set(0.24, CASE_POS.y + 0.05, CASE_POS.z + 0.15);
+    g.add(holder, plaque, stand);
+    g.userData.objectSize = size;
+    this._caseGroup = g;
+    this.root.add(g);
   }
 
   setShadowSize(size) {

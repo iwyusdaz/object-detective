@@ -53,7 +53,7 @@
       "objectId": "morse-vail-key",
       "tool": "view",
       "hotspot": { "id": "hs-overview", "label": "Whole key, front view", "yaw": 0, "elev": 12, "pose": "upright", "point": [0.5, 0.5, 0.5], "zoom": 1.0 },
-      "description": "The key sits on a rectangular wooden block with a dark reddish-brown finish. On top are dull, greenish-brown metal parts: a long lever ending in a flat round knob, two round screw heads at one end, and a curved metal spring under the lever.",
+      "description": "The key sits on a rectangular wooden block with a dark reddish-brown finish. On top are dull, greenish-brown metal parts: a long lever ending in a flat round knob, two round screw heads at one end, and a thin curved metal strip under the lever.",
       "statements": [
         { "id": "s1", "text": "The base is a wooden block with visible grain and a reddish-brown finish.", "kind": "observation", "why": "Grain and colour are visible features." },
         { "id": "s2", "text": "The metal parts look dull and greenish-brown.", "kind": "observation", "why": "This describes what you can see. It does not yet say what the metal is." },
@@ -64,7 +64,7 @@
       "id": "f-length",
       "objectId": "morse-vail-key",
       "tool": "measure",
-      "measurePreset": "overall-length",
+      "measurePreset": "longest",
       "hotspot": { "id": "hs-length", "label": "Base, end to end (measure)", "yaw": 0, "elev": 30, "pose": "upright", "point": [0.5, 0.3, 0.5], "zoom": 1.0 },
       "description": "Measured on the scan, end to end along the long side: about 16.9 cm (6.7 in). The Smithsonian record gives 6 3/4 in (17.145 cm) for this dimension.",
       "statements": [
