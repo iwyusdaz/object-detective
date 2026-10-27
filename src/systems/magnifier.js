@@ -3,7 +3,8 @@
  * field-of-view camera aimed at the lens centre (scissored viewport), so the
  * learner sees surface detail at 2–8x without moving the main camera. On first
  * use it requests the 4096 px "hi-res" scan (on demand, plan Phase 3).
- * The lens moves with the pointer, or with buttons / I-J-K-L keys.
+ * The lens moves with the pointer or the tool-pad lens buttons, and starts on
+ * the mark when a point of interest is selected.
  * @module systems/magnifier
  */
 import * as THREE from 'three';
@@ -34,9 +35,15 @@ export class Magnifier {
     this.on = on;
     this.el.hidden = !on;
     this._place();
+    const id = this.inspection.primary?.id;
     if (on) {
-      const id = this.inspection.primary?.id;
-      if (id) this.inspection.loadHiRes(id).then((ok) => { this.hiResLoaded = ok; this.onHiRes?.(ok); });
+      if (id) {
+        this.inspection.hiResWanted = id;
+        this.inspection.loadHiRes(id).then((ok) => { this.hiResLoaded = ok; this.onHiRes?.(ok); });
+      }
+    } else if (id) {
+      // The 4096 px model is shown only while the lens is on; the base model returns after.
+      this.inspection.restoreBase(id);
     }
   }
 
@@ -54,6 +61,16 @@ export class Magnifier {
     const r = Math.min(this.radiusPx, rect.width * 0.22, rect.height * 0.3);
     this._r = r;
     Object.assign(this.el.style, { left: `${x - r}px`, top: `${y - r}px`, width: `${2 * r}px`, height: `${2 * r}px` });
+  }
+
+  /** True when normalized canvas point `pt` lies inside the lens circle. */
+  covers(pt) {
+    if (!this.on || !pt) return false;
+    const rect = this.engine.canvas.getBoundingClientRect();
+    const r = this._r || Math.min(this.radiusPx, rect.width * 0.22, rect.height * 0.3);
+    const dx = (pt.x - this.center.x) * rect.width;
+    const dy = (pt.y - this.center.y) * rect.height;
+    return Math.hypot(dx, dy) <= r;
   }
 
   /** What is under the lens centre (world point on the object), or null. */

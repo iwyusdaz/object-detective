@@ -8,8 +8,8 @@
       0.0766,
       0.0508
     ],
-    "hiRes": "assets/models/morse-vail-key-4k-ece8213900.glb",
-    "hiResBytes": 7582452
+    "hiRes": "assets/models/morse-vail-key-4k-4cbafe81b2.glb",
+    "hiResBytes": 7582464
   },
   "davenport-motor": {
     "file": "assets/models/davenport-motor-3f9e17063b.glb",
@@ -30,8 +30,8 @@
       0.0505,
       0.0682
     ],
-    "hiRes": "assets/models/henry-trough-battery-4k-fcc6de0f64.glb",
-    "hiResBytes": 7846380
+    "hiRes": "assets/models/henry-trough-battery-4k-63ffb9c802.glb",
+    "hiResBytes": 7846400
   },
   "chester-relay": {
     "file": "assets/models/chester-relay-44730b83c7.glb",
@@ -42,8 +42,8 @@
       0.0853,
       0.1381
     ],
-    "hiRes": "assets/models/chester-relay-4k-abb6f10267.glb",
-    "hiResBytes": 9311112
+    "hiRes": "assets/models/chester-relay-4k-578beb6ce1.glb",
+    "hiResBytes": 9311128
   },
   "page-induction-coil": {
     "file": "assets/models/page-induction-coil-d1c477bb34.glb",
@@ -54,8 +54,8 @@
       0.1664,
       0.2309
     ],
-    "hiRes": "assets/models/page-induction-coil-4k-0c832bedd9.glb",
-    "hiResBytes": 10083284
+    "hiRes": "assets/models/page-induction-coil-4k-20b0e48997.glb",
+    "hiResBytes": 10083304
   },
   "tangent-galvanometer": {
     "file": "assets/models/tangent-galvanometer-5fc32b5d65.glb",

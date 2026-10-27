@@ -10,7 +10,7 @@
  * Requires a build made with VITE_TEST_HOOKS=1 for the state checks.
  */
 import { test, expect } from '@playwright/test';
-import { boot, solveCase, CASES, ITEMS } from './helpers.js';
+import { boot, solveCase, CASES, ITEMS, OBJECTS } from './helpers.js';
 
 test('chapters are reachable by keyboard and "All projects" points to /', async ({ page }) => {
   await boot(page);
@@ -34,6 +34,7 @@ test('pre-check items give why-feedback and are logged', async ({ page }) => {
 });
 
 test('tutorial case is solvable in 3D mode with the inspection tools', async ({ page }) => {
+  test.setTimeout(180_000); // software WebGL renders the true-scale 4096 px scan slowly
   await boot(page);
   await page.getByRole('button', { name: /Start the shift/ }).click();
   await expect(page.locator('canvas#app')).toBeVisible();
@@ -127,9 +128,15 @@ test('cinematic S1: captioned, skippable with Esc from the first frame', async (
   const overlay = page.locator('.cinematic-overlay');
   await expect(overlay).toBeVisible();
   await expect(page.locator('.cinematic-caption')).toContainText('Lantern Museum (a fictional museum)');
+  // timed captions: only the first caption is shown at the start of the shot
+  await expect(page.locator('.cinematic-caption')).not.toContainText('On the inspection table');
   await expect(page.locator('.cinematic-progress')).toContainText('purpose: orient');
+  // the task panel is inert while the cinematic plays; focus is on Skip
+  expect(await page.evaluate(() => document.getElementById('panel').inert)).toBe(true);
+  await expect(page.getByRole('button', { name: /Skip cinematic/ })).toBeFocused();
   await page.keyboard.press('Escape');
   await expect(overlay).toBeHidden();
+  expect(await page.evaluate(() => document.getElementById('panel').inert)).toBe(false);
   // the panel stays usable
   await page.locator('.step-nav button', { hasText: 'Inspect' }).click();
   await expect(page.locator('.poi-list')).toBeVisible();
@@ -145,8 +152,27 @@ test('reduced motion: cinematics become still frames (no camera flight)', async 
   for (let i = 0; i < 3; i++) { samples.push(await page.evaluate(() => window.__TEST__.engine.camera.position.toArray().map((n) => +n.toFixed(4)))); await page.waitForTimeout(300); }
   expect(samples[0]).toEqual(samples[1]);
   expect(samples[1]).toEqual(samples[2]);
-  await page.getByRole('button', { name: /Skip cinematic/ }).click();
+  // the still waits for the learner (Continue), it does not auto-advance
+  await expect(page.getByRole('button', { name: 'Continue' })).toBeVisible();
+  await page.getByRole('button', { name: 'Continue' }).click();
   await expect(page.locator('.cinematic-overlay')).toBeHidden();
+});
+
+test('captions setting hides cinematic captions; settings never move the gallery camera', async ({ page }) => {
+  await boot(page);
+  const cam = () => page.evaluate(() => window.__TEST__.engine.camera.position.toArray().map((n) => +n.toFixed(3)));
+  const before = await cam();
+  await page.locator('header').getByRole('button', { name: 'Settings' }).click();
+  expect(await cam()).toEqual(before); // opening Settings applies nothing
+  await expect(page.getByText('Mute all audio')).toHaveCount(0);
+  await page.getByLabel('Show captions during cinematics').uncheck();
+  await page.getByRole('button', { name: 'Save settings' }).click();
+  expect(await cam()).toEqual(before); // the Welcome hero view stays (agent review V3)
+  await page.evaluate(() => { window.__TEST__.app.save.s1Seen = false; });
+  await page.getByRole('button', { name: /Start the shift/ }).click();
+  await expect(page.locator('.cinematic-overlay')).toBeVisible();
+  await expect(page.locator('.cinematic-caption')).toBeHidden();
+  await page.keyboard.press('Escape');
 });
 
 test('tools: raking light, magnifier, measure in cm and inches, true size, compare', async ({ page }) => {
@@ -182,6 +208,41 @@ test('tools: raking light, magnifier, measure in cm and inches, true size, compa
   await page.getByRole('button', { name: /Turn object right/ }).click();
   const yaws = await page.evaluate(() => window.__TEST__.inspection.slots.map((s) => +s.holder.rotation.y.toFixed(4)));
   expect(yaws[0]).toBe(yaws[1]);
+});
+
+test('magnifier: hi-res scan stays at true scale, measure is sane, base model returns, lens must cover the mark', async ({ page }) => {
+  test.setTimeout(120_000);
+  await boot(page);
+  await page.locator('.module-nav button').nth(2).click();
+  await page.locator('.step-nav button', { hasText: 'Inspect' }).click();
+  await page.locator('.object-chooser button', { hasText: OBJECTS['chester-relay'].title }).click();
+  await page.waitForFunction(() => window.__TEST__.inspection.primary?.id === 'chester-relay');
+  const longest = () => page.evaluate(() => { const s = window.__TEST__.inspection.localSize('chester-relay'); return Math.max(s.x, s.y, s.z); });
+  const base = await longest();
+  await page.locator('.poi-list button[data-poi="f-relay-number"]').click();
+  await page.keyboard.press('KeyM');
+  await page.waitForFunction(() => window.__TEST__.inspection.primary.model.userData.hiRes === true, null, { timeout: 60_000 });
+  expect(Math.abs((await longest()) / base - 1)).toBeLessThan(0.05);
+  // the lens starts on the mark; moving it away means the mark is not revealed
+  // (dispatchEvent: SwiftShader frames of the 4096 px scan are too slow for click()'s stability wait)
+  await page.evaluate(() => window.__TEST__.magnifier.moveTo(0.06, 0.06));
+  await page.getByRole('button', { name: 'Record what I see' }).dispatchEvent('click');
+  await expect(page.locator('.poi-card .poi-msg')).toContainText('lens is not over the mark');
+  expect(await page.evaluate(() => window.__TEST__.cases.main.engine.isDiscovered('f-relay-number'))).toBe(false);
+  // measuring the hi-res model gives the record's size (8 3/8 in = 21.3 cm), not 1000s of cm
+  await page.keyboard.press('KeyT');
+  const cm = await page.evaluate(() => window.__TEST__.measure.last.cm);
+  expect(Math.abs(cm - 21.27) / 21.27).toBeLessThan(0.05);
+  // re-select the POI: the lens returns to the mark and the finding can be recorded
+  await page.locator('.poi-list button[data-poi="f-relay-number"]').dispatchEvent('click');
+  await page.waitForTimeout(500);
+  await page.getByRole('button', { name: 'Record what I see' }).dispatchEvent('click');
+  await expect(page.locator('.poi-card .classify-row').first()).toBeVisible();
+  // magnifier off: the cached base model is back
+  await page.keyboard.press('KeyM');
+  await page.waitForFunction(() => !window.__TEST__.inspection.primary.model.userData.hiRes);
+  expect(Math.abs((await longest()) / base - 1)).toBeLessThan(0.001);
+  await page.screenshot({ path: 'evaluation/results/revision-relay-after-magnifier.png' });
 });
 
 test('mobile emulation (390x844, touch): stacked layout, tools and case panel usable', async ({ browser }) => {

@@ -62,16 +62,31 @@ describe('true-size references (verified sizes, research/sources.md)', () => {
 });
 
 describe('fact audit: content vs the saved Smithsonian records', () => {
+  // Committed, trimmed CC0 fixture (tests/fixtures/si-records.json) so the audit
+  // always runs, including in CI. If the full raw API response is present
+  // locally (data/raw/si3d.json, gitignored), it is audited too as a refresh check.
+  const fixture = new URL('../../tests/fixtures/si-records.json', import.meta.url);
   const raw = new URL('../../data/raw/si3d.json', import.meta.url);
   let rows = null;
-  beforeAll(() => { if (existsSync(raw)) rows = JSON.parse(readFileSync(raw, 'utf8')).response.rows; });
+  beforeAll(() => { rows = JSON.parse(readFileSync(fixture, 'utf8')).response.rows; });
+  it('the fixture holds all six records the game uses', () => {
+    const ids = new Set(rows.map((r) => r.content.descriptiveNonRepeating.record_ID));
+    for (const o of objects) expect(ids.has(o.record.recordId), o.record.recordId).toBe(true);
+  });
+  it.runIf(existsSync(raw))('optional refresh: the fixture matches the full raw API response', () => {
+    const full = JSON.parse(readFileSync(raw, 'utf8')).response.rows;
+    for (const r of rows) {
+      const f = full.find((x) => x.content.descriptiveNonRepeating.record_ID === r.content.descriptiveNonRepeating.record_ID);
+      expect(f.content.freetext).toEqual(r.content.freetext);
+      expect(f.content.descriptiveNonRepeating.metadata_usage).toEqual(r.content.descriptiveNonRepeating.metadata_usage);
+    }
+  });
   const recordText = (recordId) => {
     const row = rows.find((r) => r.content.descriptiveNonRepeating.record_ID === recordId);
     return JSON.stringify(row.content);
   };
   for (const o of objects) {
-    it(`${o.id}: record id, dates, makers, numbers and descriptions match the API record`, (ctx) => {
-      if (!rows) ctx.skip(); // raw API responses are gitignored; run scripts/fetch-smithsonian-models.mjs
+    it(`${o.id}: record id, dates, makers, numbers and descriptions match the API record`, () => {
       const txt = recordText(o.record.recordId);
       expect(JSON.parse(txt).descriptiveNonRepeating.metadata_usage.access).toBe('CC0');
       const json = JSON.parse(txt);
@@ -82,8 +97,7 @@ describe('fact audit: content vs the saved Smithsonian records', () => {
       for (const s of strings) expect(txt.includes(JSON.stringify(s).slice(1, -1)), `"${s}" not found in record ${o.record.recordId}`).toBe(true);
     });
   }
-  it('record excerpts quoted in the case archives appear verbatim in the API records', (ctx) => {
-    if (!rows) ctx.skip();
+  it('record excerpts quoted in the case archives appear verbatim in the API records', () => {
     const all = rows.map((r) => JSON.stringify(r.content)).join('\n');
     for (const def of [tutorial, main]) {
       for (const d of def.archive.filter((x) => x.kind === 'record')) {

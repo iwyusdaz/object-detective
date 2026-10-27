@@ -1,8 +1,10 @@
 # Teacher guide (40-minute plan)
 
-**The Object Detective** · grades 8–12, first-year undergraduates · works in any current browser. Text mode works on low-end devices and with screen readers.
+**The Object Detective** · grades 8–12, first-year undergraduates · works in any current browser. Text mode works on low-end devices and is designed for screen readers, but it has **not yet been tested with a screen reader**. Automated checks only: axe, plus Playwright's accessibility-tree snapshot (`ariaSnapshot`), which was used instead of a real screen reader.
 
-The Lantern Museum and its documents are **fictional**. The five objects are **real** Smithsonian objects (National Museum of American History), shown as CC0 3D scans and linked to their real records.
+The Lantern Museum and its documents are **fictional**. The six objects are **real** Smithsonian objects (National Museum of American History): five case objects plus the galvanometer in the "On your own" task, shown as CC0 3D scans and linked to their real records.
+
+If a 3D view ever goes blank or a tool misbehaves in class, switch to **Text mode** (header button): every task and decision is available there.
 
 ## Learning goals
 Students will separate observation from inference, source documents, corroborate evidence across objects and records, and write a museum label that says how sure we are. The four skills follow the Digital Inquiry Group's (formerly the Stanford History Education Group) *Reading Like a Historian* approach: sourcing, contextualization, corroboration and close reading. This game is not a DIG product.

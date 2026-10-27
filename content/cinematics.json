@@ -12,6 +12,7 @@
       "path": [[-3.6, 1.75, -6.6], [-2.2, 1.65, -2.6], [-0.9, 1.5, 0.6], [0, 1.35, 1.25]],
       "target": [0, 0.95, 0],
       "targetFrom": [0, 1.2, -4.2],
+      "captionTimes": [0, 10],
       "captions": [
         "The Lantern Museum (a fictional museum), after closing time. The galleries are dark.",
         "On the inspection table: a scanned object and a draft label card. Your question tonight: is this label right, and what can we say for sure?"
@@ -28,6 +29,7 @@
       "easing": "easeOut",
       "path": [[0.35, 1.3, -3.35], [0.9, 1.45, -2.4], [1.7, 1.6, -1.3]],
       "target": [0.15, 1.15, -4.2],
+      "captionTimes": [0, 7],
       "captions": [
         "Your corrected label now stands beside the object in its case.",
         "It says what the evidence supports, and it says what we cannot tell yet."

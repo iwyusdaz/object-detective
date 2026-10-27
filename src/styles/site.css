@@ -88,6 +88,8 @@ label.check { display: block; margin: 0.25rem 0; }
 .cinematic-caption { margin: 0; padding: 0.7rem 1rem; background: rgba(0, 0, 0, 0.78); color: #fff; text-align: center; font-size: 1.05rem; }
 .cinematic-progress { margin: 0; padding: 0.3rem 1rem; background: rgba(0, 0, 0, 0.6); color: #d7dde4; font-size: 0.8rem; }
 .cinematic-skip { position: absolute; top: 0.6rem; right: 0.6rem; }
+.cinematic-caption[hidden], .cinematic-continue[hidden] { display: none; }
+.cinematic-continue { align-self: center; margin: 0.5rem 0; }
 
 /* panel content */
 .case-title { margin: 0.2rem 0 0.5rem; font-size: 1.25rem; }

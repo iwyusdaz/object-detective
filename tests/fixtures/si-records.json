@@ -1,0 +1,788 @@
+{
+ "note": "Trimmed copy of six Smithsonian Open Access records (CC0) used by the fact audit in tests/unit/tools-and-facts.test.js. Regenerate with node scripts/make-fact-fixture.mjs.",
+ "source": "https://api.si.edu/openaccess/api/v1.0/ (saved response data/raw/si3d.json)",
+ "retrieved": "2026-10-27",
+ "license": "CC0 1.0 (metadata_usage.access = \"CC0\" on every record)",
+ "response": {
+  "rows": [
+   {
+    "id": "ld1-1643398853934-1643398870231-1",
+    "content": {
+     "freetext": {
+      "date": [
+       {
+        "label": "date made",
+        "content": "1832"
+       }
+      ],
+      "notes": [
+       {
+        "label": "Location",
+        "content": "Currently not on view"
+       }
+      ],
+      "setName": [
+       {
+        "label": "See more items in",
+        "content": "Work and Industry: Electricity"
+       }
+      ],
+      "creditLine": [
+       {
+        "label": "Credit Line",
+        "content": "from Mary A. Henry"
+       }
+      ],
+      "dataSource": [
+       {
+        "label": "Data Source",
+        "content": "National Museum of American History"
+       }
+      ],
+      "identifier": [
+       {
+        "label": "ID Number",
+        "content": "EM.181178"
+       },
+       {
+        "label": "catalog number",
+        "content": "181178"
+       },
+       {
+        "label": "accession number",
+        "content": "27225"
+       }
+      ],
+      "objectType": [
+       {
+        "label": "Object Name",
+        "content": "Battery"
+       },
+       {
+        "label": "Other Terms",
+        "content": "Battery; Electrochemical Devices"
+       }
+      ],
+      "physicalDescription": [
+       {
+        "label": "Measurements",
+        "content": "overall: 1 7/8 in x 8 in x 2 5/8 in; 4.7625 cm x 20.32 cm x 6.6675 cm"
+       }
+      ]
+     },
+     "descriptiveNonRepeating": {
+      "record_ID": "nmah_703292",
+      "title": {
+       "label": "Title",
+       "content": "Henry trough battery"
+      },
+      "guid": "https://n2t.net/ark:/65665/ng49ca746a5-1ff7-704b-e053-15f76fa0b4fa",
+      "unit_code": "NMAH",
+      "data_source": "National Museum of American History",
+      "metadata_usage": {
+       "access": "CC0"
+      },
+      "online_media": {
+       "media": [
+        {
+         "type": "3d_voyager",
+         "usage": {
+          "text": "",
+          "codes": "",
+          "access": "CC0"
+         }
+        }
+       ]
+      }
+     }
+    }
+   },
+   {
+    "id": "ld1-1643398853934-1643398875223-0",
+    "content": {
+     "freetext": {
+      "date": [
+       {
+        "label": "date made",
+        "content": "ca 1870"
+       }
+      ],
+      "name": [
+       {
+        "label": "maker",
+        "content": "Western Electric"
+       }
+      ],
+      "setName": [
+       {
+        "label": "See more items in",
+        "content": "Work and Industry: Electricity"
+       },
+       {
+        "label": "Exhibition",
+        "content": "Lighting a Revolution"
+       },
+       {
+        "label": "Exhibition Location",
+        "content": "National Museum of American History"
+       }
+      ],
+      "creditLine": [
+       {
+        "label": "Credit Line",
+        "content": "from Western Union Corporation"
+       }
+      ],
+      "dataSource": [
+       {
+        "label": "Data Source",
+        "content": "National Museum of American History"
+       }
+      ],
+      "identifier": [
+       {
+        "label": "ID Number",
+        "content": "EM.332099"
+       },
+       {
+        "label": "accession number",
+        "content": "294351"
+       },
+       {
+        "label": "catalog number",
+        "content": "332099"
+       },
+       {
+        "label": "collector/donor number",
+        "content": "100-678"
+       }
+      ],
+      "objectType": [
+       {
+        "label": "Object Name",
+        "content": "Galvanometer, Tangent"
+       },
+       {
+        "label": "Object Name",
+        "content": "galvanometer"
+       },
+       {
+        "label": "Other Terms",
+        "content": "Galvanometer, Tangent; Measuring Devices"
+       }
+      ],
+      "physicalDescription": [
+       {
+        "label": "Physical Description",
+        "content": "rubber (part: material)"
+       },
+       {
+        "label": "Physical Description",
+        "content": "glass (part: material)"
+       },
+       {
+        "label": "Physical Description",
+        "content": "brass (part: material)"
+       },
+       {
+        "label": "Physical Description",
+        "content": "copper (part: material)"
+       },
+       {
+        "label": "Physical Description",
+        "content": "steel (part: material)"
+       },
+       {
+        "label": "Measurements",
+        "content": "overall: 8 1/2 in x 7 1/2 in x 8 in; 21.59 cm x 19.05 cm x 20.32 cm"
+       }
+      ]
+     },
+     "descriptiveNonRepeating": {
+      "record_ID": "nmah_703325",
+      "title": {
+       "label": "Title",
+       "content": "Western Electric tangent galvanometer "
+      },
+      "guid": "https://n2t.net/ark:/65665/ng49ca746a5-1ec6-704b-e053-15f76fa0b4fa",
+      "unit_code": "NMAH",
+      "data_source": "National Museum of American History",
+      "metadata_usage": {
+       "access": "CC0"
+      },
+      "online_media": {
+       "media": [
+        {
+         "type": "3d_voyager",
+         "usage": {
+          "text": "",
+          "codes": "",
+          "access": "CC0"
+         }
+        }
+       ]
+      }
+     }
+    }
+   },
+   {
+    "id": "ld1-1643398853934-1643398876321-0",
+    "content": {
+     "freetext": {
+      "date": [
+       {
+        "label": "date made",
+        "content": "ca 1860"
+       }
+      ],
+      "name": [
+       {
+        "label": "maker",
+        "content": "Chester, Charles T."
+       }
+      ],
+      "notes": [
+       {
+        "label": "Description",
+        "content": "Telegraph relays amplified electrical signals in a telegraph line. Telegraph messages traveled as a series of electrical pulses through a wire from a transmitter to a receiver. Short pulses made a dot, slightly longer pulses a dash. The pulses faded in strength as they traveled through the wire, to the point where the incoming signal was too weak to directly operate a receiving sounder or register. A relay detected a weak signal and used a battery to strengthen the signal so that the receiver would operate."
+       },
+       {
+        "label": "Description",
+        "content": "This relay includes a marble base and was made by Charles T. Chester of New York City. The electromagnet coils are fixed but the steel core can be moved to adjust the strength of the magnetic field."
+       }
+      ],
+      "setName": [
+       {
+        "label": "See more items in",
+        "content": "Work and Industry: Electricity"
+       },
+       {
+        "label": "See more items in",
+        "content": "Communications"
+       },
+       {
+        "label": "See more items in",
+        "content": "Telegraph Relays & Repeaters"
+       },
+       {
+        "label": "Exhibition",
+        "content": "Lighting a Revolution"
+       },
+       {
+        "label": "Exhibition Location",
+        "content": "National Museum of American History"
+       }
+      ],
+      "creditLine": [
+       {
+        "label": "Credit Line",
+        "content": "from Janet Lewis"
+       }
+      ],
+      "dataSource": [
+       {
+        "label": "Data Source",
+        "content": "National Museum of American History"
+       }
+      ],
+      "identifier": [
+       {
+        "label": "ID Number",
+        "content": "EM.335588"
+       },
+       {
+        "label": "catalog number",
+        "content": "335588"
+       },
+       {
+        "label": "accession number",
+        "content": "323535"
+       },
+       {
+        "label": "serial number",
+        "content": "589"
+       }
+      ],
+      "objectType": [
+       {
+        "label": "Object Name",
+        "content": "relay"
+       },
+       {
+        "label": "Object Name",
+        "content": "telegraph relay"
+       },
+       {
+        "label": "Other Terms",
+        "content": "telegraph relay; Telegraphy"
+       }
+      ],
+      "physicalDescription": [
+       {
+        "label": "Physical Description",
+        "content": "brass (overall material)"
+       },
+       {
+        "label": "Physical Description",
+        "content": "marble (overall material)"
+       },
+       {
+        "label": "Physical Description",
+        "content": "fabric (overall material)"
+       },
+       {
+        "label": "Physical Description",
+        "content": "copper (overall material)"
+       },
+       {
+        "label": "Measurements",
+        "content": "overall: 3 1/2 in x 8 3/8 in x 5 3/8 in; 8.89 cm x 21.2725 cm x 13.6525 cm"
+       }
+      ]
+     },
+     "descriptiveNonRepeating": {
+      "record_ID": "nmah_712417",
+      "title": {
+       "label": "Title",
+       "content": "Chester telegraph relay"
+      },
+      "guid": "https://n2t.net/ark:/65665/ng49ca746a5-3a3a-704b-e053-15f76fa0b4fa",
+      "unit_code": "NMAH",
+      "data_source": "National Museum of American History",
+      "metadata_usage": {
+       "access": "CC0"
+      },
+      "online_media": {
+       "media": [
+        {
+         "type": "3d_voyager",
+         "usage": {
+          "text": "",
+          "codes": "",
+          "access": "CC0"
+         }
+        }
+       ]
+      }
+     }
+    }
+   },
+   {
+    "id": "ld1-1643398853934-1643398870885-0",
+    "content": {
+     "freetext": {
+      "date": [
+       {
+        "label": "date made",
+        "content": "ca 1837"
+       }
+      ],
+      "name": [
+       {
+        "label": "associated person",
+        "content": "Davenport"
+       },
+       {
+        "label": "maker",
+        "content": "Davenport"
+       },
+       {
+        "label": "maker",
+        "content": "Davenport, Thomas"
+       }
+      ],
+      "notes": [
+       {
+        "label": "Description (Brief)",
+        "content": "Model to accompany US patent number 132, \"Electric Motor, issued to Thomas Davenport, 25 February 1837. This is the first US patent issued for an electric motor. No extant markings. The patent claims: \"Applying magnetic and electromagnetic power as a moving principle for machinery in the manner above described, or in any other substantially the same in principle\". Wooden base, 9 by 14 in., supported on four curved legs, carrying a circular frame, in which there are four rough electro-magnets, painted red, made to revolve within a ring of steel magnets. The steel magnets in the ring are crescent-shaped can be lifted out of the frame. Reference: W. James King, Development of Electrical Technology in the 19th Century (Smithsonian Institution, 1962), 264."
+       },
+       {
+        "label": "Description (Brief)",
+        "content": "This model was made by Vermont blacksmith Thomas Davenport (1802-1851) as a replacement for his original patent model. The original was destroyed in the 1836 fire at the US Patent Office. Davenport may have incorporated improvements in this model that are not reflected in the patent drawings."
+       }
+      ],
+      "setName": [
+       {
+        "label": "See more items in",
+        "content": "Work and Industry: Electricity"
+       },
+       {
+        "label": "Exhibition",
+        "content": "Lighting a Revolution"
+       },
+       {
+        "label": "Exhibition Location",
+        "content": "National Museum of American History"
+       }
+      ],
+      "dataSource": [
+       {
+        "label": "Data Source",
+        "content": "National Museum of American History"
+       }
+      ],
+      "identifier": [
+       {
+        "label": "ID Number",
+        "content": "EM.252644"
+       },
+       {
+        "label": "catalog number",
+        "content": "252644"
+       },
+       {
+        "label": "accession number",
+        "content": "49064"
+       },
+       {
+        "label": "patent number",
+        "content": "132"
+       }
+      ],
+      "objectType": [
+       {
+        "label": "Object Name",
+        "content": "Electric Motor"
+       },
+       {
+        "label": "Object Name",
+        "content": "motor"
+       },
+       {
+        "label": "Object Name",
+        "content": "electric motor"
+       },
+       {
+        "label": "Object Type",
+        "content": "Patent Model"
+       },
+       {
+        "label": "Other Terms",
+        "content": "Electric Motor; Electromagnetic Devices"
+       }
+      ],
+      "physicalDescription": [
+       {
+        "label": "Measurements",
+        "content": "overall: 15 in x 10 in x 15 in; 38.1 cm x 25.4 cm x 38.1 cm"
+       }
+      ]
+     },
+     "descriptiveNonRepeating": {
+      "record_ID": "nmah_703302",
+      "title": {
+       "label": "Title",
+       "content": "Davenport electric motor, US patent #132"
+      },
+      "guid": "https://n2t.net/ark:/65665/ng49ca746ab-d1df-704b-e053-15f76fa0b4fa",
+      "unit_code": "NMAH",
+      "data_source": "National Museum of American History",
+      "metadata_usage": {
+       "access": "CC0"
+      },
+      "online_media": {
+       "media": [
+        {
+         "type": "3d_voyager",
+         "usage": {
+          "text": "",
+          "codes": "",
+          "access": "CC0"
+         }
+        }
+       ]
+      }
+     }
+    }
+   },
+   {
+    "id": "ld1-1643398853934-1643398871180-0",
+    "content": {
+     "freetext": {
+      "date": [
+       {
+        "label": "date made",
+        "content": "ca 1868"
+       }
+      ],
+      "name": [
+       {
+        "label": "maker",
+        "content": "Charles G. Page"
+       }
+      ],
+      "setName": [
+       {
+        "label": "See more items in",
+        "content": "Work and Industry: Electricity"
+       },
+       {
+        "label": "Exhibition",
+        "content": "Lighting a Revolution"
+       },
+       {
+        "label": "Exhibition Location",
+        "content": "National Museum of American History"
+       }
+      ],
+      "dataSource": [
+       {
+        "label": "Data Source",
+        "content": "National Museum of American History"
+       }
+      ],
+      "identifier": [
+       {
+        "label": "ID Number",
+        "content": "EM.309254"
+       },
+       {
+        "label": "catalog number",
+        "content": "309254"
+       },
+       {
+        "label": "patent number",
+        "content": "76654"
+       },
+       {
+        "label": "accession number",
+        "content": "49064"
+       }
+      ],
+      "objectType": [
+       {
+        "label": "Object Name",
+        "content": "Induction Coil"
+       },
+       {
+        "label": "Object Type",
+        "content": "Patent Model"
+       },
+       {
+        "label": "Other Terms",
+        "content": "Induction Coil; Electromagnetic Devices"
+       }
+      ],
+      "physicalDescription": [
+       {
+        "label": "Measurements",
+        "content": "overall: 7 in x 8 3/4 in x 4 3/4 in; 17.78 cm x 22.225 cm x 12.065 cm"
+       }
+      ]
+     },
+     "descriptiveNonRepeating": {
+      "record_ID": "nmah_703318",
+      "title": {
+       "label": "Title",
+       "content": "patent model, Page induction coil, US #76654"
+      },
+      "guid": "https://n2t.net/ark:/65665/ng49ca746b1-fe41-704b-e053-15f76fa0b4fa",
+      "unit_code": "NMAH",
+      "data_source": "National Museum of American History",
+      "metadata_usage": {
+       "access": "CC0"
+      },
+      "online_media": {
+       "media": [
+        {
+         "type": "3d_voyager",
+         "usage": {
+          "text": "",
+          "codes": "",
+          "access": "CC0"
+         }
+        }
+       ]
+      }
+     }
+    }
+   },
+   {
+    "id": "ld1-1643398853934-1643398870277-0",
+    "content": {
+     "freetext": {
+      "date": [
+       {
+        "label": "Date made",
+        "content": "1844"
+       },
+       {
+        "label": "used date",
+        "content": "1844"
+       }
+      ],
+      "name": [
+       {
+        "label": "demonstrator",
+        "content": "Morse, Samuel Finley Breese"
+       },
+       {
+        "label": "demonstrator",
+        "content": "Vail, Alfred"
+       },
+       {
+        "label": "maker",
+        "content": "Vail, Alfred"
+       },
+       {
+        "label": "maker",
+        "content": "Morse, Samuel Finley Breese"
+       }
+      ],
+      "notes": [
+       {
+        "label": "Description",
+        "content": "Alfred Vail made this key, believed to be from the first Baltimore-Washington telegraph line, as an improvement on Samuel Morse's original transmitter. Vail helped Morse develop a practical system for sending and receiving coded electrical signals over a wire, which was successfully demonstrated in 1844."
+       },
+       {
+        "label": "Description",
+        "content": "Morse's telegraph marked the arrival of instant long-distance communication in America. The revolutionary technology excited the public imagination, inspiring predictions that the telegraph would bring about economic prosperity, national unity, and even world peace."
+       }
+      ],
+      "place": [
+       {
+        "label": "Place Made",
+        "content": "United States: New Jersey, Morristown"
+       },
+       {
+        "label": "used",
+        "content": "United States: Maryland, Baltimore"
+       },
+       {
+        "label": "used",
+        "content": "United States: District of Columbia, Washington"
+       }
+      ],
+      "setName": [
+       {
+        "label": "See more items in",
+        "content": "Work and Industry: Electricity"
+       },
+       {
+        "label": "See more items in",
+        "content": "Government, Politics, and Reform"
+       },
+       {
+        "label": "See more items in",
+        "content": "Engineering, Building, and Architecture"
+       },
+       {
+        "label": "See more items in",
+        "content": "Work"
+       },
+       {
+        "label": "See more items in",
+        "content": "Communications"
+       },
+       {
+        "label": "See more items in",
+        "content": "Computers & Business Machines"
+       },
+       {
+        "label": "See more items in",
+        "content": "Industry & Manufacturing"
+       },
+       {
+        "label": "See more items in",
+        "content": "American Enterprise"
+       },
+       {
+        "label": "See more items in",
+        "content": "Artifact Walls exhibit"
+       },
+       {
+        "label": "Exhibition",
+        "content": "American Enterprise"
+       },
+       {
+        "label": "Exhibition Location",
+        "content": "National Museum of American History"
+       }
+      ],
+      "publisher": [
+       {
+        "label": "Related Publication",
+        "content": "Kendrick, Kathleen M. and Peter C. Liebhold. Smithsonian Treasures of American History"
+       }
+      ],
+      "creditLine": [
+       {
+        "label": "Credit Line",
+        "content": "from Western Union Telegraph Co."
+       }
+      ],
+      "dataSource": [
+       {
+        "label": "Data Source",
+        "content": "National Museum of American History"
+       }
+      ],
+      "identifier": [
+       {
+        "label": "ID Number",
+        "content": "EM.181411"
+       },
+       {
+        "label": "catalog number",
+        "content": "181411"
+       },
+       {
+        "label": "accession number",
+        "content": "31652"
+       }
+      ],
+      "objectType": [
+       {
+        "label": "Object Name",
+        "content": "telegraph transmitter"
+       },
+       {
+        "label": "Object Name",
+        "content": "telegraph key"
+       }
+      ],
+      "physicalDescription": [
+       {
+        "label": "Physical Description",
+        "content": "wood (overall material)"
+       },
+       {
+        "label": "Physical Description",
+        "content": "brass (overall material)"
+       },
+       {
+        "label": "Measurements",
+        "content": "overall: 3 in x 2 in x 6 3/4 in; 7.62 cm x 5.08 cm x 17.145 cm"
+       }
+      ]
+     },
+     "descriptiveNonRepeating": {
+      "record_ID": "nmah_1096762",
+      "title": {
+       "label": "Title",
+       "content": "Morse-Vail Telegraph Key"
+      },
+      "guid": "https://n2t.net/ark:/65665/ng49ca746a9-46b1-704b-e053-15f76fa0b4fa",
+      "unit_code": "NMAH",
+      "data_source": "National Museum of American History",
+      "metadata_usage": {
+       "access": "CC0"
+      },
+      "online_media": {
+       "media": [
+        {
+         "type": "3d_voyager",
+         "usage": {
+          "text": "",
+          "codes": "",
+          "access": "CC0"
+         }
+        }
+       ]
+      }
+     }
+    }
+   }
+  ]
+ }
+}

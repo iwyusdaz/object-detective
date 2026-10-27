@@ -108,18 +108,38 @@ export class App {
     };
     applyQuality();
     this.engine.quality.onChange(applyQuality);
-    this.player = new ShotPlayer({ container: document.getElementById('cinematic-host'), camera: this.engine.camera, motion: this.motion, onDone: () => this._afterCinematic(), onSkip: (id) => this.record.log('experienced', { id: `cinematic-${id}-skipped`, name: 'Cinematic skipped' }) });
+    this.player = new ShotPlayer({ container: document.getElementById('cinematic-host'), camera: this.engine.camera, motion: this.motion, onDone: () => this._afterCinematic(), onSkip: (id) => this.record.log('experienced', { id: `cinematic-${id}-skipped`, name: 'Cinematic skipped' }),
+      captionsOn: () => this.settings?.state.captions !== false,
+      inertTargets: () => [this.shell.panel, document.querySelector('.tool-pad'), this.shell.moduleNav, document.querySelector('.app-header, header')] });
     this.cinematics = c.cinematics;
     this.engine.start();
   }
 
   _initDialogs() {
     this.settings = new Settings({ slug: SLUG, dialog: document.getElementById('settings-dialog'), quality: this.engine?.quality, motion: this.motion,
-      onFov: (fov) => { if (this.engine) { this.engine.camera.fov = Math.min(70, Math.max(30, fov * 0.75)); this.engine.camera.updateProjectionMatrix(); this.inspection.fitDistance(); this.inspection._applyCamera(); } } });
+      onFov: (fov) => this.applyFov(fov) });
+    // Saved text size / contrast / FOV apply at start-up without moving the camera.
+    this.settings.applyDisplay();
+    this.applyFov(this.settings.state.fov, { restage: false });
     this.shell.on('settings', (btn) => this.settings.open(btn));
     this.progressPage = new ProgressPage({ slug: SLUG, dialog: document.getElementById('progress-dialog'), record: this.record });
     this.shell.on('progress', (btn) => this.progressPage.open(btn));
     this.shell.on('help', (btn) => openHelp(this, document.getElementById('help-dialog'), btn));
+  }
+
+  /** True when the inspection camera owns the view (a case or the transfer task). */
+  inInspection() { return Boolean(CASE_FOR_CHAPTER[this.chapter]) || this.chapter === 3; }
+
+  /**
+   * FOV comfort setting. Re-frames the inspection camera only inside a case;
+   * on Welcome / Wrap-up it keeps the gallery hero view (agent review V3).
+   */
+  applyFov(fov, { restage = true } = {}) {
+    if (!this.engine) return;
+    this.engine.camera.fov = Math.min(70, Math.max(30, fov * 0.75));
+    this.engine.camera.updateProjectionMatrix();
+    if (!restage || this.player?.playing) return;
+    if (this.inInspection()) { this.inspection.fitDistance(); this.inspection._applyCamera(); } else this._stageGallery();
   }
 
   setTextMode(on) {
@@ -195,10 +215,12 @@ export class App {
         if (!this.engine || this.shell.textMode) return;
         if (this.inspection.primary?.id !== id || this.inspection.slots.length !== 1) await this.inspection.show(id);
         this.inspection.hotspot(id, hs);
+        this.tools.lensToHotspot();
         announce(`Camera moved to: ${hs.label}`);
         this.tools.refresh();
       },
-      activeTools: (id) => this.tools ? this.tools.activeFor(id) : new Set(['view']),
+      activeTools: (id, hs) => this.tools ? this.tools.activeFor(id, hs) : new Set(['view']),
+      whyNotRevealed: (id, hs, tool) => this.tools?.whyNotRevealed(id, hs, tool) || null,
       onSubmitted: () => { if (caseId === 'main') this.shell.setStatus('Case 2 submitted. See the debrief.'); },
       canPlayReveal: () => caseId === 'main' && Boolean(this.engine) && !this.shell.textMode,
       playReveal: () => this.playS2(),

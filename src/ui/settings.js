@@ -1,6 +1,6 @@
 /**
  * Settings dialog: quality preset (with manual override), text size, contrast,
- * captions, reduced motion, FOV comfort, separate volume controls + mute.
+ * captions, reduced motion, FOV comfort. No audio controls: the game has no sound.
  * Persisted under slug-prefixed keys (shared origin with other projects).
  * @module ui/settings
  */
@@ -32,10 +32,6 @@ export class Settings {
       textSize: 'normal',
       contrast: 'normal',
       captions: true,
-      volumeMaster: 0.8,
-      volumeVoice: 1.0,
-      volumeAmbient: 0.6,
-      muted: false,
       fov: 60,
     };
     try { Object.assign(d, JSON.parse(localStorage.getItem(`${this.slug}:settings`) || '{}')); } catch { /* ignore */ }
@@ -82,12 +78,9 @@ export class Settings {
           </label>
         </fieldset>
         <fieldset>
-          <legend>Audio and captions</legend>
-          <label><input type="checkbox" id="set-captions" ${this.state.captions ? 'checked' : ''}> Captions on</label>
-          <label><input type="checkbox" id="set-muted" ${this.state.muted ? 'checked' : ''}> Mute all audio</label>
-          <label>Master volume <input type="range" id="set-vol-master" min="0" max="1" step="0.05" value="${this.state.volumeMaster}"></label>
-          <label>Voice volume <input type="range" id="set-vol-voice" min="0" max="1" step="0.05" value="${this.state.volumeVoice}"></label>
-          <label>Ambient volume <input type="range" id="set-vol-ambient" min="0" max="1" step="0.05" value="${this.state.volumeAmbient}"></label>
+          <legend>Captions</legend>
+          <label><input type="checkbox" id="set-captions" ${this.state.captions ? 'checked' : ''}> Show captions during cinematics</label>
+          <p class="hint">This game has no sound, so there are no volume controls. A text description of each cinematic is always available to screen readers.</p>
         </fieldset>
         <fieldset>
           <legend>Motion</legend>
@@ -103,7 +96,6 @@ export class Settings {
     $('select#set-textsize').value = this.state.textSize;
     $('select#set-contrast').value = this.state.contrast;
     $('input#set-captions').checked = this.state.captions;
-    $('input#set-muted').checked = this.state.muted;
     $('input#set-motion').checked = Boolean(this.motion?.reduced);
     $('input#set-fov').addEventListener('input', (e) => { $('output#set-fov-out').textContent = `${e.target.value}°`; });
     $('button#set-cancel').addEventListener('click', () => closeDialog(q));
@@ -116,10 +108,6 @@ export class Settings {
       this.state.textSize = $('select#set-textsize').value;
       this.state.contrast = $('select#set-contrast').value;
       this.state.captions = $('input#set-captions').checked;
-      this.state.muted = $('input#set-muted').checked;
-      this.state.volumeMaster = parseFloat($('input#set-vol-master').value);
-      this.state.volumeVoice = parseFloat($('input#set-vol-voice').value);
-      this.state.volumeAmbient = parseFloat($('input#set-vol-ambient').value);
       this.state.fov = parseFloat($('input#set-fov').value);
       if (this.motion) this.motion.setToggle($('input#set-motion').checked);
       this.save();
@@ -129,13 +117,17 @@ export class Settings {
   }
 
   _apply() {
-    const root = document.documentElement;
-    root.dataset.textSize = this.state.textSize;
-    root.dataset.contrast = this.state.contrast;
-    this.onVolume?.(this.state);
+    this.applyDisplay();
     this.onFov?.(this.state.fov);
   }
 
-  /** Open via the shell's Settings button. */
-  open(trigger) { this._build(); openDialog(this.dialog, trigger); this._apply(); }
+  /** Text size and contrast only (safe at start-up; no camera changes). */
+  applyDisplay() {
+    const root = document.documentElement;
+    root.dataset.textSize = this.state.textSize;
+    root.dataset.contrast = this.state.contrast;
+  }
+
+  /** Open via the shell's Settings button. Settings are applied only on Save (agent review V3). */
+  open(trigger) { this._build(); openDialog(this.dialog, trigger); }
 }

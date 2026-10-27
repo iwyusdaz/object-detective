@@ -71,6 +71,23 @@ test('high contrast + large text settings: no critical or serious axe issues', a
   await scan(page, 'high contrast case brief');
 });
 
+// Stand-in for a screen-reader pass (none was run): the accessibility tree a
+// screen reader would get in text mode exposes the finding, its transcription
+// and the classify controls with names. This is NOT a real screen-reader test.
+test('text mode accessibility tree (ariaSnapshot): finding, transcription and controls are named', async ({ page }) => {
+  await boot(page, { textMode: true });
+  await page.locator('.module-nav button').nth(1).click();
+  await page.locator('.step-nav button', { hasText: 'Inspect' }).click();
+  await page.locator('.poi-list button[data-poi="f-number"]').click();
+  await page.locator('.look-actions button', { hasText: 'Look closely (magnifier)' }).click();
+  const tree = await page.locator('#panel').ariaSnapshot();
+  expect(tree).toContain('heading "End of the wooden base (painted number)"');
+  expect(tree).toMatch(/Transcription: .*181411/);
+  expect(tree).toMatch(/radio "Observation"/);
+  expect(tree).toMatch(/radio "Inference"/);
+  expect(tree).toMatch(/img "End of the wooden base/);
+});
+
 test('keyboard only: start the game and reach the case file', async ({ page }) => {
   await boot(page);
   const start = page.getByRole('button', { name: /Start the shift/ });

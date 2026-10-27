@@ -46,7 +46,7 @@ export class ToolController {
       preset: (name) => { const label = inspection.preset(name); this._afterMove(); announce(`View: ${label}`); },
       setRaking: (p) => { rake.set(p); },
       toggleRaking: (on) => { rake.setEnabled(on); announce(rake.describe()); this.refresh(); },
-      toggleMagnifier: (on) => { magnifier.setEnabled(on); announce(on ? `Magnifier on, ${magnifier.zoom} times` : 'Magnifier off'); this.refresh(); },
+      toggleMagnifier: (on) => { magnifier.setEnabled(on); this.lensToHotspot(); announce(on ? `Magnifier on, ${magnifier.zoom} times` : 'Magnifier off'); this.refresh(); },
       cycleMag: () => { const z = magnifier.cycleZoom(1); announce(`Magnifier ${z} times`); this.refresh(); },
       moveLens: (dx, dy) => magnifier.nudge(dx, dy),
       measurePreset: () => this.measureLongest(),
@@ -110,7 +110,7 @@ export class ToolController {
       case 'rakeAzRight': rake.set({ azimuth: rake.state.azimuth + 10 }); announce(rake.describe()); this.refresh(); return;
       case 'rakeLower': rake.set({ elevation: rake.state.elevation - 3 }); announce(rake.describe()); this.refresh(); return;
       case 'rakeHigher': rake.set({ elevation: rake.state.elevation + 3 }); announce(rake.describe()); this.refresh(); return;
-      case 'magnifier': this.magnifier.setEnabled(!this.magnifier.on); announce(this.magnifier.on ? 'Magnifier on' : 'Magnifier off'); this.refresh(); return;
+      case 'magnifier': this.magnifier.setEnabled(!this.magnifier.on); this.lensToHotspot(); announce(this.magnifier.on ? 'Magnifier on' : 'Magnifier off'); this.refresh(); return;
       case 'magZoom': announce(`Magnifier ${this.magnifier.cycleZoom(1)} times`); this.refresh(); return;
       case 'measure': this.measureLongest(); return;
       case 'trueSize': this.setTrueSize(!this.trueSize); return;
@@ -131,13 +131,35 @@ export class ToolController {
     return this.measure.preset(slot.id, longestPreset(this.inspection.localSize(slot.id)));
   }
 
-  /** Tools whose use currently counts for discovering a finding on `objectId`. */
-  activeFor(objectId) {
+  /**
+   * Tools whose use currently counts for discovering a finding on `objectId`.
+   * With a hotspot, a tool only counts when it actually reveals the mark
+   * (agent review H2): the magnifier lens must cover the mark, and raking light
+   * must be low with the object in the hotspot's pose (e.g. turned over).
+   */
+  activeFor(objectId, hs = null) {
     const s = new Set(['view']);
-    if (this.magnifier.on) s.add('magnify');
-    if (this.rake.revealing) s.add('raking');
+    const posed = !hs || (this.inspection.primary?.id === objectId && this.inspection.viewMatches(hs));
+    if (this.magnifier.on && (!hs || (posed && this.magnifier.covers(this.inspection.hotspotScreen(objectId, hs))))) s.add('magnify');
+    if (this.rake.revealing && posed) s.add('raking');
     if (this.measure.last && this.measure.last.objectId === objectId) s.add('measure');
     return s;
+  }
+
+  /** Why a tool is on but does not reveal the mark yet (null when it does, or is off). */
+  whyNotRevealed(objectId, hs, tool) {
+    if (tool === 'magnify' && this.magnifier.on) return 'The magnifier is on, but the lens is not over the mark. Move the lens onto the spot (or choose the point of interest again).';
+    if (tool === 'raking' && this.rake.on && !this.rake.revealing) return 'The raking light is too high to show faint relief. Lower it to a grazing angle (25° or less).';
+    if (tool === 'raking' && this.rake.revealing) return 'The light is low, but this side of the object is not facing the camera. Choose the point of interest again to turn the object to it.';
+    return null;
+  }
+
+  /** Put the magnifier lens on the current point of interest's mark. */
+  lensToHotspot() {
+    const cur = this.inspection.current;
+    if (!this.magnifier.on || !cur || this.inspection.primary?.id !== cur.id) return;
+    const pt = this.inspection.hotspotScreen(cur.id, cur.hs);
+    if (pt) this.magnifier.moveTo(pt.x, pt.y);
   }
 
   setTrueSize(on) {

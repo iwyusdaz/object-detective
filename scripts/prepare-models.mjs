@@ -7,6 +7,7 @@
  * The Smithsonian "_std_draco" GLBs are already Draco-compressed with 2048 px
  * textures (~1.3–2.1 MB each), inside the per-file and first-interaction
  * budgets, so no further decimation is applied (see DECISIONS.md D-07).
+ * The optional 4096 px hi-res copies are rescaled to metres (see glb-units.mjs).
  * Usage: node scripts/prepare-models.mjs
  */
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, rmSync, existsSync } from 'node:fs';
@@ -14,6 +15,7 @@ import { createHash } from 'node:crypto';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { OBJECTS, HI_RES } from './fetch-smithsonian-models.mjs';
+import { glbExtent, chooseFactor, scaleGlbPositions } from './glb-units.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const RAW = join(root, 'data', 'raw');
@@ -35,7 +37,16 @@ for (const o of OBJECTS) {
   // Optional on-demand 4096 px texture variant for the magnifier (data/raw/hi/<slug>.glb).
   const hiPath = join(RAW, 'hi', `${o.slug}.glb`);
   if (HI_RES[o.slug] && existsSync(hiPath)) {
-    const hb = readFileSync(hiPath);
+    // The "150k-4096" packages are authored in inches or millimetres; glTF is
+    // metres. Rescale POSITION to metres, matched to the base model's extent.
+    const rawHi = readFileSync(hiPath);
+    const hiLongest = Math.max(...glbExtent(rawHi));
+    const { factor, unit } = chooseFactor(hiLongest, Math.max(...sizeM));
+    const hb = factor === 1 ? rawHi : scaleGlbPositions(rawHi, factor);
+    const hiM = glbExtent(hb);
+    const diff = Math.abs(Math.max(...hiM) / Math.max(...sizeM) - 1);
+    if (diff > 0.05) throw new Error(`${o.slug} hi-res extent differs from the base model by ${(diff * 100).toFixed(1)}%`);
+    console.log(`  ${o.slug} hi-res: source unit ${unit} (x${factor}); extent ${hiM.map((x) => x.toFixed(4)).join(' x ')} m`);
     if (hb.length > 19.5e6) throw new Error(`${o.slug} hi-res exceeds the 20 MB single-file budget`);
     const hsha = createHash('sha256').update(hb).digest('hex');
     const hname = `${o.slug}-4k-${hsha.slice(0, 10)}.glb`;

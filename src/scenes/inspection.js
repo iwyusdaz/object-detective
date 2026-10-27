@@ -23,6 +23,25 @@ export const PRESET_VIEWS = {
 
 const DEG = Math.PI / 180;
 
+/** Union of mesh geometry bounding boxes (model-local, metres). */
+export function geometryBox(root) {
+  const box = new THREE.Box3();
+  root.traverse((o) => { if (o.isMesh) { o.geometry.computeBoundingBox(); box.union(o.geometry.boundingBox); } });
+  return box;
+}
+
+/**
+ * Scale factor that brings `hiBox` to `baseBox`'s size, or 1 when they already
+ * agree within 5% (the normal case after scripts/prepare-models.mjs).
+ */
+export function normaliseFactor(hiBox, baseBox) {
+  const longest = (b) => { const s = b.getSize(new THREE.Vector3()); return Math.max(s.x, s.y, s.z); };
+  const h = longest(hiBox); const b = longest(baseBox);
+  if (!(h > 0) || !(b > 0)) return 1;
+  const r = b / h;
+  return Math.abs(r - 1) <= 0.05 ? 1 : r;
+}
+
 export class Inspection {
   constructor(engine, modelsManifest, objectsMeta) {
     this.engine = engine;
@@ -192,20 +211,43 @@ export class Inspection {
     if (!slot) return;
     Object.assign(this.view, { yaw: hs.yaw ?? 0, elev: hs.elev ?? 20, pose: hs.pose || 'upright' });
     this.view.hotspot = hs.id;
+    this.current = { id: slot.id, hs };
     this._applyPose();
-    const box = this.localBox(slot.id);
+    const world = this.hotspotWorld(slot.id, hs);
+    this.view.target.copy(world).sub(this.stage.position);
+    this.fitDistance();
+    this.view.dist = (this.view.fitDist || 0.5) / (hs.zoom || 2.5);
+    this._applyCamera();
+    this.onChange?.();
+  }
+
+  /** World position of a hotspot's mark on the object as it is currently posed. */
+  hotspotWorld(id, hs) {
+    const slot = this.slots.find((s) => s.id === id);
+    if (!slot) return null;
+    const box = this.localBox(id);
     const local = new THREE.Vector3(
       THREE.MathUtils.lerp(box.min.x, box.max.x, hs.point[0]),
       THREE.MathUtils.lerp(box.min.y, box.max.y, hs.point[1]),
       THREE.MathUtils.lerp(box.min.z, box.max.z, hs.point[2]),
     );
     slot.model.updateMatrixWorld(true);
-    const world = slot.model.localToWorld(local);
-    this.view.target.copy(world).sub(this.stage.position);
-    this.fitDistance();
-    this.view.dist = (this.view.fitDist || 0.5) / (hs.zoom || 2.5);
-    this._applyCamera();
-    this.onChange?.();
+    return slot.model.localToWorld(local);
+  }
+
+  /** Normalized canvas position (0..1, y down) of a hotspot's mark, or null if behind the camera. */
+  hotspotScreen(id, hs) {
+    const w = this.hotspotWorld(id, hs);
+    if (!w) return null;
+    const p = w.project(this.engine.camera);
+    if (p.z > 1 || p.z < -1) return null;
+    return { x: (p.x + 1) / 2, y: (1 - p.y) / 2 };
+  }
+
+  /** True when the current view is close to the hotspot's (same pose, yaw within 50°). */
+  viewMatches(hs) {
+    const dYaw = Math.abs(((this.view.yaw - (hs.yaw ?? 0) + 540) % 360) - 180);
+    return this.view.pose === (hs.pose || 'upright') && dYaw <= 50;
   }
 
   /** Drag-to-rotate (pointer); small steps keep the object resting on the table. */
@@ -232,27 +274,47 @@ export class Inspection {
   async loadHiRes(id) {
     const entry = this.manifest[id];
     if (!entry?.hiRes) return false;
-    if (this.hiRes.has(id)) return this.hiRes.get(id);
-    const p = new Promise((resolve) => {
-      this.loader.load(assetURL(entry.hiRes), (gltf) => {
-        const root = gltf.scene;
-        root.traverse((o) => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
-        root.userData.id = id;
-        root.userData.hiRes = true;
-        this.cache.set(id, Promise.resolve(root));
-        const slot = this.slots.find((s) => s.id === id);
-        if (slot) {
-          slot.holder.remove(slot.model);
-          slot.model = root;
-          slot.holder.add(root);
-          this._applyPose();
-          this._applyCamera();
-        }
-        resolve(true);
-      }, undefined, () => resolve(false));
-    });
-    this.hiRes.set(id, p);
-    return p;
+    if (!this.hiRes.has(id)) {
+      this.hiRes.set(id, new Promise((resolve) => {
+        this.loader.load(assetURL(entry.hiRes), (gltf) => {
+          const root = gltf.scene;
+          root.traverse((o) => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
+          root.userData.id = id;
+          root.userData.hiRes = true;
+          resolve(root);
+        }, undefined, () => resolve(null));
+      }));
+    }
+    const hi = await this.hiRes.get(id);
+    if (!hi) return false;
+    const base = await this.load(id);
+    // Safety net: the hi-res files are rescaled to metres at the source
+    // (scripts/prepare-models.mjs). If a file ever arrives in other units,
+    // match it to the base model's bounding box before it is shown.
+    const f = normaliseFactor(geometryBox(hi), geometryBox(base));
+    if (f !== 1) hi.traverse((o) => { if (o.isMesh) { o.geometry.scale(f, f, f); o.geometry.computeBoundingBox(); } });
+    const slot = this.slots.find((s) => s.id === id);
+    // Only swap while the magnifier still wants it; the base model stays cached.
+    if (slot && this.hiResWanted === id && slot.model !== hi) this._swapModel(slot, hi);
+    return true;
+  }
+
+  /** Put the cached base (2048 px) model back after the magnifier is turned off. */
+  async restoreBase(id) {
+    this.hiResWanted = null;
+    const slot = this.slots.find((s) => s.id === id && s.model.userData.hiRes);
+    if (!slot) return;
+    const base = await this.load(id);
+    this._swapModel(slot, base);
+  }
+
+  _swapModel(slot, model) {
+    slot.holder.remove(slot.model);
+    slot.model = model;
+    slot.holder.add(model);
+    this._applyPose();
+    this._applyCamera();
+    this.onChange?.();
   }
 
   _tick() { /* camera is applied on input; no decorative motion during tasks */ }

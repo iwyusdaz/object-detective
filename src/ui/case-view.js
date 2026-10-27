@@ -122,7 +122,7 @@ export class CaseView {
     const done = this.engine.isDiscovered(f.id);
     const card = h('section', { class: 'poi-card', 'aria-labelledby': `poi-${f.id}` }, h('h4', { id: `poi-${f.id}`, tabindex: '-1' }, f.hotspot.label));
     const msg = h('div', { class: 'poi-msg', role: 'status' });
-    const tryDiscover = (tool) => {
+    const tryDiscover = (tool, why = null) => {
       const r = this.engine.discover(f.id, tool);
       if (r.ok) {
         this.hooks.log('experienced', { id: `finding-${f.id}`, name: f.hotspot.label }, { response: tool });
@@ -131,9 +131,9 @@ export class CaseView {
         this.render('inspect');
         this.panel.querySelector('.poi-card h4')?.focus();
       } else {
-        clear(msg).appendChild(feedback('info', this.def.assessed
+        clear(msg).appendChild(feedback('info', why || (this.def.assessed
           ? 'Nothing new shows up here with that. Try another tool: the magnifier, a low raking light, or measuring.'
-          : `Nothing new shows up with that. Hint: this spot needs ${TOOL_NAMES[f.tool]}.`));
+          : `Nothing new shows up with that. Hint: this spot needs ${TOOL_NAMES[f.tool]}.`)));
       }
     };
     if (!done) {
@@ -145,8 +145,10 @@ export class CaseView {
       } else {
         card.appendChild(h('p', {}, 'The camera has moved to this spot. Use the tools, then record what you see.'));
         card.appendChild(h('button', { type: 'button', class: 'primary', onclick: () => {
-          const active = this.hooks.activeTools(f.objectId);
-          tryDiscover(active.has(f.tool) ? f.tool : f.tool === 'view' ? 'view' : [...active][0] || 'view');
+          // A tool counts only if it reveals this mark now (lens over it, light low, right side up).
+          const active = this.hooks.activeTools(f.objectId, f.hotspot);
+          if (active.has(f.tool)) { tryDiscover(f.tool); return; }
+          tryDiscover([...active].find((t) => t !== 'view') || 'view', this.hooks.whyNotRevealed?.(f.objectId, f.hotspot, f.tool));
         } }, 'Record what I see'));
       }
       card.appendChild(msg);

@@ -103,7 +103,7 @@
       "id": "f-bat-stamp",
       "objectId": "henry-trough-battery",
       "tool": "raking",
-      "hotspot": { "id": "hs-bat-under", "label": "Underside of the trough (turn it over)", "yaw": 0, "elev": 75, "pose": "flipped", "point": [0.5, 0.0, 0.5], "zoom": 1.6 },
+      "hotspot": { "id": "hs-bat-under", "label": "Underside of the trough (turn it over)", "yaw": 0, "elev": 75, "pose": "flipped", "point": [0.5, 0.0, 0.5], "zoom": 1.2 },
       "description": "Turned over, the underside is red paint worn to dark wood, with two small screw heads near the ends. Under raking light, a short line of faint pale characters shows near the middle. In the scan they are too faint and blurred to read with confidence.",
       "transcription": "Faint characters near the middle of the underside; not legible in the scan (no transcription possible).",
       "statements": [
@@ -115,7 +115,7 @@
       "id": "f-relay-number",
       "objectId": "chester-relay",
       "tool": "magnify",
-      "hotspot": { "id": "hs-relay-number", "label": "Edge of the relay's marble base (painted number)", "yaw": 180, "elev": 8, "pose": "upright", "point": [0.13, 0.08, 0.0], "zoom": 4.0 },
+      "hotspot": { "id": "hs-relay-number", "label": "Edge of the relay's marble base (painted number)", "yaw": 180, "elev": 8, "pose": "upright", "point": [0.13, 0.08, 0.0], "zoom": 1.5 },
       "description": "Close view of one long edge of the white base. Small dark numerals with a dot read 335.588.",
       "transcription": "335.588 (dark paint or ink, on the edge of the marble base; transcribed from the scan)",
       "statements": [
