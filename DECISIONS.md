@@ -81,3 +81,16 @@ Source: `evaluation/reviews/agent-review-second-pass.md` (independent reviewer; 
 | Rev | Finding | Change | Evidence |
 |---|---|---|---|
 | SP-15 | CI (2-vCPU runners, software WebGL): the functional/a11y overlay job timed out repeatedly — a back-to-back render loop starved the main thread, so a click could not be dispatched for minutes. Root cause matches first-session-tutor-sim DECISIONS.md D17. | Ported the frame-pacing fix into `src/core/engine.js`: software-WebGL detection, no MSAA + Low preset at 0.5x on software GL, ~5 fps cap, and a loop that keeps rendering to ~50% of the main thread; raised Playwright timeouts (config 300 s, expect 20 s, per-test 300 s) for CI runners. | Full functional + a11y suite 25/25 in a hooks build locally; CI run green after the change. Local GPU behaviour unchanged (detection only matches software renderers). |
+
+## v2.0.0 — visual revamp decisions (plan 09, owner decisions locked 2026-10-28)
+
+| ID | Decision | Rationale |
+|---|---|---|
+| OD-V1 | Calm mode, not freeze: ambient life runs everywhere and slows to ~30 % with dimmed particles during magnifier/measure inspection and cases; `prefers-reduced-motion` stops it entirely | Owner decision 1; keeps learning cues most salient without the frozen v1 look |
+| OD-V2 | The six Smithsonian CC0 scans stay the heroes: each on a proper plinth/case deck with a label card and its own warm spotlight; Poly Haven furniture is dressing only | Owner decision 2; learning cues stay the sharpest element |
+| OD-V3 | No new audio | Owner decision 9; visuals only |
+| OD-V4 | Full-bleed 3D with the existing `#panel` kept as the floating HUD drawer contract; `initFloatingHud` adds Hide-panel + Plain-font toggles | Owner decision 7; all v1 data-testid, `__TEST__` hooks and `html[data-textmode]` parity preserved |
+| OD-V5 | Hotspot glide + free WASD/orbit only while exploring (welcome, wrap-up); during cases and the transfer task the inspection camera and tools own the pointer, and rings hide | Owner decision 8; prevents interaction conflicts and keeps tool hit-testing exact |
+| OD-V6 | Raking light gains mouse aiming (a physical torch) only while the tool is on and no button is held; sliders and keyboard steps unchanged | Owner decision 8; keyboard/text parity per plan 09 §2.3 |
+| OD-V7 | Rolling v2.0.0 release: bump, posters re-rendered from the v2 scene with blank-frame detection + retry, stale posters deleted; no tag from the builder | Owner decision 6 |
+| OD-V8 | In-world hotspot labels are announced via the existing announcer; every hotspot mirrors panel navigation (cases = chapter content, evidence board = panel step) | Plan 09 §2.3 parity rule |

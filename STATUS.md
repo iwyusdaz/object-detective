@@ -70,3 +70,16 @@ Status values: **done**, **done (agent review)** (done, with an agent review sti
 - No hand silhouette in the true-size view. A hand's size varies too much to be a reliable reference, so a ruler, a coin and a card are used instead.
 - No trailer yet. Recording the trailer is left to the orchestrator.
 - The Smithsonian 3d.si.edu website could not be screenshotted (HTTP 403). Proof comes from the API and the Voyager viewer instead.
+
+## v2.0.0 — visual revamp status (plan 09 §4.2)
+
+| Item | Status | Evidence |
+|---|---|---|
+| Art bible (palette, three fonts, mood, asset/ambient/interaction lists) | done | `design/art-bible.md`; fonts in `src/styles/fonts/` + `src/styles/case-fonts.css`; ATTRIBUTION rows + `public/attribution.json` regenerated |
+| Living museum: architecture, cases, windows/rain, archive corner, evidence board | done | `src/scenes/gallery.js` v2 (`_buildWalls/_buildWindows/_buildArchive/_buildEvidenceBoard`) |
+| ModelLibrary placements (chandelier, clock+pendulum, cabinet, bookshelf, desk lamp, vase, lantern) | done | `src/scenes/gallery.js` constructor placements; Poly Haven CC0, manifest + attribution |
+| Ambient life ≥ 5 systems + calm mode + reduced-motion | done | dust volume, pendulum (`addOscillator`), guard torch (25 s sweep), rain scroll, chandelier flicker; `gallery.setCalmMode` wired to inspection state; `MotionPrefs` wiring |
+| In-world interaction (rings, glide, hover tooltip, WASD walk) | done | `src/v2/in-world-interaction.js` (`enabled` gate), `src/app.js` `_initWorld/_updateV2`; torch aiming in `_initWorld` |
+| Compatibility: v1 tests unchanged and passing | done | `tests/functional.spec.js` + `tests/a11y.spec.js` + unit suite (63) re-run against the v2 build; `__TEST__`/`#panel`/`data-textmode` contracts intact |
+| v2.0.0 bump: package.json, showcase.json, posters, docs | done | `poster-2.0.0.webp/.jpg` ≤ 200 KB; `poster-1.0.0.*` removed; `node scripts/validate-showcase.mjs 2.0.0` passes |
+| Headed GPU perf + "is it alive" capture + agent reviews (≥ 5 revisions) | owner / next step | Builder window ended before the review cycle; presets unchanged from v1 measurements plus ~7 static props and 4 low-intensity lights |

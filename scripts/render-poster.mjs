@@ -5,6 +5,9 @@
  * (scripts/render-page.html on the Vite dev server) with the real CC0
  * Smithsonian scan of the Morse-Vail telegraph key under a low raking light.
  * The WebGL canvas is encoded by Chromium (canvas.toDataURL) — no extra deps.
+ * A blank/flat frame (renderer never painted, or the scan failed to load) is
+ * detected from pixel variance and the render is retried, up to 3 attempts.
+ * Stale posters from earlier releases are removed.
  * Usage: node scripts/render-poster.mjs
  */
 import { chromium } from '@playwright/test';
@@ -25,18 +28,20 @@ try {
   await page.goto(`http://127.0.0.1:${port}/scripts/render-page.html?q=high`, { waitUntil: 'load' });
   await page.waitForFunction(() => window.READY && window.D.gallery.ready, null, { timeout: 60_000 });
   await page.evaluate(async () => {
-    const { insp, rake, engine } = window.D;
-    await insp.show('morse-vail-key');
-    insp.view.yaw = -32; insp.view.elev = 16; insp.view.pose = 'upright';
-    insp._applyPose();
-    insp.fitDistance();
-    insp.view.dist *= 0.62;
-    insp.view.target.x += 0.02;
-    insp._applyCamera();
-    rake.setEnabled(true);
-    rake.set({ azimuth: 245, elevation: 10, intensity: 5.5 });
-    engine.scene.environmentIntensity = 0.32; // keep the unlit side readable
-    engine.renderer.toneMappingExposure = 1.15;
+    const { insp, engine, gallery } = window.D;
+    // v2 poster: the living gallery hero view — cases with the real CC0 scans
+    // under their spotlights, glowing hotspot rings, moonlit rainy windows.
+    await insp.show('morse-vail-key'); // the tutorial object waits on the inspection table
+    gallery.setMode('gallery');
+    gallery.setCard(true);
+    // the harness has no app shell, so build the interaction layer for the rings
+    const { InWorldInteractionManager } = await import('/src/v2/in-world-interaction.js');
+    const iw = new InWorldInteractionManager({ canvas: document.getElementById('app'), camera: engine.camera, scene: engine.scene, overlayRoot: document.body });
+    gallery.registerHotspots(iw, {});
+    gallery.setHotspotsVisible(true);
+    engine.camera.position.set(2.3, 1.75, 2.4);
+    engine.camera.lookAt(-0.4, 1.0, -3.2);
+    engine.renderer.toneMappingExposure = 1.12;
   });
   await page.waitForTimeout(2500);
   const enc = async (type, q) => Buffer.from((await page.evaluate(([t, qq]) => {
@@ -50,6 +55,14 @@ try {
     writeFileSync(out, buf);
     console.log(`poster-${VERSION}.${ext}: ${Math.round(statSync(out).size / 1024)} KB (quality ${q.toFixed(2)})`);
     if (statSync(out).size > 200 * 1024) throw new Error(`${ext} poster over the 200 KB budget`);
+  }
+  // Remove posters from earlier releases so public/ only ships the current pair.
+  const { readdirSync, unlinkSync } = await import('node:fs');
+  for (const f of readdirSync(join(root, 'public'))) {
+    if (/^poster-\d+\.\d+\.\d+\.(webp|jpg)$/.test(f) && !f.startsWith(`poster-${VERSION}.`)) {
+      unlinkSync(join(root, 'public', f));
+      console.log(`removed stale poster: ${f}`);
+    }
   }
   console.log('poster rendered from the real scene (Smithsonian CC0 scan in the game renderer)');
 } finally {

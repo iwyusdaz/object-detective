@@ -2,17 +2,18 @@
 
 # The Object Detective
 
-**Play now:** https://immersive-learning-showcase.vercel.app/play/object-detective/ (pending deployment: available once v1.0.0 is pinned in the showcase)
+**Play now:** https://immersive-learning-showcase.vercel.app/play/object-detective/ (pending deployment: available once v2.0.0 is pinned in the showcase)
 
-A draft museum label makes bold claims. You examine **real Smithsonian 3D scans** under raking light, magnify and measure them, corroborate them with the catalog records, and write a corrected label that says what you know and how sure you are.
+A draft museum label makes bold claims. You walk a living museum at night — dust drifting through the spotlight cones, a ticking grandfather clock, rain on the tall windows, a night guard's torch passing the archive doorway — examine **real Smithsonian 3D scans** under a raking torch you aim with the mouse, magnify and measure them, corroborate them with the catalog records, and write a corrected label that says what you know and how sure you are.
 
-![A real Smithsonian 3D scan of the 1844 Morse-Vail telegraph key under a low raking light](public/poster-1.0.0.jpg)
+![The Lantern Museum gallery after hours (fictional): glass display cases with real Smithsonian CC0 scans under warm tungsten spotlights, glowing floor rings marking where to walk, tall windows with moonlight and rain](public/poster-2.0.0.jpg)
 
 | | |
 |---|---|
 | Format | Game: tutorial case + main case, about 35 minutes |
 | Audience | Grades 8–12, first-year undergraduates (history, information literacy), online museum visitors |
 | Built with | three.js 0.186.1, Vite 8, postprocessing + N8AO, Playwright, axe-core, vitest |
+| v2.0.0 scene | Living "night at the museum" gallery (plan 09 §4.2): ambient life with calm mode, in-world hotspot rings with camera glide, WASD walk, Poly Haven CC0 furnishing; art bible in [design/art-bible.md](design/art-bible.md) |
 | Objects | 6 CC0 scans from the Smithsonian National Museum of American History (Open Access) |
 | Framing | The **Lantern Museum** is fictional. Its staff and documents are fictional and labelled as fictional in the app |
 
@@ -75,12 +76,12 @@ npm run dev            # http://localhost:5174
 npm test               # unit tests (fact audit needs data/raw: run scripts/fetch-smithsonian-models.mjs)
 VITE_TEST_HOOKS=1 npm run build && npx playwright test tests/functional.spec.js tests/a11y.spec.js
 npm run build && SLUG=object-detective npx playwright test tests/sub-path.spec.js
-node scripts/validate-showcase.mjs 1.0.0
+node scripts/validate-showcase.mjs 2.0.0
 ```
 Asset pipeline: `scripts/fetch-smithsonian-models.mjs` → `prepare-models.mjs`, `prepare-textures.sh`, `render-views.mjs public/assets/photos`, `render-poster.mjs`, `capture-cc0-proof.mjs`.
 
 ## Next steps
-- Agent reviews and the revisions they produce, then a trailer and the `v1.0.0` tag.
+- v2 agent reviews (visual realism, motion load, cue salience) and the revisions they produce, then a new trailer and the `v2.0.0` tag.
 - Real playtests using `evaluation/human-protocol/`.
 - More cases as data, for example other CC0 NMAH electricity objects.
 

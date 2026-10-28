@@ -1,7 +1,7 @@
 {
   "name": "object-detective",
   "private": true,
-  "version": "1.0.0",
+  "version": "2.0.0",
   "type": "module",
   "description": "A donation arrives with a questionable label. Examine museum objects under raking light, measure and compare them, corroborate with archival records, and write a corrected museum label that states what you know and how sure you are.",
   "engines": {

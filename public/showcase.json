@@ -1,20 +1,29 @@
 {
   "slug": "object-detective",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "title": "The Object Detective",
   "format": "Game",
   "niche": "History, primary-source and research literacy",
   "audience": "Grades 8–12, first-year undergraduates, online museum visitors",
-  "summary": "A draft museum label makes bold claims. Examine real CC0 Smithsonian 3D scans under raking light, magnify and measure them, weigh the catalog records, and write a corrected label that says what you know and how sure you are.",
+  "summary": "A draft museum label makes bold claims. Walk a living night gallery — dust in the spotlight cones, a ticking grandfather clock, rain on the windows — examine real CC0 Smithsonian 3D scans under a raking torch, magnify and measure them, weigh the catalog records, and write a corrected label that says what you know and how sure you are.",
   "playTimeMinutes": 35,
-  "features": ["text-mode", "keyboard", "reduced-motion", "captions", "mobile-supported"],
+  "features": [
+    "text-mode",
+    "keyboard",
+    "reduced-motion",
+    "captions",
+    "mobile-supported"
+  ],
   "contentNotes": [],
   "permissions": [],
   "poster": {
-    "webp": "poster-1.0.0.webp",
-    "jpg": "poster-1.0.0.jpg",
-    "alt": "A real Smithsonian 3D scan of the 1844 Morse-Vail telegraph key on a grey inspection backdrop, lit by a low raking light that throws its lever's shadow across the wooden base"
+    "webp": "poster-2.0.0.webp",
+    "jpg": "poster-2.0.0.jpg",
+    "alt": "The Lantern Museum gallery after hours (fictional): glass display cases with real Smithsonian CC0 scans under warm tungsten spotlights, glowing floor rings marking where to walk, tall windows with moonlight and rain, and a brass-railed wainscoted wall in oxblood and night blue"
   },
   "repoUrl": "https://github.com/iwyusdaz/object-detective",
-  "license": { "content": "CC BY 4.0", "code": "MIT" }
+  "license": {
+    "content": "CC BY 4.0",
+    "code": "MIT"
+  }
 }
