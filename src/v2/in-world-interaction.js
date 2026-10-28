@@ -37,6 +37,9 @@ export class InWorldInteractionManager {
     this.bounds = opts.bounds || [-22, 22, -22, 22];
     this.walkSpeed = opts.walkSpeed ?? 3.8;
     this.reducedMotion = Boolean(opts.reducedMotion);
+    // Gate for modes where another system owns the camera/pointer (inspection
+    // tools, cinematics, text mode). Disabled by the app, not by this module.
+    this.enabled = opts.enabled !== false;
 
     this.raycaster = new THREE.Raycaster();
     this.pointer = new THREE.Vector2();
@@ -87,7 +90,7 @@ export class InWorldInteractionManager {
     if (!this.canvas || typeof window === 'undefined') return;
 
     this.canvas.addEventListener('pointerdown', (e) => {
-      if (e.button !== 0) return;
+      if (!this.enabled || e.button !== 0) return;
       if (document.querySelector('dialog[open]')) return;
       this._dragging = true;
       this._downPos = { x: e.clientX, y: e.clientY };
@@ -120,6 +123,7 @@ export class InWorldInteractionManager {
     });
 
     window.addEventListener('keydown', (e) => {
+      if (!this.enabled) return;
       const tag = document.activeElement?.tagName;
       if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
       if (document.querySelector('dialog[open]')) return;
@@ -179,6 +183,21 @@ export class InWorldInteractionManager {
     this.items.set(meta.id, entry);
     this.pickables.push(object3d);
     return entry;
+  }
+
+  /**
+   * Enable/disable all in-world interaction (pointer, keys, glide, walk).
+   * While disabled the camera and pointer belong to another system (inspection
+   * tools, cinematics, text mode); hover is cleared so no tooltip lingers.
+   */
+  setEnabled(on) {
+    this.enabled = Boolean(on);
+    if (!this.enabled) {
+      this.keys.clear();
+      this.glide = null;
+      this._dragging = false;
+      this._setHovered(null);
+    }
   }
 
   clearInteractives() {
@@ -369,7 +388,7 @@ export class InWorldInteractionManager {
   }
 
   _onHoverMove(e) {
-    if (!this.canvas || e.target !== this.canvas || this.canvas.style.visibility === 'hidden') {
+    if (!this.enabled || !this.canvas || e.target !== this.canvas || this.canvas.style.visibility === 'hidden') {
       this._setHovered(null);
       return;
     }
@@ -382,7 +401,7 @@ export class InWorldInteractionManager {
   }
 
   _onCanvasClick(e) {
-    if (this.canvas.style.visibility === 'hidden') return;
+    if (!this.enabled || this.canvas.style.visibility === 'hidden') return;
     const picked = this._pickAtClient(e.clientX, e.clientY);
     if (!picked) return;
     const { entry, point } = picked;

@@ -29,6 +29,8 @@ import { ToolController } from './app-tools.js';
 import { openHelp } from './ui/help.js';
 import { openDialog, closeDialog } from './a11y/focus.js';
 import { h } from './ui/dom.js';
+import { applyCaseGrade, initFloatingHud } from './v2/cinematic-grade.js';
+import { InWorldInteractionManager } from './v2/in-world-interaction.js';
 
 export const SLUG = 'object-detective';
 window.__SLUG__ = SLUG;
@@ -40,6 +42,7 @@ export class App {
   constructor() {
     document.body.insertAdjacentHTML('afterbegin', '<dialog id="settings-dialog" aria-label="Settings"></dialog><dialog id="progress-dialog" aria-label="My progress"></dialog><dialog id="help-dialog" aria-labelledby="help-h"></dialog><dialog id="restart-dialog" aria-labelledby="restart-h"></dialog>');
     this.shell = new Shell({ slug: SLUG, title: 'The Object Detective — an evening at the Lantern Museum (fictional)', moduleLabels: CHAPTERS, onModuleChange: (i) => this.gotoChapter(i) });
+    initFloatingHud({ slug: SLUG, panel: document.getElementById('panel') });
     this.record = new LearningRecord(SLUG);
     this.motion = new MotionPrefs(SLUG);
     this.keys = new KeyMap(SLUG);
@@ -76,6 +79,7 @@ export class App {
     this.webgl = hasWebGL2();
     if (this.webgl) this._init3D(c);
     else {
+      applyCaseGrade(SLUG, {});
       document.getElementById('viewport').insertAdjacentHTML('beforeend', '<div class="webgl-fallback" data-webgl-fallback role="alert"><p>WebGL is not available in this browser, so the 3D view is off. Every task works in <strong>Text mode</strong>, which is now on.</p></div>');
     }
     this._initDialogs();
@@ -86,7 +90,7 @@ export class App {
     this.shell.on('restart', (btn) => this.confirmRestart(btn));
     this.gotoChapter(this.save.chapter || 0, { resume: true });
     if (__TEST_HOOKS__) {
-      window.__TEST__ = { app: this, engine: this.engine, cases: this.cases, inspection: this.inspection, rake: this.rake, magnifier: this.magnifier, measure: this.measure, gallery: this.gallery, player: this.player, scene: this.engine?.scene };
+      window.__TEST__ = { app: this, engine: this.engine, cases: this.cases, inspection: this.inspection, rake: this.rake, magnifier: this.magnifier, measure: this.measure, gallery: this.gallery, player: this.player, scene: this.engine?.scene, iw: this.iw };
     }
     window.__APP_READY__ = true;
   }
@@ -95,8 +99,10 @@ export class App {
     const canvas = document.getElementById('app');
     this.engine = new Engine(canvas, { preserveDrawingBuffer: new URLSearchParams(location.search).has('poster') });
     this.engine.quality.restore();
+    applyCaseGrade(SLUG, { renderer: this.engine.renderer, scene: this.engine.scene, skyRadius: 400 });
     this.gallery = new Gallery(this.engine.scene, this.engine.renderer, c.textures, c.environment.hdri);
     this.inspection = new Inspection(this.engine, this.models, this.objects);
+    this._initWorld(c);
     this.rake = new RakingLight(this.engine.scene, this.gallery);
     this.magnifier = new Magnifier(this.engine, this.inspection, this.shell.overlays);
     this.measure = new Measure(this.engine, this.inspection);
@@ -114,7 +120,64 @@ export class App {
       captionsOn: () => this.settings?.state.captions !== false,
       inertTargets: () => [this.shell.panel, document.querySelector('.tool-pad'), this.shell.moduleNav, document.querySelector('.app-header, header')] });
     this.cinematics = c.cinematics;
+    this.engine.onUpdate((dt) => this._updateV2(dt));
     this.engine.start();
+  }
+
+  /**
+   * v2 living-museum layer: in-world hotspots with camera glide, WASD walk and
+   * mouse-drag look while exploring; reduced motion wiring; raking light as a
+   * physical torch aimed with the mouse (the panel button stays for parity).
+   */
+  _initWorld(c) {
+    this.gallery.setReducedMotion(this.motion?.reduced);
+    this.motion.onChange((reduced) => this.gallery?.setReducedMotion(reduced));
+    this.iw = new InWorldInteractionManager({
+      canvas: document.getElementById('app'),
+      camera: this.engine.camera,
+      scene: this.engine.scene,
+      overlayRoot: this.shell.overlays,
+      bounds: [-5.5, 5.5, -7.5, 3.5],
+      walkSpeed: 2.2,
+      reducedMotion: this.motion?.reduced,
+      enabled: false,
+    });
+    this.gallery.registerHotspots(this.iw, {
+      onTable: () => announce('Inspection table: the object under the studio light. Your tools work here.'),
+      onCase: (i) => announce(`Display case ${['(left)', '(centre)', '(right)'][i]}: a Lantern Museum artefact (fictional).`),
+      onArchive: () => announce('Archive corner: the catalogue drawers and the reference shelves.'),
+      onBoard: () => announce('Evidence board: your case notes are pinned here (also in the panel).'),
+    });
+    // Torch aim: while the raking light is on, sweeping the mouse over the scene
+    // (no button held) steers the light like a handheld torch. Keyboard/slider
+    // control is unchanged for parity.
+    const canvas = document.getElementById('app');
+    canvas.addEventListener('pointermove', (e) => {
+      if (!this.rake?.on || !this.inInspection() || this.shell.textMode || this.player?.playing) return;
+      if (e.buttons !== 0 || e.target !== canvas) return;
+      const rect = canvas.getBoundingClientRect();
+      const nx = (e.clientX - rect.left) / rect.width;
+      const ny = (e.clientY - rect.top) / rect.height;
+      this.rake.set({ azimuth: Math.round(nx * 360), elevation: Math.round(THREE.MathUtils.lerp(48, 6, Math.min(1, Math.max(0, ny)))) });
+    });
+    this._chapterForIw = this.chapter;
+  }
+
+  /** Per-frame v2 upkeep: ambient life, calm mode, hotspot rings, walk/glide gating. */
+  _updateV2(dt) {
+    if (!this.engine || !this.gallery) return;
+    const exploring = Boolean(this.iw) && !this.inInspection() && !this.shell.textMode
+      && !this.player?.playing && !this.inspection?.cameraLocked;
+    this.gallery.setHotspotsVisible(exploring);
+    this.iw?.setEnabled(exploring);
+    // Calm mode: ambient life slows and dims during focused inspection, off while exploring.
+    this.gallery.setCalmMode(!exploring && this.inInspection());
+    if (this.chapter !== this._chapterForIw) {
+      this._chapterForIw = this.chapter;
+      if (exploring) this.iw?._syncAnglesFromCamera();
+    }
+    this.gallery.update(dt, this.engine.camera);
+    this.iw?.update(dt, performance.now() / 1000);
   }
 
   _initDialogs() {

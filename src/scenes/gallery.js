@@ -10,6 +10,8 @@
 import * as THREE from 'three';
 import { HDRLoader } from 'three/addons/loaders/HDRLoader.js';
 import { assetURL } from '../core/assets.js';
+import { AmbientLifeManager } from '../v2/ambient-life.js';
+import { ModelLibrary } from '../v2/model-placer.js';
 
 export const TABLE_Y = 0.9;
 export const CASE_POS = new THREE.Vector3(0, 1.05, -4.2); // top of the centre plinth
@@ -94,6 +96,32 @@ function textTexture(lines, { w, h, bg, fg, font, firstBold = true }) {
   return t;
 }
 
+/** Streaky rain texture for the window glass (scrolled in _buildLife). */
+function makeRainTexture() {
+  const c = document.createElement('canvas');
+  c.width = 128; c.height = 256;
+  const g = c.getContext('2d');
+  g.clearRect(0, 0, c.width, c.height);
+  g.strokeStyle = 'rgba(200, 216, 232, 0.75)';
+  for (let i = 0; i < 46; i++) {
+    const x = Math.random() * 128;
+    const y = Math.random() * 256;
+    const len = 8 + Math.random() * 34;
+    g.globalAlpha = 0.18 + Math.random() * 0.5;
+    g.lineWidth = Math.random() < 0.2 ? 1.6 : 0.8;
+    g.beginPath();
+    g.moveTo(x, y);
+    g.lineTo(x + 1.5, y + len);
+    g.stroke();
+  }
+  const t = new THREE.CanvasTexture(c);
+  t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  t.repeat.set(2, 2);
+  return t;
+}
+
+export const H_CHAND = 3.6;
+
 export class Gallery {
   constructor(scene, renderer, textures, hdriPath) {
     this.scene = scene;
@@ -109,7 +137,38 @@ export class Gallery {
     this._buildCases();
     this._buildTable();
     this._buildLights();
+    this._buildLife();
     this._loadHDRI(hdriPath);
+    // Poly Haven furniture (async, fails soft if the manifest is unavailable).
+    this.library = new ModelLibrary();
+    this.library.place(this.root, 'Chandelier_01', { position: [0, H_CHAND - 0.05, -2], targetHeight: 1.05, contactShadow: false })
+      .then((m) => { if (m) { m.traverse((c) => { if (c.isMesh && c.material && 'emissiveIntensity' in c.material) c.material.emissiveIntensity = 0.55; }); } })
+      .catch(() => {});
+    this.library.place(this.root, 'vintage_grandfather_clock_01', { position: [-5.45, 0, -3.4], rotationY: Math.PI / 2, targetHeight: 2.05 })
+      .then((m) => { if (m) { this.clock = m; this._buildPendulum(m); } })
+      .catch(() => {});
+    this.library.place(this.root, 'drawer_cabinet', { position: [8.1, 0, -1.9], rotationY: -Math.PI / 2, targetHeight: 1.05 })
+      .then((m) => {
+        if (!m) return;
+        this.cabinet = m;
+        const top = new THREE.Box3().setFromObject(m).max.y;
+        this.library.place(this.root, 'ceramic_vase_01', { position: [8.1, top - 0.02, -1.55], targetHeight: 0.3, contactShadow: false }).catch(() => {});
+        this.library.place(this.root, 'Lantern_01', { position: [8.32, top - 0.02, -2.3], targetHeight: 0.34, contactShadow: false }).catch(() => {});
+      })
+      .catch(() => {});
+    this.library.place(this.root, 'wooden_bookshelf_worn', { position: [8.15, 0, -4.02], targetHeight: 2.1 })
+      .then((m) => { this.bookshelf = m; })
+      .catch(() => {});
+    this.library.place(this.root, 'desk_lamp_arm_01', { position: [-0.58, TABLE_Y - 0.02, -0.3], rotationY: 2.3, targetHeight: 0.42, contactShadow: false })
+      .then((m) => {
+        if (!m) return;
+        this.deskLamp = m;
+        const lamp = new THREE.PointLight('#ffd9a0', 1.6, 1.6, 2);
+        lamp.position.set(-0.45, TABLE_Y + 0.3, -0.1);
+        this.root.add(lamp);
+        this.lampLight = lamp;
+      })
+      .catch(() => {});
     this.setMode('gallery');
   }
 
@@ -136,22 +195,290 @@ export class Gallery {
     ceil.rotation.x = Math.PI / 2;
     ceil.position.set(0, H, -2);
     this.root.add(ceil);
-    const wallDefs = [
-      [W, [0, H / 2, -8], 0], [W, [0, H / 2, 4], Math.PI],
-      [D, [-6, H / 2, -2], Math.PI / 2], [D, [6, H / 2, -2], -Math.PI / 2],
-    ];
-    for (const [w, p, ry] of wallDefs) {
-      const m = new THREE.Mesh(new THREE.PlaneGeometry(w, H), this.wallMat);
+    this.H = H;
+    this._buildWalls();
+    this._buildWainscoting();
+    this._buildWindows();
+    this._buildDoorway();
+    this._buildArchive();
+    this._buildEvidenceBoard();
+  }
+
+  /** Wall planes with real openings: two tall windows (back wall) and a doorway (east wall). */
+  _buildWalls() {
+    const W = 12; const D = 12;
+    const H = this.H;
+    const add = (w, h, p, ry) => {
+      const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), this.wallMat);
       m.position.set(...p);
       m.rotation.y = ry;
       m.receiveShadow = true;
       this.root.add(m);
+      return m;
+    };
+    // back wall z=-8, window openings x in [-4.8,-2.6] and [2.6,4.8], y in [1.1,3.2]
+    add(1.2, H, [-5.4, H / 2, -8], 0);          // far left pier
+    add(5.2, H, [0, H / 2, -8], 0);             // pier between the windows
+    add(1.2, H, [5.4, H / 2, -8], 0);           // far right pier
+    add(2.2, 1.1, [-3.7, 0.55, -8], 0);         // below left window
+    add(2.2, H - 3.2, [-3.7, (H + 3.2) / 2, -8], 0); // above left window
+    add(2.2, 1.1, [3.7, 0.55, -8], 0);
+    add(2.2, H - 3.2, [3.7, (H + 3.2) / 2, -8], 0);
+    // front wall z=4
+    add(W, H, [0, H / 2, 4], Math.PI);
+    // west wall x=-6
+    add(D, H, [-6, H / 2, -2], Math.PI / 2);
+    // east wall x=6 with doorway opening z in [-3.2,-0.8], y in [0,2.4]
+    add(8.8, H, [6, H / 2, 1.6], -Math.PI / 2);       // south of doorway
+    add(1.2, H, [6, H / 2, -3.8], -Math.PI / 2);      // north of doorway
+    add(2.4, H - 2.4, [6, (H + 2.4) / 2, -2], -Math.PI / 2); // above doorway
+  }
+
+  /** Oxblood wainscoting band, dado rail, brass picture rail and skirting on every wall. */
+  _buildWainscoting() {
+    const H = this.H;
+    const wainMat = new THREE.MeshStandardMaterial({ color: '#5B1A1F', roughness: 0.52, metalness: 0.05 });
+    const railMat = new THREE.MeshStandardMaterial({ color: '#B08D57', roughness: 0.35, metalness: 0.75 });
+    const skirtMat = new THREE.MeshStandardMaterial({ color: '#241d18', roughness: 0.6 });
+    const band = (w, pos, ry) => {
+      const g = new THREE.Group();
+      g.rotation.y = ry;
+      g.position.set(...pos);
+      const panel = new THREE.Mesh(new THREE.PlaneGeometry(w, 0.92), wainMat);
+      panel.position.y = 0.58;
+      g.add(panel);
+      const dado = new THREE.Mesh(new THREE.BoxGeometry(w, 0.07, 0.05), railMat);
+      dado.position.set(0, 1.04, 0.01);
+      g.add(dado);
+      const skirt = new THREE.Mesh(new THREE.BoxGeometry(w, 0.14, 0.035), skirtMat);
+      skirt.position.set(0, 0.07, 0.008);
+      g.add(skirt);
+      this.root.add(g);
+    };
+    band(12, [0, 0, -7.98], 0);
+    band(12, [0, 0, 3.98], Math.PI);
+    band(12, [-5.98, 0, -2], Math.PI / 2);
+    band(8.8, [5.98, 0, 1.6], -Math.PI / 2);
+    band(1.2, [5.98, 0, -3.8], -Math.PI / 2);
+    // brass picture rail at 2.6 m, gallery walls only
+    const rail = (w, pos, ry) => {
+      const r = new THREE.Mesh(new THREE.BoxGeometry(w, 0.045, 0.04), railMat);
+      r.position.set(...pos);
+      r.rotation.y = ry;
+      this.root.add(r);
+    };
+    rail(12, [0, 2.6, -7.97], 0);
+    rail(12, [0, 2.6, 3.97], Math.PI);
+    rail(12, [-5.97, 2.6, -2], Math.PI / 2);
+    rail(8.8, [5.97, 2.6, 1.6], -Math.PI / 2);
+  }
+
+  /** Tall north windows: frames, glass, night backdrop, moonlight and animated rain streaks. */
+  _buildWindows() {
+    const glassMat = new THREE.MeshPhysicalMaterial({ color: '#cfd8e2', roughness: 0.08, metalness: 0, transparent: true, opacity: 0.16, envMapIntensity: 1.4, depthWrite: false });
+    const frameMat = new THREE.MeshStandardMaterial({ color: '#3a3129', roughness: 0.5 });
+    const nightMat = new THREE.MeshBasicMaterial({ color: '#1B2433' });
+    this.rain = [];
+    for (const x of [-3.7, 3.7]) {
+      const g = new THREE.Group();
+      g.position.set(x, 0, -8);
+      const back = new THREE.Mesh(new THREE.PlaneGeometry(2.2, 2.1), nightMat);
+      back.position.set(0, 2.15, -0.35);
+      g.add(back);
+      const glass = new THREE.Mesh(new THREE.PlaneGeometry(2.16, 2.06), glassMat);
+      glass.position.set(0, 2.15, -0.02);
+      glass.renderOrder = 9;
+      g.add(glass);
+      for (const [w, h, px, py] of [[2.3, 0.08, 0, 1.1], [2.3, 0.08, 0, 3.2], [0.08, 2.18, -1.12, 2.15], [0.08, 2.18, 1.12, 2.15], [0.05, 2.06, 0, 2.15]]) {
+        const bar = new THREE.Mesh(new THREE.BoxGeometry(w, h, 0.07), frameMat);
+        bar.position.set(px, py, 0);
+        g.add(bar);
+      }
+      // rain streak sheet: scrolling canvas texture just behind the glass
+      const rainTex = makeRainTexture();
+      const rain = new THREE.Mesh(new THREE.PlaneGeometry(2.14, 2.04), new THREE.MeshBasicMaterial({ map: rainTex, transparent: true, opacity: 0.5, depthWrite: false }));
+      rain.position.set(0, 2.15, -0.05);
+      rain.renderOrder = 8;
+      g.add(rain);
+      this.rain.push(rainTex);
+      this.root.add(g);
     }
-    // skirting board
-    const skirtMat = new THREE.MeshStandardMaterial({ color: '#2c2620', roughness: 0.6 });
-    const skirt = new THREE.Mesh(new THREE.BoxGeometry(W, 0.12, 0.02), skirtMat);
-    skirt.position.set(0, 0.06, -7.99);
-    this.root.add(skirt);
+    // moonlight spilling through the windows (no shadow — keeps the light budget low)
+    this.moon = new THREE.DirectionalLight('#9db4d8', 0.55);
+    this.moon.position.set(-1.5, 3.4, -11);
+    this.moon.target.position.set(0.5, 0.4, -3);
+    this.root.add(this.moon, this.moon.target);
+  }
+
+  /** East doorway with architrave; the archive alcove beyond it. */
+  _buildDoorway() {
+    const frameMat = new THREE.MeshStandardMaterial({ color: '#332a23', roughness: 0.55 });
+    const arch = (w, h, d, pos) => {
+      const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), frameMat);
+      m.position.set(...pos);
+      this.root.add(m);
+    };
+    arch(0.14, 2.48, 0.3, [6, 1.24, -3.3]);
+    arch(0.14, 2.48, 0.3, [6, 1.24, -0.7]);
+    arch(0.14, 0.14, 2.74, [6, 2.44, -2]);
+    // door standing open into the archive
+    const door = new THREE.Mesh(new THREE.BoxGeometry(0.05, 2.36, 1.14), new THREE.MeshStandardMaterial({ color: '#4a3526', roughness: 0.5 }));
+    door.position.set(6.35, 1.19, -0.16);
+    door.rotation.y = -1.15;
+    door.castShadow = true;
+    this.root.add(door);
+  }
+
+  /** Archive corner: green storeroom beyond the doorway with its own dim picture light. */
+  _buildArchive() {
+    const H = 2.9;
+    const wall = new THREE.MeshStandardMaterial({ color: '#2F4A3A', roughness: 0.9 });
+    const g = new THREE.Group();
+    const mk = (w, h, pos, ry) => {
+      const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), wall);
+      m.position.set(...pos);
+      m.rotation.y = ry;
+      m.receiveShadow = true;
+      g.add(m);
+    };
+    // alcove spans x 6..9.6, z -4.4..0.4
+    mk(5.2, H, [7.8, H / 2, -4.4], 0);          // north wall
+    mk(4.8, H, [7.8, H / 2, 0.4], Math.PI);     // south wall
+    mk(3.6, H, [9.6, H / 2, -2], -Math.PI / 2); // east end
+    const ceil = new THREE.Mesh(new THREE.PlaneGeometry(4.8, 3.6), new THREE.MeshStandardMaterial({ color: '#26302a', roughness: 0.95 }));
+    ceil.rotation.x = Math.PI / 2;
+    ceil.position.set(7.8, H, -2);
+    g.add(ceil);
+    const skirt = new THREE.Mesh(new THREE.BoxGeometry(5.2, 0.12, 0.03), new THREE.MeshStandardMaterial({ color: '#1d1712', roughness: 0.6 }));
+    skirt.position.set(7.8, 0.06, -4.39);
+    g.add(skirt);
+    this.root.add(g);
+    // archive spots (one over the cabinet, one over the shelf)
+    this.archiveLights = [];
+    for (const [px, tz] of [[8.1, -1.9], [8.1, -4.0]]) {
+      const s = new THREE.SpotLight('#ffd7a8', 7, 4.5, 0.42, 0.7, 2);
+      s.position.set(px, 2.7, tz + 0.8);
+      s.target.position.set(px, 1.0, tz);
+      this.root.add(s, s.target);
+      this.archiveLights.push(s);
+    }
+  }
+
+  /** Cork evidence board beside the archive doorway with pinned cards and red string. */
+  _buildEvidenceBoard() {
+    const g = new THREE.Group();
+    const frame = new THREE.Mesh(new THREE.BoxGeometry(0.06, 1.24, 1.84), new THREE.MeshStandardMaterial({ color: '#3a2c1e', roughness: 0.6 }));
+    frame.position.set(0, 1.72, 0);
+    const cork = new THREE.Mesh(new THREE.PlaneGeometry(1.7, 1.1), new THREE.MeshStandardMaterial({ color: '#a97d4f', roughness: 0.95 }));
+    cork.rotation.y = -Math.PI / 2;
+    cork.position.set(-0.032, 1.72, 0);
+    g.add(frame, cork);
+    const cardMat = new THREE.MeshStandardMaterial({ color: '#f4efe4', roughness: 0.85 });
+    const pinMat = new THREE.MeshStandardMaterial({ color: '#8c2d35', roughness: 0.4 });
+    const cards = [[1.5, 2.1], [1.5, 1.75], [1.9, 1.55], [1.85, 2.0]];
+    for (const [cz, cy] of cards) {
+      const card = new THREE.Mesh(new THREE.PlaneGeometry(0.22, 0.28), cardMat);
+      card.rotation.y = -Math.PI / 2;
+      card.rotation.x = (Math.sin(cz * 7) * 0.06);
+      card.position.set(-0.036, cy, cz);
+      g.add(card);
+      const pin = new THREE.Mesh(new THREE.SphereGeometry(0.012, 8, 8), pinMat);
+      pin.position.set(-0.04, cy + 0.115, cz);
+      g.add(pin);
+    }
+    const stringMat = new THREE.LineBasicMaterial({ color: '#8c2d35' });
+    const pts = cards.map(([cz, cy]) => new THREE.Vector3(-0.04, cy + 0.115, cz));
+    g.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), stringMat));
+    g.position.set(5.97, 0, 1.7);
+    this.root.add(g);
+  }
+
+  /** Ambient life: dust in the spotlight cones, pendulum, guard torch, rain, chandelier flicker. */
+  _buildLife() {
+    this.life = new AmbientLifeManager(this.root, { reducedMotion: false, seed: 47 });
+    // 1. dust motes drifting through the case spotlights
+    this.life.addParticleVolume({ center: [0, 1.9, -4], extents: [8.5, 2.6, 7], count: 130, size: 0.02, opacity: 0.32, color: 0xffe9c4, drift: [0.05, 0.018, 0.035] });
+    // 2. night-guard torch sweeping past the archive doorway every ~25 s
+    const torch = new THREE.Group();
+    const blade = new THREE.Mesh(new THREE.PlaneGeometry(0.5, 1.7), new THREE.MeshBasicMaterial({ color: '#ffcf8a', transparent: true, opacity: 0.0, side: THREE.DoubleSide, depthWrite: false }));
+    blade.position.y = 0.1;
+    const beam = new THREE.SpotLight('#ffc47e', 0, 7, 0.5, 0.8, 2);
+    beam.position.set(0, 0.2, 0);
+    torch.add(blade, beam);
+    torch.position.set(6.7, 1.45, -4.2);
+    this.root.add(torch);
+    this.torch = torch;
+    this.torchBeam = beam;
+    this.torchBlade = blade;
+    this.life.addUpdater((dt, elapsed) => {
+      const period = 25;
+      const t = elapsed % period;
+      const sweep = t < 6 ? Math.sin((t / 6) * Math.PI) : 0; // ~6 s visible pass
+      const z = THREE.MathUtils.lerp(-4.2, 0.2, (t % period) / period);
+      torch.position.z = z;
+      beam.intensity = sweep * 26;
+      beam.target.position.set(5.2, 0.9, z);
+      blade.material.opacity = sweep * 0.22;
+      blade.rotation.y = Math.sin(elapsed * 1.4) * 0.2;
+    });
+    this.root.add(beam.target);
+    // 3. rain scroll + 4. chandelier candle flicker
+    this.flicker = { phase: Math.random() * 10 };
+    this.life.addUpdater((dt, elapsed) => {
+      for (const tex of this.rain || []) tex.offset.y -= dt * 0.55;
+      if (this.chandelierLight) {
+        const f = 0.82 + 0.18 * Math.sin(elapsed * 7.3 + this.flicker.phase) * Math.sin(elapsed * 3.1);
+        this.chandelierLight.intensity = 14 * f;
+      }
+    });
+  }
+
+  /** Procedural brass pendulum hung on the grandfather clock, driven by addOscillator. */
+  _buildPendulum(clock) {
+    const box = new THREE.Box3().setFromObject(clock);
+    const frontX = box.max.x + 0.02;
+    const cx = (box.min.x + box.max.x) / 2;
+    const cz = (box.min.z + box.max.z) / 2;
+    const g = new THREE.Group();
+    g.position.set(frontX - 0.03, box.max.y - 0.42, cz);
+    const rodMat = new THREE.MeshStandardMaterial({ color: '#B08D57', roughness: 0.3, metalness: 0.85 });
+    const rod = new THREE.Mesh(new THREE.CylinderGeometry(0.008, 0.008, 0.62, 8), rodMat);
+    rod.position.y = -0.31;
+    const bob = new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.055, 0.018, 20), rodMat);
+    bob.rotation.x = Math.PI / 2;
+    bob.position.y = -0.6;
+    g.add(rod, bob);
+    this.root.add(g);
+    // top of the pendulum rides just inside the clock case front
+    g.position.x = frontX - 0.06;
+    this.pendulum = g;
+    this.life.addOscillator(g, { axis: 'z', mode: 'rotate', amplitude: 0.09, frequency: 1.0 });
+  }
+
+  /** Register the gallery's in-world hotspots on an InWorldInteractionManager. */
+  registerHotspots(iw, { onCase, onTable, onArchive, onBoard } = {}) {
+    this.hotspotGroups = [];
+    const ring = (pos, opts) => {
+      const g = iw.addHotspotRing(pos, opts);
+      this.hotspotGroups.push(g);
+      return g;
+    };
+    ring([0, 0.02, 1.4], { id: 'hotspot-table', label: 'Inspection table', hint: 'Walk to the inspection table', color: 0xF2B25C,
+      cameraPos: [0, 1.55, 2.6], cameraTarget: [0, 1.0, 0], onClick: () => onTable?.() });
+    const caseNames = ['left', 'centre', 'right'];
+    [-2.4, 0, 2.4].forEach((x, i) => {
+      ring([x, 0.02, -2.9], { id: `hotspot-case-${i}`, label: `Display case (${caseNames[i]})`, hint: 'Walk to the case', color: 0xF2B25C,
+        cameraPos: [x, 1.5, -1.5], cameraTarget: [x, 1.2, -4.2], onClick: () => onCase?.(i) });
+    });
+    ring([7.1, 0.02, -0.9], { id: 'hotspot-archive', label: 'Archive cabinet', hint: 'Walk into the archive corner', color: 0x8FB08D,
+      cameraPos: [6.5, 1.5, 0.1], cameraTarget: [8.1, 0.95, -1.9], onClick: () => onArchive?.() });
+    ring([4.6, 0.02, 1.7], { id: 'hotspot-board', label: 'Evidence board', hint: 'Walk to the evidence board', color: 0xC9743B,
+      cameraPos: [4.1, 1.5, 1.7], cameraTarget: [5.95, 1.7, 1.7], onClick: () => onBoard?.() });
+  }
+
+  /** Show/hide the exploration rings (hidden while the inspection tools own the view). */
+  setHotspotsVisible(on) {
+    for (const g of this.hotspotGroups || []) g.visible = Boolean(on);
   }
 
   _buildCases() {
@@ -218,6 +545,10 @@ export class Gallery {
     this.key.shadow.bias = -0.0004;
     this.key.shadow.normalBias = 0.01;
     this.root.add(this.key, this.key.target);
+    // chandelier candle glow over the centre of the room (flicker lives in _buildLife)
+    this.chandelierLight = new THREE.PointLight('#ffd9a0', 14, 9, 2);
+    this.chandelierLight.position.set(0, 2.95, -2);
+    this.root.add(this.chandelierLight);
   }
 
   /** Flat paper card on the inspection table (the draft label, seen in S1). */
@@ -279,5 +610,25 @@ export class Gallery {
     this.hemi.intensity = mode === 'raking' ? 0.0 : mode === 'inspect' ? 0.12 : 0.25;
     this.key.intensity = mode === 'raking' ? 0 : mode === 'inspect' ? 9 : 4;
     for (const s of this.trackLights) s.intensity = mode === 'gallery' ? 18 : 3;
+    // v2 room lights: warm pools sink while the studio key or raking light owns the cue
+    const warm = { gallery: 1.0, inspect: 0.42, raking: 0.06 }[mode];
+    for (const s of this.archiveLights || []) s.intensity = 7 * warm;
+    if (this.moon) this.moon.intensity = { gallery: 0.55, inspect: 0.3, raking: 0.08 }[mode];
+    if (this.chandelierLight) this.chandelierLight.intensity = 14 * warm;
+    if (this.lampLight) this.lampLight.intensity = 1.6 * warm;
+  }
+
+  /** Advance ambient life (dust, pendulum, torch, rain, flicker) and hotspot pulses. */
+  update(dt, camera = null) {
+    this.life?.update(dt, camera);
+  }
+
+  /** Calm mode: ambient life slows to ~30 % during focused inspection tasks. */
+  setCalmMode(on) {
+    this.life?.setCalmMode(Boolean(on));
+  }
+
+  setReducedMotion(reduced) {
+    this.life?.setReducedMotion(Boolean(reduced));
   }
 }
