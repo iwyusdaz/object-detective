@@ -1,0 +1,65 @@
+{
+  "Chandelier_01": {
+    "id": "Chandelier_01",
+    "file": "assets/models/Chandelier_01-8e78c54c.glb",
+    "name": "Chandelier 01",
+    "authors": "Kirill Sannikov",
+    "source": "https://polyhaven.com/a/Chandelier_01",
+    "license": "CC0 1.0",
+    "sizeKB": 981
+  },
+  "vintage_grandfather_clock_01": {
+    "id": "vintage_grandfather_clock_01",
+    "file": "assets/models/vintage_grandfather_clock_01-7def1189.glb",
+    "name": "Vintage Grandfather Clock 01",
+    "authors": "Yann Kervran, James Ray Cock",
+    "source": "https://polyhaven.com/a/vintage_grandfather_clock_01",
+    "license": "CC0 1.0",
+    "sizeKB": 535
+  },
+  "wooden_bookshelf_worn": {
+    "id": "wooden_bookshelf_worn",
+    "file": "assets/models/wooden_bookshelf_worn-5e5f5d85.glb",
+    "name": "Wooden Bookshelf Worn",
+    "authors": "Ulan Cabanilla",
+    "source": "https://polyhaven.com/a/wooden_bookshelf_worn",
+    "license": "CC0 1.0",
+    "sizeKB": 414
+  },
+  "drawer_cabinet": {
+    "id": "drawer_cabinet",
+    "file": "assets/models/drawer_cabinet-c30400f5.glb",
+    "name": "Drawer Cabinet",
+    "authors": "Ulan Cabanilla",
+    "source": "https://polyhaven.com/a/drawer_cabinet",
+    "license": "CC0 1.0",
+    "sizeKB": 858
+  },
+  "desk_lamp_arm_01": {
+    "id": "desk_lamp_arm_01",
+    "file": "assets/models/desk_lamp_arm_01-d6ce3ec9.glb",
+    "name": "Desk Lamp Arm 01",
+    "authors": "Yann Kervran, Kuutti Siitonen",
+    "source": "https://polyhaven.com/a/desk_lamp_arm_01",
+    "license": "CC0 1.0",
+    "sizeKB": 867
+  },
+  "ceramic_vase_01": {
+    "id": "ceramic_vase_01",
+    "file": "assets/models/ceramic_vase_01-01415e45.glb",
+    "name": "Ceramic Vase 01",
+    "authors": "James Ray Cock",
+    "source": "https://polyhaven.com/a/ceramic_vase_01",
+    "license": "CC0 1.0",
+    "sizeKB": 300
+  },
+  "Lantern_01": {
+    "id": "Lantern_01",
+    "file": "assets/models/Lantern_01-65fb1f00.glb",
+    "name": "Lantern 01",
+    "authors": "Rajil Jose Macatangay",
+    "source": "https://polyhaven.com/a/Lantern_01",
+    "license": "CC0 1.0",
+    "sizeKB": 999
+  }
+}

@@ -4,6 +4,8 @@
  * @module main
  */
 import './styles/site.css';
+import './styles/case-fonts.css';
+import './v2/hud-shell.css';
 import { App } from './app.js';
 
 const app = new App();

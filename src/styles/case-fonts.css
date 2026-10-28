@@ -1,0 +1,60 @@
+/**
+ * Self-hosted case typography for object-detective (v2.0.0).
+ * Roles:
+ *   --font-display : headings, titles, hero banners (Cormorant Garamond)
+ *   --font-body    : body copy, instructions, controls (Source Serif 4)
+ *   --font-accent  : in-world signage, tags, telemetry, notes (Special Elite)
+ * Accessibility:
+ *   html[data-plain-font="on"] switches all three roles to clean system/hyperlegible sans.
+ */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('./fonts/cormorant-garamond-latin-600-normal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('./fonts/cormorant-garamond-latin-700-normal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./fonts/source-serif-4-latin-400-normal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('./fonts/source-serif-4-latin-600-normal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Special Elite';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./fonts/special-elite-latin-400-normal.woff2') format('woff2');
+}
+
+:root {
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Source Serif 4', Georgia, serif;
+  --font-accent: 'Special Elite', ui-monospace, monospace;
+}
+
+html[data-plain-font="on"] {
+  --font-display: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-accent: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}

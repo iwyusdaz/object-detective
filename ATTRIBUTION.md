@@ -19,6 +19,16 @@ All 3D scans are real Smithsonian Open Access objects whose records AND 3D media
 | Texture: Wood Floor 043 (1K) | ambientCG (Lennart Demes) | https://ambientcg.com/view?id=WoodFloor043 | CC0 1.0 | Colour, NormalGL, Roughness maps resized to 1024 px, re-encoded JPEG |
 | Texture: Plaster 001 (1K) | ambientCG (Lennart Demes) | https://ambientcg.com/view?id=Plaster001 | CC0 1.0 | Colour, NormalGL, Roughness maps resized to 512 px, re-encoded JPEG; tinted in-engine |
 | Texture: Fabric 026 (1K) | ambientCG (Lennart Demes) | https://ambientcg.com/view?id=Fabric026 | CC0 1.0 | Colour, NormalGL, Roughness maps resized to 512 px, re-encoded JPEG; tinted in-engine |
+| 3D model: Chandelier 01 | Kirill Sannikov | https://polyhaven.com/a/Chandelier_01 | CC0 1.0 | GLB re-encoded (resized textures); ceiling light prop |
+| 3D model: Vintage Grandfather Clock 01 | Yann Kervran, James Ray Cock | https://polyhaven.com/a/vintage_grandfather_clock_01 | CC0 1.0 | GLB re-encoded; pendulum animated in-engine |
+| 3D model: Wooden Bookshelf Worn | Ulan Cabanilla | https://polyhaven.com/a/wooden_bookshelf_worn | CC0 1.0 | GLB re-encoded; archive corner shelving |
+| 3D model: Drawer Cabinet | Ulan Cabanilla | https://polyhaven.com/a/drawer_cabinet | CC0 1.0 | GLB re-encoded; archive corner cabinet |
+| 3D model: Desk Lamp Arm 01 | Yann Kervran, Kuutti Siitonen | https://polyhaven.com/a/desk_lamp_arm_01 | CC0 1.0 | GLB re-encoded; inspection desk lamp (lit) |
+| 3D model: Ceramic Vase 01 | James Ray Cock | https://polyhaven.com/a/ceramic_vase_01 | CC0 1.0 | GLB re-encoded; shelf dressing |
+| 3D model: Lantern 01 | Rajil Jose Macatangay | https://polyhaven.com/a/Lantern_01 | CC0 1.0 | GLB re-encoded; shelf dressing |
+| Font: Cormorant Garamond (600, 700) | Christian Thalmann (The Cormorant Project) | https://github.com/CatharsisFonts/Cormorant | SIL Open Font License 1.1 | Subset to Latin, WOFF2, self-hosted |
+| Font: Source Serif 4 (400, 600) | Frank Grießhammer (Adobe) | https://github.com/adobe-fonts/source-serif | SIL Open Font License 1.1 | Subset to Latin, WOFF2, self-hosted |
+| Font: Special Elite (400) | Astigmatic (AOETI) | https://fonts.google.com/specimen/Special+Elite/about | Apache License 2.0 | Subset to Latin, WOFF2, self-hosted |
 | Text-mode photo sets (public/assets/photos) | Rendered by this project from the CC0 scans above | scripts/render-views.mjs | CC0 1.0 (derived from CC0 scans) | Renders of the scans in the game's inspection lighting |
 | Draco and Basis decoders | Google (Draco), Binomial (Basis Universal), via three.js 0.186.1 | https://github.com/mrdoob/three.js/tree/r186/examples/jsm/libs | Apache-2.0 | Copied unmodified into dist/decoders at build time |
 | Gallery architecture, display cases, inspection table, sweep, reference ruler/coin/card models, favicon | Built for this project (procedural) | This repository | MIT (code) / CC BY 4.0 (content) | Original |

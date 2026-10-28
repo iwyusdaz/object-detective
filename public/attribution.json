@@ -77,6 +77,76 @@
     "changes": "Colour, NormalGL, Roughness maps resized to 512 px, re-encoded JPEG; tinted in-engine"
   },
   {
+    "asset": "3D model: Chandelier 01",
+    "author": "Kirill Sannikov",
+    "source": "https://polyhaven.com/a/Chandelier_01",
+    "license": "CC0 1.0",
+    "changes": "GLB re-encoded (resized textures); ceiling light prop"
+  },
+  {
+    "asset": "3D model: Vintage Grandfather Clock 01",
+    "author": "Yann Kervran, James Ray Cock",
+    "source": "https://polyhaven.com/a/vintage_grandfather_clock_01",
+    "license": "CC0 1.0",
+    "changes": "GLB re-encoded; pendulum animated in-engine"
+  },
+  {
+    "asset": "3D model: Wooden Bookshelf Worn",
+    "author": "Ulan Cabanilla",
+    "source": "https://polyhaven.com/a/wooden_bookshelf_worn",
+    "license": "CC0 1.0",
+    "changes": "GLB re-encoded; archive corner shelving"
+  },
+  {
+    "asset": "3D model: Drawer Cabinet",
+    "author": "Ulan Cabanilla",
+    "source": "https://polyhaven.com/a/drawer_cabinet",
+    "license": "CC0 1.0",
+    "changes": "GLB re-encoded; archive corner cabinet"
+  },
+  {
+    "asset": "3D model: Desk Lamp Arm 01",
+    "author": "Yann Kervran, Kuutti Siitonen",
+    "source": "https://polyhaven.com/a/desk_lamp_arm_01",
+    "license": "CC0 1.0",
+    "changes": "GLB re-encoded; inspection desk lamp (lit)"
+  },
+  {
+    "asset": "3D model: Ceramic Vase 01",
+    "author": "James Ray Cock",
+    "source": "https://polyhaven.com/a/ceramic_vase_01",
+    "license": "CC0 1.0",
+    "changes": "GLB re-encoded; shelf dressing"
+  },
+  {
+    "asset": "3D model: Lantern 01",
+    "author": "Rajil Jose Macatangay",
+    "source": "https://polyhaven.com/a/Lantern_01",
+    "license": "CC0 1.0",
+    "changes": "GLB re-encoded; shelf dressing"
+  },
+  {
+    "asset": "Font: Cormorant Garamond (600, 700)",
+    "author": "Christian Thalmann (The Cormorant Project)",
+    "source": "https://github.com/CatharsisFonts/Cormorant",
+    "license": "SIL Open Font License 1.1",
+    "changes": "Subset to Latin, WOFF2, self-hosted"
+  },
+  {
+    "asset": "Font: Source Serif 4 (400, 600)",
+    "author": "Frank Grießhammer (Adobe)",
+    "source": "https://github.com/adobe-fonts/source-serif",
+    "license": "SIL Open Font License 1.1",
+    "changes": "Subset to Latin, WOFF2, self-hosted"
+  },
+  {
+    "asset": "Font: Special Elite (400)",
+    "author": "Astigmatic (AOETI)",
+    "source": "https://fonts.google.com/specimen/Special+Elite/about",
+    "license": "Apache License 2.0",
+    "changes": "Subset to Latin, WOFF2, self-hosted"
+  },
+  {
     "asset": "Text-mode photo sets (public/assets/photos)",
     "author": "Rendered by this project from the CC0 scans above",
     "source": "scripts/render-views.mjs",
