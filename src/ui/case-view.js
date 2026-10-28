@@ -146,6 +146,8 @@ export class CaseView {
         card.appendChild(h('p', {}, 'The camera has moved to this spot. Use the tools, then record what you see.'));
         card.appendChild(h('button', { type: 'button', class: 'primary', onclick: () => {
           // A tool counts only if it reveals this mark now (lens over it, light low, right side up).
+          // Judged synchronously on the visible state: gotoHotspot has already
+          // settled any in-flight object switch before announcing the spot.
           const active = this.hooks.activeTools(f.objectId, f.hotspot);
           if (active.has(f.tool)) { tryDiscover(f.tool); return; }
           tryDiscover([...active].find((t) => t !== 'view') || 'view', this.hooks.whyNotRevealed?.(f.objectId, f.hotspot, f.tool));

@@ -83,7 +83,20 @@ export class Inspection {
   }
 
   /** Show one object (or two for compare). */
-  async show(ids) {
+  show(ids) {
+    const run = this._showInner(ids);
+    // Track the in-flight switch so actions clicked mid-load (e.g. Record) can
+    // wait for the staged object instead of acting on the previous one.
+    this._staging = run;
+    return run;
+  }
+
+  /** Resolves once any in-flight object switch has landed. Never rejects. */
+  async whenStaged() {
+    try { await this._staging; } catch { /* a failed load must not hang the learner */ }
+  }
+
+  async _showInner(ids) {
     const list = Array.isArray(ids) ? ids : [ids];
     const models = await Promise.all(list.map((id) => this.load(id)));
     for (const s of this.slots) this.stage.remove(s.holder);

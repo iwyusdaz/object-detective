@@ -32,6 +32,26 @@ export class ToolPad {
 
   k(id) { return KeyMap.pretty(this.api.keys.map[id]); }
 
+  /**
+   * Sync the raking sliders + outputs in place (agent review V2-VIS-4): the
+   * torch-aim pointermove would otherwise leave the pad showing a stale
+   * direction/height while the state has moved. No re-render per move — the
+   * values update on the live controls only.
+   */
+  syncRaking(raking = {}) {
+    const rows = { azimuth: ['rake-az', '°'], elevation: ['rake-el', '°'], intensity: ['rake-in', ''] };
+    for (const [key, [id, unit]] of Object.entries(rows)) {
+      if (!(key in raking)) continue;
+      const input = this.root.querySelector(`input#${id}`);
+      if (input && +input.value !== raking[key]) {
+        input.value = raking[key];
+        input.setAttribute('value', String(raking[key]));
+      }
+      const out = this.root.querySelector(`output[for="${id}"]`);
+      if (out) out.textContent = `${raking[key]}${unit}`;
+    }
+  }
+
   render({ compareOptions = [], compareId = null, raking = { azimuth: 300, elevation: 12, intensity: 3.2 }, rakingOn = false, magOn = false, magZoom = 4, trueSize = false, pointMeasure = false, measureText = '', trueSizeText = '' } = {}) {
     this._lastArgs = arguments[0] || {};
     if (this.collapsed === null) this.collapsed = window.matchMedia('(max-width: 760px)').matches;

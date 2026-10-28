@@ -52,6 +52,22 @@ html[data-drawer-collapsed="true"] .dlg-panel {
   transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.22s ease;
 }
 
+/* V2-INT-2: the collapsed drawer must also give its WIDTH back to the 3D view.
+   Overlay the panel on the stage instead of sharing flex space, so the viewport
+   (and #app canvas) grow to full bleed; the app calls engine.resize() on the
+   drawer toggle. Text mode keeps the panel in flow — the canvas is hidden
+   there and the panel is the whole interface. */
+html[data-drawer-collapsed="true"]:not([data-textmode="on"]) #task-panel,
+html[data-drawer-collapsed="true"]:not([data-textmode="on"]) #panel,
+html[data-drawer-collapsed="true"]:not([data-textmode="on"]) #session-panel,
+html[data-drawer-collapsed="true"]:not([data-textmode="on"]) .course-panel,
+html[data-drawer-collapsed="true"]:not([data-textmode="on"]) .dlg-panel {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
 #task-panel,
 #panel,
 #session-panel,

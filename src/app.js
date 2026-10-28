@@ -17,7 +17,7 @@ import { LearningRecord } from './learning/record.js';
 import { MotionPrefs } from './a11y/motion.js';
 import { announce } from './a11y/announcer.js';
 import { ShotPlayer } from './cinematics/shot-player.js';
-import { Gallery } from './scenes/gallery.js';
+import { Gallery, CASE_DISPLAYS } from './scenes/gallery.js';
 import { Inspection } from './scenes/inspection.js';
 import { RakingLight } from './systems/raking-light.js';
 import { Magnifier } from './systems/magnifier.js';
@@ -42,7 +42,9 @@ export class App {
   constructor() {
     document.body.insertAdjacentHTML('afterbegin', '<dialog id="settings-dialog" aria-label="Settings"></dialog><dialog id="progress-dialog" aria-label="My progress"></dialog><dialog id="help-dialog" aria-labelledby="help-h"></dialog><dialog id="restart-dialog" aria-labelledby="restart-h"></dialog>');
     this.shell = new Shell({ slug: SLUG, title: 'The Object Detective — an evening at the Lantern Museum (fictional)', moduleLabels: CHAPTERS, onModuleChange: (i) => this.gotoChapter(i) });
-    initFloatingHud({ slug: SLUG, panel: document.getElementById('panel') });
+    // V2-INT-2: collapsing the HUD drawer hands its width back to the 3D view
+    // (the CSS releases the panel from flex flow), so the canvas must be re-measured.
+    initFloatingHud({ slug: SLUG, panel: document.getElementById('panel'), onDrawerChange: () => this.engine?.resize() });
     this.record = new LearningRecord(SLUG);
     this.motion = new MotionPrefs(SLUG);
     this.keys = new KeyMap(SLUG);
@@ -102,6 +104,10 @@ export class App {
     applyCaseGrade(SLUG, { renderer: this.engine.renderer, scene: this.engine.scene, skyRadius: 400 });
     this.gallery = new Gallery(this.engine.scene, this.engine.renderer, c.textures, c.environment.hdri);
     this.inspection = new Inspection(this.engine, this.models, this.objects);
+    // Explore-mode dressing (agent review V2-VIS-1): each display case gets a
+    // copy of one of the Smithsonian CC0 scans + a Special Elite label card.
+    // The inspection cache loader is reused so no GLB downloads twice.
+    this.gallery.dressCases(CASE_DISPLAYS, (id) => this.inspection.load(id));
     this._initWorld(c);
     this.rake = new RakingLight(this.engine.scene, this.gallery);
     this.magnifier = new Magnifier(this.engine, this.inspection, this.shell.overlays);
@@ -159,6 +165,9 @@ export class App {
       const nx = (e.clientX - rect.left) / rect.width;
       const ny = (e.clientY - rect.top) / rect.height;
       this.rake.set({ azimuth: Math.round(nx * 360), elevation: Math.round(THREE.MathUtils.lerp(48, 6, Math.min(1, Math.max(0, ny)))) });
+      // Keep the pad's sliders/outputs honest while the torch is mouse-aimed
+      // (agent review V2-VIS-4) — an in-place sync, not a pad re-render per move.
+      this.tools?.pad?.syncRaking?.(this.rake.state);
     });
     this._chapterForIw = this.chapter;
   }
@@ -278,6 +287,10 @@ export class App {
       showObject: (id) => this._stage(id),
       gotoHotspot: async (id, hs) => {
         if (!this.engine || this.shell.textMode) return;
+        // A POI can be clicked while a just-chosen object is still loading:
+        // settle that switch first so the camera, announce and lens all describe
+        // the staged object (main-case 3D flake; the announce must be truthful).
+        await this.inspection.whenStaged();
         if (this.inspection.primary?.id !== id || this.inspection.slots.length !== 1) await this.inspection.show(id);
         this.inspection.hotspot(id, hs);
         this.tools.lensToHotspot();

@@ -32,6 +32,10 @@ try {
     // v2 poster: the living gallery hero view — cases with the real CC0 scans
     // under their spotlights, glowing hotspot rings, moonlit rainy windows.
     await insp.show('morse-vail-key'); // the tutorial object waits on the inspection table
+    // Dress the display cases exactly like the game does (agent review V2-VIS-1)
+    // so the poster and its alt text stay honest about "cases with artefacts".
+    const { CASE_DISPLAYS } = await import('/src/scenes/gallery.js');
+    gallery.dressCases(CASE_DISPLAYS, (id) => insp.load(id));
     gallery.setMode('gallery');
     gallery.setCard(true);
     // the harness has no app shell, so build the interaction layer for the rings
@@ -42,6 +46,10 @@ try {
     engine.camera.position.set(2.3, 1.75, 2.4);
     engine.camera.lookAt(-0.4, 1.0, -3.2);
     engine.renderer.toneMappingExposure = 1.12;
+  });
+  // The case scans load asynchronously; wait (bounded) for all three artefacts.
+  await page.waitForFunction(() => (window.D.gallery._caseArtefacts || []).filter(Boolean).length === 3, null, { timeout: 30_000 }).catch(() => {
+    console.warn('warning: case dressing not confirmed before the poster render');
   });
   await page.waitForTimeout(2500);
   const enc = async (type, q) => Buffer.from((await page.evaluate(([t, qq]) => {

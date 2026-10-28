@@ -122,6 +122,17 @@ function makeRainTexture() {
 
 export const H_CHAND = 3.6;
 
+/**
+ * The three CC0 Smithsonian scans displayed in the gallery cases during
+ * explore mode (agent review V2-VIS-1): the same real CC0 files the learner
+ * inspects on the table, dressed as Lantern Museum (fictional) displays.
+ */
+export const CASE_DISPLAYS = [
+  { id: 'henry-trough-battery', title: 'Henry trough battery' },
+  { id: 'chester-relay', title: 'Chester telegraph relay' },
+  { id: 'davenport-motor', title: 'Davenport electric motor' },
+];
+
 export class Gallery {
   constructor(scene, renderer, textures, hdriPath) {
     this.scene = scene;
@@ -141,8 +152,10 @@ export class Gallery {
     this._loadHDRI(hdriPath);
     // Poly Haven furniture (async, fails soft if the manifest is unavailable).
     this.library = new ModelLibrary();
-    this.library.place(this.root, 'Chandelier_01', { position: [0, H_CHAND - 0.05, -2], targetHeight: 1.05, contactShadow: false })
-      .then((m) => { if (m) { m.traverse((c) => { if (c.isMesh && c.material && 'emissiveIntensity' in c.material) c.material.emissiveIntensity = 0.55; }); } })
+    // Chandelier 0.2 m lower + stronger candle emissive so the prop itself reads
+    // against the near-black ceiling, not only its light pool (agent review V2-VIS-5).
+    this.library.place(this.root, 'Chandelier_01', { position: [0, H_CHAND - 0.25, -2], targetHeight: 1.05, contactShadow: false })
+      .then((m) => { if (m) { m.traverse((c) => { if (c.isMesh && c.material && 'emissiveIntensity' in c.material) c.material.emissiveIntensity = 0.9; }); } })
       .catch(() => {});
     this.library.place(this.root, 'vintage_grandfather_clock_01', { position: [-5.45, 0, -3.4], rotationY: Math.PI / 2, targetHeight: 2.05 })
       .then((m) => { if (m) { this.clock = m; this._buildPendulum(m); } })
@@ -375,7 +388,11 @@ export class Gallery {
     g.add(frame, cork);
     const cardMat = new THREE.MeshStandardMaterial({ color: '#f4efe4', roughness: 0.85 });
     const pinMat = new THREE.MeshStandardMaterial({ color: '#8c2d35', roughness: 0.4 });
-    const cards = [[1.5, 2.1], [1.5, 1.75], [1.9, 1.55], [1.85, 2.0]];
+    // Card offsets are LOCAL to the group (which sits at z = 1.7): [cz, cy] pairs
+    // must land on the cork, which spans local z ±0.55, y 1.17..2.27. The old
+    // values (cz 1.5–1.9) placed the cards 1.5+ m off the board in world space
+    // (agent review V2-VIS-2).
+    const cards = [[-0.38, 2.0], [0.06, 1.82], [0.36, 1.54], [-0.06, 2.12]];
     for (const [cz, cy] of cards) {
       const card = new THREE.Mesh(new THREE.PlaneGeometry(0.22, 0.28), cardMat);
       card.rotation.y = -Math.PI / 2;
@@ -471,7 +488,10 @@ export class Gallery {
         cameraPos: [x, 1.5, -1.5], cameraTarget: [x, 1.2, -4.2], onClick: () => onCase?.(i) });
     });
     ring([7.1, 0.02, -0.9], { id: 'hotspot-archive', label: 'Archive cabinet', hint: 'Walk into the archive corner', color: 0x8FB08D,
-      cameraPos: [6.5, 1.5, 0.1], cameraTarget: [8.1, 0.95, -1.9], onClick: () => onArchive?.() });
+      // Arrival pose inside the doorway mouth: the old [6.5, 1.5, 0.1] framed the
+      // open door slab (agent review V2-INT-1); from [6.9, 1.5, -1.2] the sightline
+      // to the cabinet/bookshelf corner clears the leaf.
+      cameraPos: [6.9, 1.5, -1.2], cameraTarget: [8.1, 0.95, -1.9], onClick: () => onArchive?.() });
     ring([4.6, 0.02, 1.7], { id: 'hotspot-board', label: 'Evidence board', hint: 'Walk to the evidence board', color: 0xC9743B,
       cameraPos: [4.1, 1.5, 1.7], cameraTarget: [5.95, 1.7, 1.7], onClick: () => onBoard?.() });
   }
@@ -571,6 +591,10 @@ export class Gallery {
    */
   showInCase(model, labelText) {
     if (this._caseGroup) { this.root.remove(this._caseGroup); this._caseGroup = null; }
+    // The reveal shares the centre case deck with the explore-mode display:
+    // tuck the dressed artefact away while the learner's labelled copy is up
+    // and restore it when the reveal clears (agent review V2-VIS-1).
+    if (this._caseArtefacts?.[1]) this._caseArtefacts[1].visible = !model;
     if (!model) return;
     const g = new THREE.Group();
     const copy = model.clone(true);
@@ -593,6 +617,90 @@ export class Gallery {
     g.userData.objectSize = size;
     this._caseGroup = g;
     this.root.add(g);
+  }
+
+  /** Small Special Elite label card on a case front (canvas texture). */
+  _labelCard(title) {
+    const c = document.createElement('canvas');
+    c.width = 512; c.height = 320;
+    const draw = () => {
+      const g = c.getContext('2d');
+      g.fillStyle = '#f1ead9';
+      g.fillRect(0, 0, c.width, c.height);
+      g.strokeStyle = '#8a7a5f';
+      g.lineWidth = 6;
+      g.strokeRect(10, 10, c.width - 20, c.height - 20);
+      g.fillStyle = '#241d15';
+      g.textAlign = 'center';
+      g.textBaseline = 'top';
+      let y = 52;
+      for (const line of wrapText(String(title || '').toUpperCase(), 17).slice(0, 3)) {
+        g.font = '46px "Special Elite", Georgia, serif';
+        g.fillText(line, c.width / 2, y);
+        y += 56;
+      }
+      g.font = 'italic 26px Georgia, serif';
+      g.fillText('Lantern Museum (fictional)', c.width / 2, Math.min(y + 20, c.height - 58));
+    };
+    draw();
+    const t = new THREE.CanvasTexture(c);
+    t.colorSpace = THREE.SRGBColorSpace;
+    t.anisotropy = 4;
+    // Special Elite lazy-loads on first use; redraw once the face is in so the
+    // card is set in the accent font, not the Georgia fallback.
+    if (document.fonts?.load) {
+      document.fonts.load('46px "Special Elite"').then((faces) => {
+        if (faces.length) { draw(); t.needsUpdate = true; }
+      }).catch(() => { /* fallback serif stays */ });
+    }
+    return t;
+  }
+
+  /**
+   * Dress the three display cases for explore mode (agent review V2-VIS-1):
+   * a copy of one of the Smithsonian CC0 scans on each felt deck plus a small
+   * Special Elite label card on the case front. `load(id)` resolves a scan
+   * group (pass the inspection cache's loader so no GLB is fetched twice).
+   * Labels frame the displays as Lantern Museum (fictional) — the artefacts
+   * are the same real CC0 scans shown under the studio light, and the cards
+   * claim no new realness beyond that.
+   * @param {{id: string, title: string}[]} entries  one per case (left, centre, right)
+   * @param {(id: string) => Promise<THREE.Object3D>} [load]
+   */
+  dressCases(entries, load) {
+    if (!this.cases?.length || !Array.isArray(entries)) return;
+    this._caseArtefacts = this._caseArtefacts || [];
+    entries.forEach((entry, i) => {
+      const caseGroup = this.cases[i];
+      if (!caseGroup || !entry || this._caseArtefacts[i]) return;
+      const card = new THREE.Mesh(
+        new THREE.PlaneGeometry(0.3, 0.19),
+        new THREE.MeshStandardMaterial({ map: this._labelCard(entry.title), roughness: 0.85 }),
+      );
+      card.position.set(0, 0.74, 0.403); // plinth front face (0.8 m deep), below the glass
+      card.rotation.x = -0.03;
+      caseGroup.add(card);
+      if (!load) return;
+      load(entry.id).then((model) => {
+        if (!model || this._caseArtefacts[i]) return;
+        const copy = model.clone(true);
+        copy.traverse((o) => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
+        const box = new THREE.Box3().setFromObject(copy);
+        const size = box.getSize(new THREE.Vector3());
+        const centre = box.getCenter(new THREE.Vector3());
+        // Fit inside the 0.78 m glass cube (0.6 m tall interior); true scan
+        // proportions, scaled down only when a piece exceeds the case.
+        const s = Math.min(0.34 / Math.max(size.x, size.y, size.z, 1e-4), 1);
+        copy.scale.setScalar(s);
+        copy.position.set(-centre.x * s, -box.min.y * s, -centre.z * s);
+        const holder = new THREE.Group();
+        holder.add(copy);
+        holder.position.set(0, CASE_POS.y + 0.012, 0); // felt deck top
+        holder.rotation.y = -0.3;
+        caseGroup.add(holder);
+        this._caseArtefacts[i] = holder;
+      }).catch(() => { /* fail soft: an empty case stays lit and labelled */ });
+    });
   }
 
   setShadowSize(size) {

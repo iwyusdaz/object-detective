@@ -43,6 +43,13 @@ export async function solveCase(page, caseId, { text = false, wrongClaim = null 
       if (text) {
         await page.locator('.look-actions button', { hasText: LOOK[f.tool] }).click();
       } else {
+        // A POI clicked right after choosing an object can land mid-load: wait
+        // until the staged object is on the table and the camera has actually
+        // moved to this spot ("Camera moved to:" announce state) before recording.
+        await page.waitForFunction(([oid, hid]) => {
+          const i = window.__TEST__?.inspection;
+          return i?.primary?.id === oid && i?.view?.hotspot === hid;
+        }, [f.objectId, f.hotspot.id], { timeout: 30_000 });
         await use3DTool(page, f.tool);
         await page.getByRole('button', { name: 'Record what I see' }).click();
         if (TOGGLE_KEY[f.tool]) await page.keyboard.press(TOGGLE_KEY[f.tool]); // tool off again

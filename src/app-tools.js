@@ -55,7 +55,13 @@ export class ToolController {
       toggleTrueSize: (on) => this.setTrueSize(on),
       setCompare: (id) => this.setCompare(id),
     });
-    magnifier.onHiRes = (ok) => { if (ok) announce('Sharper 4096-pixel scan texture loaded for the magnifier.'); };
+    magnifier.onHiRes = (ok) => {
+      if (ok) announce('Sharper 4096-pixel scan texture loaded for the magnifier.');
+      // The hi-res swap re-frames the camera (Inspection._swapModel -> _applyCamera),
+      // which can shift the mark's screen position after the lens was placed on the
+      // base model's projection — keep the lens on the current POI's mark.
+      this.lensToHotspot();
+    };
     this._initInput();
     inspection.onChange = () => { if (this.trueSize) this._layoutRefs(); };
   }
