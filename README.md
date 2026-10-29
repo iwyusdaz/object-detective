@@ -2,11 +2,10 @@
 
 # The Object Detective
 
-**Play now:** https://immersive-learning-showcase.vercel.app/play/object-detective/ (pending deployment: available once v2.0.0 is pinned in the showcase)
-
+**Play now:** https://immersive-learning-showcase.vercel.app/play/object-detective/
 A draft museum label makes bold claims. You walk a living museum at night — dust drifting through the spotlight cones, a ticking grandfather clock, rain on the tall windows, a night guard's torch passing the archive doorway — examine **real Smithsonian 3D scans** under a raking torch you aim with the mouse, magnify and measure them, corroborate them with the catalog records, and write a corrected label that says what you know and how sure you are.
 
-![The Lantern Museum gallery after hours (fictional): glass display cases with real Smithsonian CC0 scans under warm tungsten spotlights, glowing floor rings marking where to walk, tall windows with moonlight and rain](public/poster-2.0.0.jpg)
+![The Lantern Museum gallery after hours (fictional): glass display cases with real Smithsonian CC0 scans under warm tungsten spotlights, glowing floor rings marking where to walk, tall windows with moonlight and rain](public/poster-2.0.1.jpg)
 
 | | |
 |---|---|
@@ -76,12 +75,11 @@ npm run dev            # http://localhost:5174
 npm test               # unit tests (fact audit needs data/raw: run scripts/fetch-smithsonian-models.mjs)
 VITE_TEST_HOOKS=1 npm run build && npx playwright test tests/functional.spec.js tests/a11y.spec.js
 npm run build && SLUG=object-detective npx playwright test tests/sub-path.spec.js
-node scripts/validate-showcase.mjs 2.0.0
+node scripts/validate-showcase.mjs 2.0.1
 ```
 Asset pipeline: `scripts/fetch-smithsonian-models.mjs` → `prepare-models.mjs`, `prepare-textures.sh`, `render-views.mjs public/assets/photos`, `render-poster.mjs`, `capture-cc0-proof.mjs`.
 
 ## Next steps
-- v2 agent reviews (visual realism, motion load, cue salience) and the revisions they produce, then a new trailer and the `v2.0.0` tag.
 - Real playtests using `evaluation/human-protocol/`.
 - More cases as data, for example other CC0 NMAH electricity objects.
 

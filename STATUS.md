@@ -82,4 +82,6 @@ Status values: **done**, **done (agent review)** (done, with an agent review sti
 | In-world interaction (rings, glide, hover tooltip, WASD walk) | done | `src/v2/in-world-interaction.js` (`enabled` gate), `src/app.js` `_initWorld/_updateV2`; torch aiming in `_initWorld` |
 | Compatibility: v1 tests unchanged and passing | done | `tests/functional.spec.js` + `tests/a11y.spec.js` + unit suite (63) re-run against the v2 build; `__TEST__`/`#panel`/`data-textmode` contracts intact |
 | v2.0.0 bump: package.json, showcase.json, posters, docs | done | `poster-2.0.0.webp/.jpg` ≤ 200 KB; `poster-1.0.0.*` removed; `node scripts/validate-showcase.mjs 2.0.0` passes |
-| Headed GPU perf + "is it alive" capture + agent reviews (≥ 5 revisions) | owner / next step | Builder window ended before the review cycle; presets unchanged from v1 measurements plus ~7 static props and 4 low-intensity lights |
+| Headed GPU perf + "is it alive" capture + agent reviews (≥ 5 revisions) | done | Four v2 agent reviews in `evaluation/reviews/agent-review-v2-*.md`; revisions OD-V9 to OD-V16 in DECISIONS.md; headed Apple M1: Medium 60.1 fps, 74 draw calls, 14.2 MB before first interaction (budget 15 MB) |
+| Tag v2.0.0 + showcase pin | done | v2.0.0 released 2026-10-29, pinned (showcase PR #6) |
+| v2.0.1 patch (shared-core fixes, OD-V12 rule moved to `src/styles/case-hud.css`) | done | CHANGELOG 2.0.1; 63 unit + 26 browser tests pass (2026-10-29); posters renamed `poster-2.0.1.*` |

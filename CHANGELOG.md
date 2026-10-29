@@ -1,6 +1,12 @@
 # Changelog
 
-## 2.0.0 (unreleased; not yet tagged)
+## 2.0.1 (2026-10-29) — patch
+
+- Shared v2 core fixes: hover tooltips are suppressed while a tool or dialog owns the pointer; the collapsed HUD drawer is `inert` and `aria-hidden`, so Tab can't reach hidden controls; the reduced-motion character gaze snaps instead of drifting; the hotspot ring and disc are one mesh.
+- The full-bleed collapsed-drawer rule (OD-V12) moved from `src/v2/hud-shell.css` to the repo-owned `src/styles/case-hud.css`, so future core syncs can't overwrite it.
+- Posters renamed to `poster-2.0.1.*` (same image). No content or learning-flow changes. 63 unit and 26 browser tests pass.
+
+## 2.0.0 (2026-10-29)
 
 Visual and interaction revamp ("The Lantern Museum after hours", plan 09 §4.2). Learning content, tools, cases, text mode and the v1 test contract are unchanged.
 

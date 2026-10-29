@@ -1,6 +1,6 @@
 {
   "slug": "object-detective",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "title": "The Object Detective",
   "format": "Game",
   "niche": "History, primary-source and research literacy",
@@ -17,8 +17,8 @@
   "contentNotes": [],
   "permissions": [],
   "poster": {
-    "webp": "poster-2.0.0.webp",
-    "jpg": "poster-2.0.0.jpg",
+    "webp": "poster-2.0.1.webp",
+    "jpg": "poster-2.0.1.jpg",
     "alt": "The Lantern Museum gallery after hours (fictional): glass display cases with real Smithsonian CC0 scans under warm tungsten spotlights, glowing floor rings marking where to walk, tall windows with moonlight and rain, and a brass-railed wainscoted wall in oxblood and night blue"
   },
   "repoUrl": "https://github.com/iwyusdaz/object-detective",
