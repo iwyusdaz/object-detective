@@ -1,0 +1,21 @@
+/**
+ * case-hud.css — object-detective's repo-specific HUD rules, layered after the
+ * shared src/v2/hud-shell.css. Kept out of src/v2/ so a template sync can never
+ * erase them.
+ */
+
+/* V2-INT-2: the collapsed drawer must also give its WIDTH back to the 3D view.
+   Overlay the panel on the stage instead of sharing flex space, so the viewport
+   (and #app canvas) grow to full bleed; the app calls engine.resize() on the
+   drawer toggle. Text mode keeps the panel in flow — the canvas is hidden
+   there and the panel is the whole interface. */
+html[data-drawer-collapsed="true"]:not([data-textmode="on"]) #task-panel,
+html[data-drawer-collapsed="true"]:not([data-textmode="on"]) #panel,
+html[data-drawer-collapsed="true"]:not([data-textmode="on"]) #session-panel,
+html[data-drawer-collapsed="true"]:not([data-textmode="on"]) .course-panel,
+html[data-drawer-collapsed="true"]:not([data-textmode="on"]) .dlg-panel {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}

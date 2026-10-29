@@ -6,6 +6,7 @@
 import './styles/site.css';
 import './styles/case-fonts.css';
 import './v2/hud-shell.css';
+import './styles/case-hud.css';
 import { App } from './app.js';
 
 const app = new App();
