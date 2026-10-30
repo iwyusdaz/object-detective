@@ -3,6 +3,7 @@
 Every third-party asset in the build. `public/attribution.json` is generated from the table below by `scripts/gen-attribution.mjs` (run on every build), so the two stay in sync.
 
 All 3D scans are real Smithsonian Open Access objects whose records AND 3D media are marked CC0 (checked by `scripts/fetch-smithsonian-models.mjs`, which refuses non-CC0 items; proof in `research/object-verification-log.md` and `research/cc0-proof/`). Retrieved 2026-10-27.
+The v3.0.0 assets (rows marked v3, and everything under `public/assets/v3/`) are fetched by `scripts/fetch-v3-assets.mjs`, which checks each licence at the source before downloading and refuses anything outside CC0 1.0, public domain, CC BY 4.0 or own work. Its evidence is in `research/v3-licence-log.json`; the file manifest is `content/assets-v3.json`. Retrieved 2026-10-30.
 
 ## Assets
 
@@ -32,6 +33,23 @@ All 3D scans are real Smithsonian Open Access objects whose records AND 3D media
 | Text-mode photo sets (public/assets/photos) | Rendered by this project from the CC0 scans above | scripts/render-views.mjs | CC0 1.0 (derived from CC0 scans) | Renders of the scans in the game's inspection lighting |
 | Draco and Basis decoders | Google (Draco), Binomial (Basis Universal), via three.js 0.186.1 | https://github.com/mrdoob/three.js/tree/r186/examples/jsm/libs | Apache-2.0 | Copied unmodified into dist/decoders at build time |
 | Gallery architecture, display cases, inspection table, sweep, reference ruler/coin/card models, favicon | Built for this project (procedural) | This repository | MIT (code) / CC BY 4.0 (content) | Original |
+| 3D scan: Abraham Lincoln's Patent Model (NMAH, PL.031940) — v3 neighbouring exhibit | Smithsonian National Museum of American History (3D: Smithsonian Digitization Program Office) | https://3d-api.si.edu/voyager/3d_package:9172faae-dbbe-424a-a9e7-56f4428a06dd | CC0 1.0 | Unmodified std Draco GLB (2048 px), renamed with a content hash (public/assets/v3/exhibits) |
+| 3D scan: Refrigerator patent model made by Thomas Elkins (NMAAHC, 2012.113.2) — v3 neighbouring exhibit | Smithsonian National Museum of African American History and Culture (3D: Smithsonian Digitization Program Office) | https://3d-api.si.edu/voyager/3d_package:b91a2ad6-f8dd-4903-a084-90f5c5c8b9e8 | CC0 1.0 | Unmodified std Draco GLB (2048 px), renamed with a content hash (public/assets/v3/exhibits) |
+| 3D scan: Stereoscope, A. Mattey, Paris (NMAAHC, 2017.111.16, gift of Alan Laird) — v3 neighbouring exhibit | Smithsonian National Museum of African American History and Culture (3D: Smithsonian Digitization Program Office) | https://3d-api.si.edu/voyager/3d_package:0f4ebbe5-7f32-4792-933c-296f328df4c5 | CC0 1.0 | Unmodified std Draco GLB (2048 px), renamed with a content hash (public/assets/v3/exhibits) |
+| Object record metadata (3 v3 neighbouring exhibits above) | Smithsonian Institution | https://api.si.edu/openaccess/api/v1.0/ (Open Access API) | CC0 1.0 | Facts paraphrased or quoted in content/objects.json (catalog "scenes") |
+| Painting image: Susan Walker Morse (The Muse), Samuel F. B. Morse, ca. 1836–37 (Met 45.62.1, Bequest of Herbert L. Pratt, 1945) | The Metropolitan Museum of Art (Open Access) | https://www.metmuseum.org/art/collection/search/11605 | CC0 1.0 | Resized to 1024 and 2048 px (long edge), KTX2 ETC1S with mipmaps (public/assets/v3/paintings) |
+| Painting image: Mathew B. Brady, Charles Loring Elliott, 1857 (Met 96.24, Gift of the Friends of Mathew Brady, 1896) | The Metropolitan Museum of Art (Open Access) | https://www.metmuseum.org/art/collection/search/10850 | CC0 1.0 | Resized to 1024 and 2048 px (long edge), KTX2 ETC1S with mipmaps (public/assets/v3/paintings) |
+| 3D model: Ottoman 01 (v3 gallery bench) | Caspian Fortune | https://polyhaven.com/a/Ottoman_01 | CC0 1.0 | 1k glTF re-packed as GLB: meshopt + quantization, textures KTX2 (colour 1024 px ETC1S, normal 512 px UASTC) |
+| 3D model: Security Camera 01 | Alexander Otterbeck, Yann Kervran | https://polyhaven.com/a/security_camera_01 | CC0 1.0 | 1k glTF re-packed as GLB: meshopt + quantization, textures KTX2 (colour 1024 px ETC1S, normal 512 px UASTC) |
+| 3D model: Magnifying Glass 01 | Nazar Borodavka | https://polyhaven.com/a/magnifying_glass_01 | CC0 1.0 | 1k glTF re-packed as GLB: meshopt + quantization, textures KTX2 at 512 px |
+| Texture: Wood 051 (1K) | ambientCG (Lennart Demes) | https://ambientcg.com/view?id=Wood051 | CC0 1.0 | Colour and Roughness 1024 px KTX2 ETC1S, NormalGL 512 px KTX2 UASTC (public/assets/v3/textures) |
+| Texture: Marble 012 (1K) | ambientCG (Lennart Demes) | https://ambientcg.com/view?id=Marble012 | CC0 1.0 | Colour and Roughness 1024 px KTX2 ETC1S, NormalGL 512 px KTX2 UASTC |
+| Texture: Cork 002 (1K) | ambientCG (Lennart Demes) | https://ambientcg.com/view?id=Cork002 | CC0 1.0 | Colour, NormalGL, Roughness at 512 px, KTX2 |
+| Texture: Metal 048 A (1K) | ambientCG (Lennart Demes) | https://ambientcg.com/view?id=Metal048A | CC0 1.0 | Colour, NormalGL, Roughness, Metalness at 512 px, KTX2 |
+| Texture: Fabric 085 (1K) | ambientCG (Lennart Demes) | https://ambientcg.com/view?id=Fabric085 | CC0 1.0 | Colour, NormalGL, Roughness at 512 px, KTX2; to be tinted in-engine |
+| Texture: Fingerprints 002 (1K) | ambientCG (Lennart Demes) | https://ambientcg.com/view?id=Fingerprints002 | CC0 1.0 | Roughness map only, 1024 px KTX2 (glass smudges) |
+| Texture: Paper 004 (1K) | ambientCG (Lennart Demes) | https://ambientcg.com/view?id=Paper004 | CC0 1.0 | Colour, NormalGL, Roughness at 512 px, KTX2 |
+| Textures: exit sign face, night facade across the street | Built for this project (scripts/fetch-v3-assets.mjs; exit-sign lettering set in Source Sans 3, SIL OFL 1.1) | This repository | CC BY 4.0 (content) | Original, generated with ImageMagick; KTX2 (public/assets/v3/own) |
 
 ## Fictional elements
 

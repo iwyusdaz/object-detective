@@ -1,0 +1,155 @@
+{
+  "generatedAt": "2026-10-30T19:38:19.427Z",
+  "allowedLicences": [
+    "CC0 1.0",
+    "Public domain",
+    "CC BY 4.0"
+  ],
+  "assets": [
+    {
+      "asset": "exhibits/lincoln-patent-model",
+      "source": "Smithsonian Open Access API",
+      "apiId": "ld1-1643399625297-1643399671505-0",
+      "recordId": "nmah_213141",
+      "recordUrl": "https://n2t.net/ark:/65665/ng49ca746a0-e40b-704b-e053-15f76fa0b4fa",
+      "voyagerUrl": "https://3d-api.si.edu/voyager/3d_package:9172faae-dbbe-424a-a9e7-56f4428a06dd",
+      "recordAccess": "CC0",
+      "mediaAccess": "CC0",
+      "recordSource": "saved record from an earlier live run (2026-10-30T19:24:13.351Z); live call failed: download failed: https://api.si.edu/openaccess/api/v1.0/content/ld1-1643399625297-1643399671505-0?api_key=REDACTED",
+      "file": "https://3d-api.si.edu/content/document/3d_package:9172faae-dbbe-424a-a9e7-56f4428a06dd/resources/lincoln_patent_model-100k-2048_std_draco.glb",
+      "licence": "CC0 1.0"
+    },
+    {
+      "asset": "exhibits/elkins-refrigerator-patent-model",
+      "source": "Smithsonian Open Access API",
+      "apiId": "ld1-1643398738600-1643398745496-0",
+      "recordId": "nmaahc_2012.113.2",
+      "recordUrl": "http://n2t.net/ark:/65665/fd5244cea00-6a12-4850-b907-84ee99c5c52b",
+      "voyagerUrl": "https://3d-api.si.edu/voyager/3d_package:b91a2ad6-f8dd-4903-a084-90f5c5c8b9e8",
+      "recordAccess": "CC0",
+      "mediaAccess": "CC0",
+      "recordSource": "saved record from an earlier live run (2026-10-30T19:24:15.388Z); live call failed: download failed: https://api.si.edu/openaccess/api/v1.0/content/ld1-1643398738600-1643398745496-0?api_key=REDACTED",
+      "file": "https://3d-api.si.edu/content/document/3d_package:b91a2ad6-f8dd-4903-a084-90f5c5c8b9e8/resources/elkinspatentmodel_2012_113_2-100k-2048_std_draco.glb",
+      "licence": "CC0 1.0"
+    },
+    {
+      "asset": "exhibits/mattey-stereoscope",
+      "source": "Smithsonian Open Access API",
+      "apiId": "ld1-1643398738600-1643398751541-0",
+      "recordId": "nmaahc_2017.111.16",
+      "recordUrl": "http://n2t.net/ark:/65665/fd5cd643bc5-e071-49f7-b610-da88ec7e3a56",
+      "voyagerUrl": "https://3d-api.si.edu/voyager/3d_package:0f4ebbe5-7f32-4792-933c-296f328df4c5",
+      "recordAccess": "CC0",
+      "mediaAccess": "CC0",
+      "recordSource": "saved record from an earlier live run (2026-10-30T19:18:21.417Z); live call failed: download failed: https://api.si.edu/openaccess/api/v1.0/content/ld1-1643398738600-1643398751541-0?api_key=REDACTED",
+      "file": "https://3d-api.si.edu/content/document/3d_package:0f4ebbe5-7f32-4792-933c-296f328df4c5/resources/2017_111_16_Stereoscope_RENDER-100k-2048_std_draco.glb",
+      "licence": "CC0 1.0"
+    },
+    {
+      "asset": "paintings/morse-the-muse",
+      "source": "The Met Collection API",
+      "objectID": 11605,
+      "objectURL": "https://www.metmuseum.org/art/collection/search/11605",
+      "isPublicDomain": true,
+      "primaryImage": "https://images.metmuseum.org/CRDImages/ad/original/DT69.jpg",
+      "licence": "CC0 1.0"
+    },
+    {
+      "asset": "paintings/elliott-mathew-brady",
+      "source": "The Met Collection API",
+      "objectID": 10850,
+      "objectURL": "https://www.metmuseum.org/art/collection/search/10850",
+      "isPublicDomain": true,
+      "primaryImage": "https://images.metmuseum.org/CRDImages/ad/original/DT214417.jpg",
+      "licence": "CC0 1.0"
+    },
+    {
+      "asset": "props/Ottoman_01",
+      "source": "https://polyhaven.com/a/Ottoman_01",
+      "infoApi": "https://api.polyhaven.com/info/Ottoman_01",
+      "type": 2,
+      "authors": "Caspian Fortune",
+      "licencePage": "https://polyhaven.com/license (states CC0)",
+      "licence": "CC0 1.0"
+    },
+    {
+      "asset": "props/security_camera_01",
+      "source": "https://polyhaven.com/a/security_camera_01",
+      "infoApi": "https://api.polyhaven.com/info/security_camera_01",
+      "type": 2,
+      "authors": "Alexander Otterbeck, Yann Kervran",
+      "licencePage": "https://polyhaven.com/license (states CC0)",
+      "licence": "CC0 1.0"
+    },
+    {
+      "asset": "props/magnifying_glass_01",
+      "source": "https://polyhaven.com/a/magnifying_glass_01",
+      "infoApi": "https://api.polyhaven.com/info/magnifying_glass_01",
+      "type": 2,
+      "authors": "Nazar Borodavka",
+      "licencePage": "https://polyhaven.com/license (states CC0)",
+      "licence": "CC0 1.0"
+    },
+    {
+      "asset": "textures/Wood051",
+      "source": "https://ambientcg.com/view?id=Wood051",
+      "api": "https://ambientcg.com/api/v2/full_json?id=Wood051",
+      "licencePage": "https://docs.ambientcg.com/license/ (states CC0 1.0)",
+      "licence": "CC0 1.0"
+    },
+    {
+      "asset": "textures/Marble012",
+      "source": "https://ambientcg.com/view?id=Marble012",
+      "api": "https://ambientcg.com/api/v2/full_json?id=Marble012",
+      "licencePage": "https://docs.ambientcg.com/license/ (states CC0 1.0)",
+      "licence": "CC0 1.0"
+    },
+    {
+      "asset": "textures/Cork002",
+      "source": "https://ambientcg.com/view?id=Cork002",
+      "api": "https://ambientcg.com/api/v2/full_json?id=Cork002",
+      "licencePage": "https://docs.ambientcg.com/license/ (states CC0 1.0)",
+      "licence": "CC0 1.0"
+    },
+    {
+      "asset": "textures/Metal048A",
+      "source": "https://ambientcg.com/view?id=Metal048A",
+      "api": "https://ambientcg.com/api/v2/full_json?id=Metal048A",
+      "licencePage": "https://docs.ambientcg.com/license/ (states CC0 1.0)",
+      "licence": "CC0 1.0"
+    },
+    {
+      "asset": "textures/Fabric085",
+      "source": "https://ambientcg.com/view?id=Fabric085",
+      "api": "https://ambientcg.com/api/v2/full_json?id=Fabric085",
+      "licencePage": "https://docs.ambientcg.com/license/ (states CC0 1.0)",
+      "licence": "CC0 1.0"
+    },
+    {
+      "asset": "textures/Fingerprints002",
+      "source": "https://ambientcg.com/view?id=Fingerprints002",
+      "api": "https://ambientcg.com/api/v2/full_json?id=Fingerprints002",
+      "licencePage": "https://docs.ambientcg.com/license/ (states CC0 1.0)",
+      "licence": "CC0 1.0"
+    },
+    {
+      "asset": "textures/Paper004",
+      "source": "https://ambientcg.com/view?id=Paper004",
+      "api": "https://ambientcg.com/api/v2/full_json?id=Paper004",
+      "licencePage": "https://docs.ambientcg.com/license/ (states CC0 1.0)",
+      "licence": "CC0 1.0"
+    },
+    {
+      "asset": "own/exit-sign",
+      "source": "scripts/fetch-v3-assets.mjs",
+      "licence": "CC BY 4.0 (repo content licence, LICENSE-CONTENT)",
+      "note": "Lettering set in Source Sans 3 (SIL OFL 1.1)"
+    },
+    {
+      "asset": "own/night-facade",
+      "source": "scripts/fetch-v3-assets.mjs",
+      "licence": "CC BY 4.0 (repo content licence, LICENSE-CONTENT)",
+      "note": "Seeded procedural image"
+    }
+  ]
+}

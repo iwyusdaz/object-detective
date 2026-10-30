@@ -166,5 +166,124 @@
     "source": "This repository",
     "license": "MIT (code) / CC BY 4.0 (content)",
     "changes": "Original"
+  },
+  {
+    "asset": "3D scan: Abraham Lincoln's Patent Model (NMAH, PL.031940) — v3 neighbouring exhibit",
+    "author": "Smithsonian National Museum of American History (3D: Smithsonian Digitization Program Office)",
+    "source": "https://3d-api.si.edu/voyager/3d_package:9172faae-dbbe-424a-a9e7-56f4428a06dd",
+    "license": "CC0 1.0",
+    "changes": "Unmodified std Draco GLB (2048 px), renamed with a content hash (public/assets/v3/exhibits)"
+  },
+  {
+    "asset": "3D scan: Refrigerator patent model made by Thomas Elkins (NMAAHC, 2012.113.2) — v3 neighbouring exhibit",
+    "author": "Smithsonian National Museum of African American History and Culture (3D: Smithsonian Digitization Program Office)",
+    "source": "https://3d-api.si.edu/voyager/3d_package:b91a2ad6-f8dd-4903-a084-90f5c5c8b9e8",
+    "license": "CC0 1.0",
+    "changes": "Unmodified std Draco GLB (2048 px), renamed with a content hash (public/assets/v3/exhibits)"
+  },
+  {
+    "asset": "3D scan: Stereoscope, A. Mattey, Paris (NMAAHC, 2017.111.16, gift of Alan Laird) — v3 neighbouring exhibit",
+    "author": "Smithsonian National Museum of African American History and Culture (3D: Smithsonian Digitization Program Office)",
+    "source": "https://3d-api.si.edu/voyager/3d_package:0f4ebbe5-7f32-4792-933c-296f328df4c5",
+    "license": "CC0 1.0",
+    "changes": "Unmodified std Draco GLB (2048 px), renamed with a content hash (public/assets/v3/exhibits)"
+  },
+  {
+    "asset": "Object record metadata (3 v3 neighbouring exhibits above)",
+    "author": "Smithsonian Institution",
+    "source": "https://api.si.edu/openaccess/api/v1.0/ (Open Access API)",
+    "license": "CC0 1.0",
+    "changes": "Facts paraphrased or quoted in content/objects.json (catalog \"scenes\")"
+  },
+  {
+    "asset": "Painting image: Susan Walker Morse (The Muse), Samuel F. B. Morse, ca. 1836–37 (Met 45.62.1, Bequest of Herbert L. Pratt, 1945)",
+    "author": "The Metropolitan Museum of Art (Open Access)",
+    "source": "https://www.metmuseum.org/art/collection/search/11605",
+    "license": "CC0 1.0",
+    "changes": "Resized to 1024 and 2048 px (long edge), KTX2 ETC1S with mipmaps (public/assets/v3/paintings)"
+  },
+  {
+    "asset": "Painting image: Mathew B. Brady, Charles Loring Elliott, 1857 (Met 96.24, Gift of the Friends of Mathew Brady, 1896)",
+    "author": "The Metropolitan Museum of Art (Open Access)",
+    "source": "https://www.metmuseum.org/art/collection/search/10850",
+    "license": "CC0 1.0",
+    "changes": "Resized to 1024 and 2048 px (long edge), KTX2 ETC1S with mipmaps (public/assets/v3/paintings)"
+  },
+  {
+    "asset": "3D model: Ottoman 01 (v3 gallery bench)",
+    "author": "Caspian Fortune",
+    "source": "https://polyhaven.com/a/Ottoman_01",
+    "license": "CC0 1.0",
+    "changes": "1k glTF re-packed as GLB: meshopt + quantization, textures KTX2 (colour 1024 px ETC1S, normal 512 px UASTC)"
+  },
+  {
+    "asset": "3D model: Security Camera 01",
+    "author": "Alexander Otterbeck, Yann Kervran",
+    "source": "https://polyhaven.com/a/security_camera_01",
+    "license": "CC0 1.0",
+    "changes": "1k glTF re-packed as GLB: meshopt + quantization, textures KTX2 (colour 1024 px ETC1S, normal 512 px UASTC)"
+  },
+  {
+    "asset": "3D model: Magnifying Glass 01",
+    "author": "Nazar Borodavka",
+    "source": "https://polyhaven.com/a/magnifying_glass_01",
+    "license": "CC0 1.0",
+    "changes": "1k glTF re-packed as GLB: meshopt + quantization, textures KTX2 at 512 px"
+  },
+  {
+    "asset": "Texture: Wood 051 (1K)",
+    "author": "ambientCG (Lennart Demes)",
+    "source": "https://ambientcg.com/view?id=Wood051",
+    "license": "CC0 1.0",
+    "changes": "Colour and Roughness 1024 px KTX2 ETC1S, NormalGL 512 px KTX2 UASTC (public/assets/v3/textures)"
+  },
+  {
+    "asset": "Texture: Marble 012 (1K)",
+    "author": "ambientCG (Lennart Demes)",
+    "source": "https://ambientcg.com/view?id=Marble012",
+    "license": "CC0 1.0",
+    "changes": "Colour and Roughness 1024 px KTX2 ETC1S, NormalGL 512 px KTX2 UASTC"
+  },
+  {
+    "asset": "Texture: Cork 002 (1K)",
+    "author": "ambientCG (Lennart Demes)",
+    "source": "https://ambientcg.com/view?id=Cork002",
+    "license": "CC0 1.0",
+    "changes": "Colour, NormalGL, Roughness at 512 px, KTX2"
+  },
+  {
+    "asset": "Texture: Metal 048 A (1K)",
+    "author": "ambientCG (Lennart Demes)",
+    "source": "https://ambientcg.com/view?id=Metal048A",
+    "license": "CC0 1.0",
+    "changes": "Colour, NormalGL, Roughness, Metalness at 512 px, KTX2"
+  },
+  {
+    "asset": "Texture: Fabric 085 (1K)",
+    "author": "ambientCG (Lennart Demes)",
+    "source": "https://ambientcg.com/view?id=Fabric085",
+    "license": "CC0 1.0",
+    "changes": "Colour, NormalGL, Roughness at 512 px, KTX2; to be tinted in-engine"
+  },
+  {
+    "asset": "Texture: Fingerprints 002 (1K)",
+    "author": "ambientCG (Lennart Demes)",
+    "source": "https://ambientcg.com/view?id=Fingerprints002",
+    "license": "CC0 1.0",
+    "changes": "Roughness map only, 1024 px KTX2 (glass smudges)"
+  },
+  {
+    "asset": "Texture: Paper 004 (1K)",
+    "author": "ambientCG (Lennart Demes)",
+    "source": "https://ambientcg.com/view?id=Paper004",
+    "license": "CC0 1.0",
+    "changes": "Colour, NormalGL, Roughness at 512 px, KTX2"
+  },
+  {
+    "asset": "Textures: exit sign face, night facade across the street",
+    "author": "Built for this project (scripts/fetch-v3-assets.mjs; exit-sign lettering set in Source Sans 3, SIL OFL 1.1)",
+    "source": "This repository",
+    "license": "CC BY 4.0 (content)",
+    "changes": "Original, generated with ImageMagick; KTX2 (public/assets/v3/own)"
   }
 ]

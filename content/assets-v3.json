@@ -1,0 +1,410 @@
+{
+  "_about": "v3.0.0 assets staged by scripts/fetch-v3-assets.mjs (plan 10 S4). tier \"first\" may load before the first interaction; tier \"stream\" loads after the first click or on inspect. boundsMetres are [x, y, z] of the file as authored (glTF, y up, 1 unit = 1 m).",
+  "exhibits": {
+    "lincoln-patent-model": {
+      "file": "assets/v3/exhibits/lincoln-patent-model-511703ea3f.glb",
+      "bytes": 2223008,
+      "sha256": "511703ea3fcead920220e6adc1f11cd7a58330d7b20b85ac645e7679beb20557",
+      "tier": "stream",
+      "boundsMetres": [
+        0.1239,
+        0.2522,
+        0.6844
+      ],
+      "nodeTransforms": false,
+      "title": "Abraham Lincoln's Patent Model",
+      "recordId": "nmah_213141",
+      "recordUrl": "https://n2t.net/ark:/65665/ng49ca746a0-e40b-704b-e053-15f76fa0b4fa",
+      "voyagerUrl": "https://3d-api.si.edu/voyager/3d_package:9172faae-dbbe-424a-a9e7-56f4428a06dd",
+      "measurementsText": "overall: 9 3/4 in x 26 1/4 in x 4 3/4 in; 24.765 cm x 66.675 cm x 12.065 cm",
+      "licence": "CC0 1.0"
+    },
+    "elkins-refrigerator-patent-model": {
+      "file": "assets/v3/exhibits/elkins-refrigerator-patent-model-ea307b4888.glb",
+      "bytes": 814872,
+      "sha256": "ea307b488899627c8ddaffbc4a7078d466051f0d4ce71dd6d6f9e7e1a7f695b2",
+      "tier": "stream",
+      "boundsMetres": [
+        0.1014,
+        0.1013,
+        0.2418
+      ],
+      "nodeTransforms": false,
+      "title": "Refrigerator patent model made by Thomas Elkins",
+      "recordId": "nmaahc_2012.113.2",
+      "recordUrl": "http://n2t.net/ark:/65665/fd5244cea00-6a12-4850-b907-84ee99c5c52b",
+      "voyagerUrl": "https://3d-api.si.edu/voyager/3d_package:b91a2ad6-f8dd-4903-a084-90f5c5c8b9e8",
+      "measurementsText": "H x W x D: 4 x 3 15/16 x 9 3/4 in. (10.2 x 10 x 24.8 cm)",
+      "licence": "CC0 1.0"
+    },
+    "mattey-stereoscope": {
+      "file": "assets/v3/exhibits/mattey-stereoscope-7bd3d529ac.glb",
+      "bytes": 1101232,
+      "sha256": "7bd3d529ac206857123e06dfca8d9d105d5a8f5ff8f21059f997e0add0b910d0",
+      "tier": "stream",
+      "boundsMetres": [
+        0.1747,
+        0.1034,
+        0.1143
+      ],
+      "nodeTransforms": false,
+      "title": "Stereoscope",
+      "recordId": "nmaahc_2017.111.16",
+      "recordUrl": "http://n2t.net/ark:/65665/fd5cd643bc5-e071-49f7-b610-da88ec7e3a56",
+      "voyagerUrl": "https://3d-api.si.edu/voyager/3d_package:0f4ebbe5-7f32-4792-933c-296f328df4c5",
+      "measurementsText": "H x W x D: 4 1/16 × 6 7/8 × 4 1/2 in. (10.3 × 17.5 × 11.4 cm)",
+      "licence": "CC0 1.0"
+    }
+  },
+  "paintings": {
+    "morse-the-muse": {
+      "tier": {
+        "1024": "first",
+        "2048": "stream"
+      },
+      "title": "Susan Walker Morse (The Muse)",
+      "artist": "Samuel F. B. Morse",
+      "date": "ca. 1836–37",
+      "medium": "Oil on canvas",
+      "dimensions": "73 3/4 x 57 5/8 in. (187.3 x 146.4 cm)",
+      "creditLine": "Bequest of Herbert L. Pratt, 1945",
+      "accessionNumber": "45.62.1",
+      "objectURL": "https://www.metmuseum.org/art/collection/search/11605",
+      "canvasMetres": [
+        1.464,
+        1.8730000000000002
+      ],
+      "framedMetres": [
+        1.797,
+        2.191,
+        0.165
+      ],
+      "licence": "CC0 1.0",
+      "files": {
+        "1024": {
+          "file": "assets/v3/paintings/morse-the-muse-1024-add42cb3b6.ktx2",
+          "bytes": 211326,
+          "sha256": "add42cb3b6e077f5aba704042c143d4e16584001d688785bec1f5ea0a8d41a28",
+          "px": [
+            804,
+            1024
+          ]
+        },
+        "2048": {
+          "file": "assets/v3/paintings/morse-the-muse-2048-2def05dbb1.ktx2",
+          "bytes": 698142,
+          "sha256": "2def05dbb1ba29760a3bb0bc6ac2e3ea5d3756b2f3a551f736e412f489472598",
+          "px": [
+            1604,
+            2048
+          ]
+        }
+      }
+    },
+    "elliott-mathew-brady": {
+      "tier": {
+        "1024": "first",
+        "2048": "stream"
+      },
+      "title": "Mathew B. Brady",
+      "artist": "Charles Loring Elliott",
+      "date": "1857",
+      "medium": "Oil on canvas",
+      "dimensions": "24 x 20 in. (61 x 50.8 cm)",
+      "creditLine": "Gift of the Friends of Mathew Brady, 1896",
+      "accessionNumber": "96.24",
+      "objectURL": "https://www.metmuseum.org/art/collection/search/10850",
+      "canvasMetres": [
+        0.508,
+        0.61
+      ],
+      "framedMetres": [
+        0.800102,
+        0.8921769999999999,
+        0.123825
+      ],
+      "licence": "CC0 1.0",
+      "files": {
+        "1024": {
+          "file": "assets/v3/paintings/elliott-mathew-brady-1024-3f7243ef53.ktx2",
+          "bytes": 196758,
+          "sha256": "3f7243ef5369221de46fe99d5c31f52c09d30f6d7f5ab901e6fced6232c77a37",
+          "px": [
+            844,
+            1024
+          ]
+        },
+        "2048": {
+          "file": "assets/v3/paintings/elliott-mathew-brady-2048-c53963615c.ktx2",
+          "bytes": 684388,
+          "sha256": "c53963615c0085ec3935294a02fea350b0dd0bc45478272ab36f93202d9a451d",
+          "px": [
+            1688,
+            2048
+          ]
+        }
+      }
+    }
+  },
+  "props": {
+    "Ottoman_01": {
+      "file": "assets/v3/props/Ottoman_01-bcb05e659b.glb",
+      "bytes": 706372,
+      "sha256": "bcb05e659b697aab3aa1c24a68f93df51c160ede53372474779b4a1f24fffc9b",
+      "tier": "first",
+      "name": "Ottoman 01",
+      "authors": "Caspian Fortune",
+      "source": "https://polyhaven.com/a/Ottoman_01",
+      "licence": "CC0 1.0",
+      "boundsMetres": [
+        0.8846,
+        0.6243,
+        0.6212
+      ],
+      "triangles": 4240,
+      "textures": 3,
+      "textureMax": 1024
+    },
+    "security_camera_01": {
+      "file": "assets/v3/props/security_camera_01-af7cbe60d3.glb",
+      "bytes": 654692,
+      "sha256": "af7cbe60d395b7603f92659f2a4a33bd06293f1eb31cb213f8b48bbf497604d5",
+      "tier": "first",
+      "name": "Security Camera 01",
+      "authors": "Alexander Otterbeck, Yann Kervran",
+      "source": "https://polyhaven.com/a/security_camera_01",
+      "licence": "CC0 1.0",
+      "boundsMetres": [
+        0.1695,
+        0.2861,
+        0.5537
+      ],
+      "triangles": 13571,
+      "textures": 3,
+      "textureMax": 1024
+    },
+    "magnifying_glass_01": {
+      "file": "assets/v3/props/magnifying_glass_01-e6c27cdf09.glb",
+      "bytes": 203924,
+      "sha256": "e6c27cdf09ac2555f7bd39c01cbec3fa08a7e5bff3ad2a7cb8ec36b60f90058a",
+      "tier": "first",
+      "name": "Magnifying Glass 01",
+      "authors": "Nazar Borodavka",
+      "source": "https://polyhaven.com/a/magnifying_glass_01",
+      "licence": "CC0 1.0",
+      "boundsMetres": [
+        0.1321,
+        0.2716,
+        0.0267
+      ],
+      "triangles": 7240,
+      "textures": 4,
+      "textureMax": 512
+    }
+  },
+  "textures": {
+    "Wood051": {
+      "tier": "first",
+      "use": "wainscoting, case bases, reception desk",
+      "source": "https://ambientcg.com/view?id=Wood051",
+      "licence": "CC0 1.0",
+      "size": 1024,
+      "normalSize": 512,
+      "maps": {
+        "Color": {
+          "file": "assets/v3/textures/Wood051-Color-31ea7c6ab4.ktx2",
+          "bytes": 196582,
+          "sha256": "31ea7c6ab4391ea11dbbd60cfcdf5df6d7879ea785ba238f36957b871c084227"
+        },
+        "NormalGL": {
+          "file": "assets/v3/textures/Wood051-NormalGL-cc02b7617e.ktx2",
+          "bytes": 186521,
+          "sha256": "cc02b7617e10bbac40557c6f29407cd06fee36c6a0519c532c946d25d25ff60c"
+        },
+        "Roughness": {
+          "file": "assets/v3/textures/Wood051-Roughness-8fb24a17b0.ktx2",
+          "bytes": 217193,
+          "sha256": "8fb24a17b0f488ad552df8ea4a16910ae76610439635790a793de77cb7577485"
+        }
+      }
+    },
+    "Marble012": {
+      "tier": "first",
+      "use": "plinth tops, reception desk top",
+      "source": "https://ambientcg.com/view?id=Marble012",
+      "licence": "CC0 1.0",
+      "size": 1024,
+      "normalSize": 512,
+      "maps": {
+        "Color": {
+          "file": "assets/v3/textures/Marble012-Color-c98cfaae20.ktx2",
+          "bytes": 243478,
+          "sha256": "c98cfaae20edd19971c8a507c9494a8890cf57841edd546c9cceb8bc75d5852c"
+        },
+        "NormalGL": {
+          "file": "assets/v3/textures/Marble012-NormalGL-21659d4333.ktx2",
+          "bytes": 61228,
+          "sha256": "21659d433376b63d2292edefac4572a828088ec67aea3a9460ab6fb5b01cc369"
+        },
+        "Roughness": {
+          "file": "assets/v3/textures/Marble012-Roughness-504bc24d5d.ktx2",
+          "bytes": 202302,
+          "sha256": "504bc24d5db0ba243f72f13763067d555cabc74a00902232e39df6b9bd606993"
+        }
+      }
+    },
+    "Cork002": {
+      "tier": "first",
+      "use": "evidence board",
+      "source": "https://ambientcg.com/view?id=Cork002",
+      "licence": "CC0 1.0",
+      "size": 512,
+      "normalSize": 512,
+      "maps": {
+        "Color": {
+          "file": "assets/v3/textures/Cork002-Color-fd58b1f744.ktx2",
+          "bytes": 95841,
+          "sha256": "fd58b1f7449dc6878884539a7dfb937903431f614c50bfed9c7e02e0d7ddb94d"
+        },
+        "NormalGL": {
+          "file": "assets/v3/textures/Cork002-NormalGL-6b96eca7d7.ktx2",
+          "bytes": 250056,
+          "sha256": "6b96eca7d75bc6a0d87dc18d2cdacc96d617cfa953f5bc8159afba439e0141bf"
+        },
+        "Roughness": {
+          "file": "assets/v3/textures/Cork002-Roughness-6a3790d4d4.ktx2",
+          "bytes": 69159,
+          "sha256": "6a3790d4d4363a631e4769a0da324f5bda1c4e79120e4d22413ecc16b42dbd7d"
+        }
+      }
+    },
+    "Metal048A": {
+      "tier": "first",
+      "use": "brass rails, case frames, picture frames",
+      "source": "https://ambientcg.com/view?id=Metal048A",
+      "licence": "CC0 1.0",
+      "size": 512,
+      "normalSize": 512,
+      "maps": {
+        "Color": {
+          "file": "assets/v3/textures/Metal048A-Color-4f37d0e845.ktx2",
+          "bytes": 17861,
+          "sha256": "4f37d0e845638fdf111713a2461a61ffb4cc2f7e6674e2debc31d2d2bc2261a1"
+        },
+        "NormalGL": {
+          "file": "assets/v3/textures/Metal048A-NormalGL-86c2adc3d0.ktx2",
+          "bytes": 77069,
+          "sha256": "86c2adc3d0a4b58ffdd2abf4fbba7ae48c276a3b18e5b2de526f914c2c20cbda"
+        },
+        "Roughness": {
+          "file": "assets/v3/textures/Metal048A-Roughness-196714b95c.ktx2",
+          "bytes": 7163,
+          "sha256": "196714b95c2b445e8baf9892e96a93b420bf176f4521a73b2e3704440d6bb46c"
+        },
+        "Metalness": {
+          "file": "assets/v3/textures/Metal048A-Metalness-507a7861a7.ktx2",
+          "bytes": 1294,
+          "sha256": "507a7861a77360742010f5f629f79258829e4835dc4fdf2f5c7a3ab717c30bcf"
+        }
+      }
+    },
+    "Fabric085": {
+      "tier": "first",
+      "use": "curtains",
+      "source": "https://ambientcg.com/view?id=Fabric085",
+      "licence": "CC0 1.0",
+      "size": 512,
+      "normalSize": 512,
+      "maps": {
+        "Color": {
+          "file": "assets/v3/textures/Fabric085-Color-c5eb81916c.ktx2",
+          "bytes": 91916,
+          "sha256": "c5eb81916c0a17732e0186f6d383b76f3dd3fe90e1b772ec1c40319916ac79af"
+        },
+        "NormalGL": {
+          "file": "assets/v3/textures/Fabric085-NormalGL-9b1e2e5cbf.ktx2",
+          "bytes": 310361,
+          "sha256": "9b1e2e5cbf32a369613d4568a4eb5639faa62a5cd02c33e10b27c72512d80c70"
+        },
+        "Roughness": {
+          "file": "assets/v3/textures/Fabric085-Roughness-97f2df9412.ktx2",
+          "bytes": 74357,
+          "sha256": "97f2df94125fbf14b73dad2b861765e42be4a967988e5f17a3cac0232b704132"
+        }
+      }
+    },
+    "Fingerprints002": {
+      "tier": "first",
+      "use": "smudges on vitrine glass (roughness only)",
+      "source": "https://ambientcg.com/view?id=Fingerprints002",
+      "licence": "CC0 1.0",
+      "size": 1024,
+      "normalSize": 512,
+      "maps": {
+        "Roughness": {
+          "file": "assets/v3/textures/Fingerprints002-Roughness-b2dc23a046.ktx2",
+          "bytes": 221219,
+          "sha256": "b2dc23a046906f37c0e07781317e8fc742e3e32c8332a4e3878873fc2e9f9a44"
+        }
+      }
+    },
+    "Paper004": {
+      "tier": "first",
+      "use": "label cards, visitor book, leaflets",
+      "source": "https://ambientcg.com/view?id=Paper004",
+      "licence": "CC0 1.0",
+      "size": 512,
+      "normalSize": 512,
+      "maps": {
+        "Color": {
+          "file": "assets/v3/textures/Paper004-Color-1fcbc2cd4f.ktx2",
+          "bytes": 83452,
+          "sha256": "1fcbc2cd4f3eaeeef483eea37dc07be2b90fc5982c0248cc6f7a0cbc32b5592a"
+        },
+        "NormalGL": {
+          "file": "assets/v3/textures/Paper004-NormalGL-bbf0311b49.ktx2",
+          "bytes": 238088,
+          "sha256": "bbf0311b490e2978eaf5f2bdd338839b0ae7e84104deb0f3ab78c5386c6cbabe"
+        },
+        "Roughness": {
+          "file": "assets/v3/textures/Paper004-Roughness-cdf40ebfef.ktx2",
+          "bytes": 66040,
+          "sha256": "cdf40ebfeff5a0ecf9ed83babc424d44d41fe692ef598f08a2c9d6f5b1a7fae5"
+        }
+      }
+    }
+  },
+  "own": {
+    "exit-sign": {
+      "file": "assets/v3/own/exit-sign-2454024971.ktx2",
+      "bytes": 4854,
+      "sha256": "2454024971fe167f2efb0453c8020a1d98e766f2569a9b327097a7edd19c0afc",
+      "tier": "first",
+      "px": [
+        512,
+        192
+      ],
+      "use": "exit sign face (colour and emissive), 0.35 x 0.15 m",
+      "licence": "CC BY 4.0",
+      "author": "Built for this project (scripts/fetch-v3-assets.mjs)"
+    },
+    "night-facade": {
+      "file": "assets/v3/own/night-facade-84b0d65a04.ktx2",
+      "bytes": 122512,
+      "sha256": "84b0d65a04e4028c0c96874ce0d0e4442aed96bf163597fda4930b9c01f40fd5",
+      "tier": "first",
+      "px": [
+        1024,
+        512
+      ],
+      "use": "lit windows of the building across the street (colour and emissive, seeded random, illustrative)",
+      "licence": "CC BY 4.0",
+      "author": "Built for this project (scripts/fetch-v3-assets.mjs)"
+    }
+  },
+  "totals": {
+    "files": 32,
+    "bytes": 10333260,
+    "largestFileBytes": 2223008
+  }
+}
