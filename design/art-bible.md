@@ -108,3 +108,33 @@ faces are headings and in-world props only. All text pairs ≥ 4.5:1.
   original panel button remains for keyboard/text parity.
 - Existing tools unchanged: magnifier, measure, hotspots, compare — all with
   keyboard and text-mode equivalents (v1 contract preserved).
+
+## v3 owner direction (S0), recorded 2026-10-30
+
+The owner made these choices for plan 10 (v3.0.0) on 2026-10-30, after reviewing the
+S0 direction pack. The choices are the owner's; an agent prepared the pack.
+
+| Item | Choice |
+|---|---|
+| Font pair | **Pair A: Libre Baskerville (display, 700) + Source Sans 3 (body).** SIL OFL 1.1, self-hosted WOFF2. Specimen: `repos/immersive/_direction/object-detective/specimen.html` |
+| Layout | Scene-first mock `repos/immersive/_direction/object-detective/layout.svg` approved, with the label change below |
+| Reference board | Approved as drafted: `repos/immersive/_direction/object-detective/index.html#refs` (8 links) |
+| Object list | Approved as drafted: `repos/immersive/_direction/object-detective/objects.draft.json` (27 objects in the main scene). S4 turns it into `content/objects.json` and resolves each object's `_check` note |
+
+### Object name labels are hidden by default (owner change, all seven repos)
+
+The mock shows a name label on every object. The owner wants no labels at rest:
+
+- Mouse: hovering an object shows its outline and its name label, with a fade in and out of about 150 ms. With reduced motion on, the label appears and disappears instantly.
+- Keyboard: when an object takes focus (Tab or the "Objects in view" list), its label shows the same way.
+- Touch (no hover): a tap opens the object's info card directly, and the label shows with it.
+- Off by default: a "Show all labels" menu setting, saved in localStorage; holding a key (Alt or L) shows all labels while held, and the controls cheat sheet lists that key.
+- Task cues (for example a numbered survey flag or a glint) are not name labels and stay visible. Their text labels follow the same hover rule. The plan §4.2 task/explore distinction still applies.
+- Gate: a ui-audit check and a browser test prove that no object labels are visible at rest, that hover, focus and tap each show the correct label, and that "Show all labels" shows them all.
+
+This is built once in the S3 template (`_templates/immersive-core`) and synced into the repo.
+
+### Open question: wall clock
+
+The wall clock shows a fixed after-hours time, about 9:40 pm, and its hands advance
+slowly from there. It never shows the visitor's real local time.
