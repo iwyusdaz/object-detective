@@ -57,8 +57,10 @@ const app = await createSceneApp({
     a.scene = { museum, stage };
     a.lessons = lessons;
     // Detail streams after the learner's first interaction (plan §7 download gate).
-    const first = () => { museum.streamDetail(); for (const ev of ['pointerdown', 'keydown']) window.removeEventListener(ev, first, true); };
-    for (const ev of ['pointerdown', 'keydown']) window.addEventListener(ev, first, true);
+    // 'click' too: a screen reader's virtual cursor activates buttons with a click and no pointerdown or keydown.
+    const FIRST = ['pointerdown', 'keydown', 'click'];
+    const first = () => { museum.streamDetail(); for (const ev of FIRST) window.removeEventListener(ev, first, true); };
+    for (const ev of FIRST) window.addEventListener(ev, first, true);
     return {
       colliders: museum.colliders,
       bounds: [-5.6, 9.3, -7.6, 3.6],
