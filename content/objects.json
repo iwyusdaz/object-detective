@@ -541,15 +541,14 @@
       "whyItMatters": "",
       "realSize": [
         0.7465,
-        0.98,
+        0.7983,
         0.8155
       ],
       "honesty": "illustrative",
       "source": "https://polyhaven.com/a/Chandelier_01",
       "role": "explore",
       "_asset": "public/assets/models/manifest.json#Chandelier_01",
-      "scene": "gallery",
-      "_scale": "Height includes the 0.2 m ceiling chain added in museum.js (the Poly Haven model is 0.80 m tall)."
+      "scene": "gallery"
     }
   ]
 }

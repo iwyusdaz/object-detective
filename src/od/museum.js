@@ -1064,9 +1064,10 @@ export class Museum {
         g.position.set(0, ROOM.H - 0.95, -2.2);
         g.name = 'chandelier';
         const chain = new THREE.Mesh(cyl(0.008, 0.008, 0.2, 6), this.M.brass);
-        chain.position.y = 0.88;
-        g.add(chain);
+        chain.position.set(g.position.x, g.position.y + 0.88, g.position.z);
+        chain.name = 'chandelier chain';
         this._add(g);
+        this._add(chain);
         this._lateRegister('chandelier', g);
       }),
       want('cabinet') && load(P.drawer_cabinet.file).then((m) => {
