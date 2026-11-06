@@ -111,6 +111,25 @@ export class Stage {
     this.magnifier = new Magnifier({ engine: this.engine, stage: this });
     this.measure = new Measure(this.engine, this);
     this._token = 0;
+    // Shadow maps are re-rendered only when something that casts or lights them
+    // changes (the table objects, the references, the key or the raking light):
+    // re-drawing a 0.8 M-triangle scan into the shadow map every frame cost GPU
+    // time for a picture that had not changed.
+    this.engine.renderer.shadowMap.autoUpdate = false;
+    this.engine.renderer.shadowMap.needsUpdate = true;
+    this._shadowSig = '';
+  }
+
+  /** A cheap signature of everything the shadow maps depend on. */
+  _shadowSignature() {
+    const parts = [];
+    const add = (o) => { if (!o) { parts.push('-'); return; } o.updateMatrixWorld(); const e = o.matrixWorld.elements; parts.push(o.visible ? 1 : 0, e[0].toFixed(4), e[1].toFixed(4), e[2].toFixed(4), e[4].toFixed(4), e[12].toFixed(4), e[13].toFixed(4), e[14].toFixed(4)); };
+    for (const h of this.root.children) { add(h); for (const c of h.children) { parts.push(c.id); add(c); } }
+    const M = this.museum;
+    for (const o of [M.scaleCard, M.quarter, M.ruler, M.magnifierProp, M.rakeLamp, M.draftCard, M._labelStand]) add(o);
+    const L = this.rake.light;
+    parts.push(L.castShadow ? 1 : 0, L.intensity.toFixed(3), L.position.x.toFixed(4), L.position.y.toFixed(4), L.position.z.toFixed(4), M.key.intensity.toFixed(3), M.key.castShadow ? 1 : 0);
+    return parts.join(',');
   }
 
   get primary() { return this.slots[0] || null; }
@@ -328,8 +347,10 @@ export class Stage {
     });
   }
 
-  lensToHotspot() {
+  lensToHotspot({ follow = true } = {}) {
     const cur = this.current;
+    // Until the learner moves the lens, it stays on the mark while the camera settles.
+    if (follow) this.lensFollow = true;
     if (!this.magnifier.on || !cur || this.primary?.id !== cur.id) return;
     const pt = this.hotspotScreen(cur.id, cur.hs);
     if (pt) this.magnifier.moveTo(pt.x, pt.y);
@@ -400,6 +421,9 @@ export class Stage {
 
   /** Per frame: the lens (after the rig has moved the camera). */
   update() {
+    const sig = this._shadowSignature();
+    if (sig !== this._shadowSig) { this._shadowSig = sig; this.engine.renderer.shadowMap.needsUpdate = true; }
+    if (this.lensFollow && this.magnifier.on) this.lensToHotspot({ follow: false });
     this.magnifier.update();
   }
 }

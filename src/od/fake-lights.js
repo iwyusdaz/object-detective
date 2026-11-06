@@ -75,13 +75,17 @@ uniform vec4 fkCone[FK_MAX];`)
   float fkShin = clamp(2.0 / max(pow(material.roughness, 4.0), 1e-4) - 2.0, 1.0, 2048.0);
   for (int i = 0; i < FK_MAX; i++) {
     if (i >= fkCount) break;
+    vec4 cone = fkCone[i];
     vec3 Lv = fkPos[i] - geometryPosition;
-    float d = length(Lv);
+    float d2 = dot(Lv, Lv);
+    if (cone.z > 0.0 && d2 > cone.z * cone.z) continue; // beyond the light's range
+    float d = sqrt(d2);
     vec3 L = Lv / max(d, 1e-4);
+    float cs = dot(-L, fkDir[i]);
+    if (cs <= cone.x) continue; // outside the cone
     float nl = dot(geometryNormal, L);
     if (nl <= 0.0) continue;
-    vec4 cone = fkCone[i];
-    float spot = smoothstep(cone.x, cone.y, dot(-L, fkDir[i]));
+    float spot = smoothstep(cone.x, cone.y, cs);
     float att = 1.0 / max(pow(d, cone.w), 0.01);
     if (cone.z > 0.0) att *= pow2(saturate(1.0 - pow4(d / cone.z)));
     vec3 irr = fkColor[i] * (nl * spot * att);

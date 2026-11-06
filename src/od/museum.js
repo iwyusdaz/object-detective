@@ -68,6 +68,11 @@ export class Museum {
     this.caseHolders = new Map(); // record id -> { holder, placard, scan }
     this.scans = new Map(); // record id -> Promise<Object3D> (base scan, shared with the stage)
     this.mode = 'gallery';
+    // Close-ups on the table come to 9 cm (limits.minRadius 0.09); the template's
+    // 0.1 m near plane clipped the mark the lens is meant to cover.
+    app.engine.camera.near = 0.02;
+    app.engine.camera.far = 400;
+    app.engine.camera.updateProjectionMatrix();
     // Display lights as cheap analytic lights (GPU budget, see fake-lights.js).
     this.fake = new FakeLights();
     app.engine.onUpdate(() => this.fake.update(app.engine.camera));
@@ -758,6 +763,8 @@ export class Museum {
     sweep.position.set(0, TABLE.top + 0.001, STAGE_POS.z - TABLE.z - 0.12);
     sweep.receiveShadow = true;
     sweep.userData.surfaceDetail = true;
+    // No outline hull: the inverted hull of this curved sheet filled the whole table view (25 ms GPU on hover).
+    sweep.userData.noOutline = true;
     t.add(sweep);
     this.sweep = sweep;
     this._add(t);

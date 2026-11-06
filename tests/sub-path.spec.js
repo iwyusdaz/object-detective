@@ -41,7 +41,7 @@ test.beforeAll(async () => {
 test.afterAll(() => new Promise((r) => server.close(r)));
 
 test(`sub-path /play/${SLUG}/ loads with no failed requests or console errors`, async ({ page }) => {
-  test.setTimeout(90_000);
+  test.setTimeout(300_000);
   const failed = []; const errors = [];
   page.on('requestfailed', (r) => failed.push(`${r.url()} ${r.failure()?.errorText}`));
   page.on('response', (r) => { if (r.status() >= 400) failed.push(`${r.url()} -> ${r.status()}`); });

@@ -1,4 +1,7 @@
-# Art Bible — The Object Detective v2.0.0 ("The Lantern Museum after hours")
+# Art Bible — The Object Detective v3.0.0 ("The Lantern Museum after hours")
+
+> **v3.0.0 (plan 10, scene-first revamp).** The owner's S0 choices are recorded at the end of this file ("v3 owner direction (S0)") and are what the build uses. Sections 1, 2, 4 and 5 still describe the room and its mood. Sections 3, 6 and 7 describe v2.0.0 and are superseded by "v3.0.0 as built" below (fonts, motion list, interaction).
+
 
 ## 1. Visual Direction & Mood
 
@@ -138,3 +141,19 @@ This is built once in the S3 template (`_templates/immersive-core`) and synced i
 
 The wall clock shows a fixed after-hours time, about 9:40 pm, and its hands advance
 slowly from there. It never shows the visitor's real local time.
+
+## v3.0.0 as built (S6, 2026-11-06)
+
+Agent work. It follows the S0 choices above; nothing here is owner approval.
+
+| Area | v3.0.0 |
+|---|---|
+| Fonts | Pair A as chosen: **Libre Baskerville 700** for the title screen, chapter cards and in-world museum labels and signs; **Source Sans 3 400/600** for all body and UI text. Self-hosted WOFF2 in `src/styles/fonts/` (SIL OFL 1.1, licences beside them). Plain font (menu) swaps the display face for the body face. The v2 faces (Cormorant Garamond, Source Serif 4, Special Elite) are removed |
+| Labels | Hidden at rest (owner change): hover or focus shows the outline and name, a tap opens the card; "Show all labels" in the menu and hold Alt or L. Template behaviour, synced from `_templates/immersive-core` |
+| Layout | Scene-first shell: one top bar (title, five-step stepper, Discovered counter, Menu), the Now card bottom-left (bottom sheet on phones), drawers for reading and writing (draft card, records drawer, evidence board, label writer, debrief, visitor card, shift report). The v2 right panel and tool pad are gone: the inspection tools are compact buttons and sliders inside the Now card |
+| Grade | `public/lut/lantern-night-33.png` (own work, `scripts/make-lut.mjs lantern-night`): tungsten-warm highlights, night-blue shadows, 8% less saturation, 6% more contrast, lifted blacks. Applied after AgX in the template render chain |
+| Lighting | Studio key over the inspection table (the only shadow-casting light, so raking-light shadows stay true), moonlight through the north windows, a hemisphere fill, reflections from a cube render of the room itself. The twelve display lights (one track spot per case, the bench cases, *The Muse*, the archive, the guard's torch, the chandelier) are cheap analytic lights with the same positions, cones and falloff (`src/od/fake-lights.js`, GPU budget) |
+| Dressing | Six tall vitrines (plinth, felt deck, brass frame, glass hood, printed label card), three bench cases with the neighbouring Smithsonian scans, two Met CC0 portraits in gilt frames with picture lights and wall labels, reception desk with visitor book and leaflets, entrance doors and lit exit sign, tall rainy windows with the street and the building opposite, curtains, wainscoting, the evidence board, the archive corner (drawer cabinet, shelves), clock, chandelier, security camera, bench |
+| Motion (11 systems, 4 layers) | Sky: clouds over the street. Environment: rain on the glass, dust in the beams, curtains in a draught. Agents: the guard's torch, passing cars' headlights, lit windows opposite. Objects: clock pendulum and hands (accurate, from about 9:40 pm), security camera pan, exit-sign dimming, chandelier flicker. All but the clock are labelled illustrative on their cards. Calm mode in the cases; reduced motion stops everything non-essential |
+| Magnifier | Render target + circular composite in the scene (fixes SP-03: no square behind the lens), brass rim, 2×/4×/8×; the 4096 px scan streams on first use (D-07) |
+| Abstract markers | None: the v2 floor rings are gone. Points of interest are numbered tags on the object (in the legend) |

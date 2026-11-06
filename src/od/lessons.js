@@ -114,11 +114,13 @@ export class Lessons {
     const canvas = app.shell.canvas;
     canvas.addEventListener('pointermove', (e) => {
       if (!stage.magnifier.on || e.pointerType !== 'mouse') return;
+      stage.lensFollow = false;
       const r = canvas.getBoundingClientRect();
       stage.magnifier.moveTo((e.clientX - r.left) / r.width, (e.clientY - r.top) / r.height);
     });
     app.rig.on('tap', (x, y, type) => {
       const r = canvas.getBoundingClientRect();
+      if (stage.magnifier.on && type !== 'mouse') stage.lensFollow = false;
       if (stage.magnifier.on && type !== 'mouse') stage.magnifier.moveTo((x - r.left) / r.width, (y - r.top) / r.height);
       if (this.pointMeasure) {
         const hit = stage.measure.pick(((x - r.left) / r.width) * 2 - 1, -((y - r.top) / r.height) * 2 + 1);
@@ -485,7 +487,9 @@ export class Lessons {
       ['Compare', 'Case 2: puts another object beside this one at true scale. Press again for the next one.'],
       ['Look around', 'Drag to circle the object. Scroll or pinch to zoom. Q/E turn, R/F tilt, + and - zoom.'],
     ];
-    body.append(h('dl', { class: 'od-tools' }, ...rows.map(([k, v]) => h('div', {}, h('dt', {}, k), h('dd', {}, v)))));
+    body.append(h('dl', { class: 'od-tools' }, ...rows.map(([k, v]) => h('div', {}, h('dt', {}, k), h('dd', {}, v)))),
+      // A control in the drawer also makes its scrolling body reachable by keyboard (axe scrollable-region-focusable).
+      h('p', { class: 'next-row' }, h('button', { type: 'button', class: 'v3-btn v3-primary', onclick: () => this.app.shell.closeDrawer() }, 'Back to the object')));
   }
 
   /** The Now card for a case's current step. */
