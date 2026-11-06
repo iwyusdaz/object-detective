@@ -85,3 +85,18 @@ Status values: **done**, **done (agent review)** (done, with an agent review sti
 | Headed GPU perf + "is it alive" capture + agent reviews (≥ 5 revisions) | done | Four v2 agent reviews in `evaluation/reviews/agent-review-v2-*.md`; revisions OD-V9 to OD-V16 in DECISIONS.md; headed Apple M1: Medium 60.1 fps, 74 draw calls, 14.2 MB before first interaction (budget 15 MB) |
 | Tag v2.0.0 + showcase pin | done | v2.0.0 released 2026-10-29, pinned (showcase PR #6) |
 | v2.0.1 patch (shared-core fixes, OD-V12 rule moved to `src/styles/case-hud.css`) | done | CHANGELOG 2.0.1; 63 unit + 26 browser tests pass (2026-10-29); posters renamed `poster-2.0.1.*` |
+
+## v3.0.0 — scene-first revamp status (plan 10 §6.2, S6 build, lean mode)
+
+Agent work, 2026-11-06. No agent review was run (lean mode); the owner's visual review is the quality gate.
+
+| Item | Status | Evidence |
+|---|---|---|
+| Template v3 core synced (T-1..T-25) | done | `node _tools/sync-v3-core.mjs object-detective --dry-run`: 0 added, 0 updated, 22 unchanged |
+| Lantern Museum dressed (vitrines, paintings, bench cases, reception, rainy windows, archive) | done | `src/od/museum.js`; art bible "v3.0.0 as built" |
+| Cinematic overlay no longer blocks controls; small tool-pad controls gone (tools in the Now card) | done | ui-audit blockedControls and targetSize gates |
+| Circular magnifier via render target + circular composite (SP-03, v2 open finding) | done | `src/systems/magnifier.js`; browser test "magnifier ... (SP-03)" |
+| Tool pad covering 25% of the viewport (v2 V5) | done | the v2 tool pad is gone; tools sit in the Now card |
+| Keyboard-only completion browser test | **open** (times out in Case 2; likely Tab-walk length under software WebGL, possibly focus loss on card re-render; not debugged) | `tmp/e2e-final-2.log`; build-log.md Open 6 |
+| GPU budget in the inspection-table views | **open** | see `.agents/tasks/immersive-v3/s6-object-detective/build-log.md` |
+| Other v2 open findings above (A4-A11, MM3-MM7, E1-E11, H7-H10, R2, C7, screen-reader pass, CC0 screenshot dispute) | re-deferred | not part of plan 10 §6.2; unchanged since v2 |

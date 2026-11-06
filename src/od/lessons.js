@@ -549,7 +549,7 @@ export class Lessons {
       action: caseId === 'tutorial' ? 'Press Open the debrief to compare your verdicts with the expert. Then start Case 2.' : 'Press Open the debrief to see your scores. Then go on to the last task.',
       result: def.assessed ? `Verdicts matching the expert: ${s.verdictCorrect} of ${s.total}.` : '',
       primary: openBtn('debrief', 'Open the debrief'),
-      secondary: { label: caseId === 'tutorial' ? 'Next: Case 2' : 'Next: On your own', onClick: () => this.app.completeModule(caseId === 'tutorial' ? 1 : 2) },
+      secondary: { label: caseId === 'tutorial' ? 'Next: Case 2' : 'Next: on your own', onClick: () => this.app.completeModule(caseId === 'tutorial' ? 1 : 2) },
     };
   }
 
