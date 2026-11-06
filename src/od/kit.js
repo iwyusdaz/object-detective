@@ -39,6 +39,9 @@ export function lazyTexture(renderer, path, { srgb = true, repeat = [1, 1], anis
     t.colorSpace = tex.colorSpace;
     t.wrapS = t.wrapT = THREE.RepeatWrapping;
     t.repeat.set(...repeat);
+    // KTX2 images are stored top row first and cannot be flipped on upload
+    // (compressed), so flip V here; otherwise paintings and signs show upside down.
+    if (t.isCompressedTexture && !t.flipY) { t.repeat.y = -repeat[1]; t.offset.y = repeat[1]; }
     t.anisotropy = Math.min(anisotropy, renderer.capabilities.getMaxAnisotropy());
     t.needsUpdate = true;
     return t;

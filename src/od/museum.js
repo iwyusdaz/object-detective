@@ -172,6 +172,19 @@ export class Museum {
 
   _add(obj) { this.root.add(obj); obj.updateMatrixWorld(true); return obj; }
 
+  /**
+   * A contact shadow under `g`, as a sibling with the same placement: kept out
+   * of the catalog object so its scale test measures the object, not its shadow.
+   */
+  _shadowFor(g, w, d, opacity) {
+    const s = new THREE.Group();
+    s.name = `${g.name} shadow`;
+    s.position.set(g.position.x, 0, g.position.z);
+    s.rotation.y = g.rotation.y;
+    s.add(contactShadow(w, d, opacity));
+    return this._add(s);
+  }
+
   _register(id, roots, opts) {
     const list = [roots].flat();
     const prev = this.registered.get(id) || [];
@@ -360,6 +373,7 @@ export class Museum {
       glass.position.set(0, 2.3, -0.01);
       glass.renderOrder = 8;
       glass.raycast = () => {};
+      glass.userData.plainBox = true; // a flat pane of glass really is a plane
       g.add(glass);
       // Rain on the glass: streaks and drops that grow, join and run down (procedural shader, illustrative).
       const rainMat = new THREE.ShaderMaterial({
@@ -601,8 +615,8 @@ export class Museum {
       const card = this._labelCard(v.label);
       card.position.set(0, PH - 0.2, W / 2 + 0.002);
       g.add(card);
-      g.add(contactShadow(W + 0.3, W + 0.3, 0.5));
       this._add(g);
+      this._shadowFor(g, W + 0.3, W + 0.3, 0.5);
       this.vitrineRoots.push(g);
       // The object sits on its deck; filled by streamDetail().
       const holder = new THREE.Group();
@@ -638,8 +652,8 @@ export class Museum {
       const card = this._labelCard(b.label, 0.2, 0.11);
       card.position.set(0, top - 0.06, D / 2 + 0.002);
       g.add(card);
-      g.add(contactShadow(b.w + 0.3, D + 0.3, 0.45));
       this._add(g);
+      this._shadowFor(g, b.w + 0.3, D + 0.3, 0.45);
       this.benchRoots.push(g);
     }
     this._register('vitrine', [...this.vitrineRoots, ...this.benchRoots]);
@@ -736,8 +750,8 @@ export class Museum {
     sweep.userData.surfaceDetail = true;
     t.add(sweep);
     this.sweep = sweep;
-    t.add(contactShadow(1.8, 1.2, 0.5));
     this._add(t);
+    this._shadowFor(t, 1.8, 1.2, 0.5);
     this.table = t;
     this._register('inspection-table', t);
     // Draft label card lying on the table (catalog: draft-label, fictional).
@@ -824,11 +838,18 @@ export class Museum {
       const pl = new Parts();
       pl.add(cyl(0.025, 0.025, Math.min(0.9, fw * 0.55), 12), this.M.brass, { pos: [0, fh + 0.1, fd + 0.12], rot: [0, 0, Math.PI / 2] });
       pl.add(box(0.03, 0.14, 0.03), this.M.brass, { pos: [0, fh + 0.04, fd + 0.04] });
-      g.add(pl.build('picture light', { cast: false }));
+      // The picture light and the wall label hang beside the painting, not on it:
+      // a sibling group, so the catalog object (and its scale test) is the framed painting.
+      const deco = new THREE.Group();
+      deco.name = `${id} light and label`;
+      deco.position.copy(g.position);
+      deco.rotation.copy(g.rotation);
+      deco.add(pl.build('picture light', { cast: false }));
       // Small museum label beside the painting.
       const label = this._labelCard([p.title.toUpperCase(), `${p.artist}, ${p.date}`, `${p.medium}. The Met, ${p.accessionNumber} (CC0)`], 0.2, 0.13);
       label.position.set(fw / 2 + 0.2, 0.55, 0.003);
-      g.add(label);
+      deco.add(label);
+      this._add(deco);
       this._add(g);
       this.paintings[key] = { group: g, mat };
       this._register(id, g);
@@ -888,8 +909,8 @@ export class Museum {
     signM.rotation.y = Math.PI;
     g.add(signM);
     g.rotation.y = Math.PI; // the visitor side faces the gallery (north)
-    g.add(contactShadow(2.4, 1.0, 0.45));
     this._add(g);
+    this._shadowFor(g, 2.4, 1.0, 0.45);
     this._register('reception-desk', g);
   }
 
@@ -1073,6 +1094,7 @@ export class Museum {
         g.position.set(-0.55, TABLE.top, TABLE.z - 0.18);
         g.rotation.y = 0.9;
         g.name = 'raking light lamp';
+        g.userData.scaleFrame = 'local'; // turned on the table; its size is the lamp's own box
         this._add(g);
         this.rakeLamp = g;
         this._lateRegister('raking-light', g);
@@ -1098,7 +1120,8 @@ export class Museum {
         const pan = new THREE.Group();
         pan.add(m);
         holder.add(pan);
-        holder.userData.scaleFrame = 'local';
+        // Rest-pose size from the model's own box (it pans, so a live box would grow).
+        holder.userData.restSize = b.getSize(new THREE.Vector3()).toArray();
         holder.name = 'security camera';
         this._add(holder);
         this.secCam = { holder, pan, base: Math.PI * 0.75 };

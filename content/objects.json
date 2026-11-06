@@ -116,17 +116,14 @@
       "short": "A brass, glass and copper instrument from about 1870 that measured electric current with a compass needle.",
       "more": "Current through the coil makes a magnetic field that pushes the compass needle away from north. The current is proportional to the tangent of the angle the needle turns through, which gives the instrument its name. The record lists Western Electric as maker, and rubber, glass, brass, copper and steel as materials.",
       "whyItMatters": "Transfer task object.",
-      "realSize": [
-        0.2159,
-        0.1905,
-        0.2032
-      ],
+      "realSize": null,
       "honesty": "real",
       "source": "https://n2t.net/ark:/65665/ng49ca746a5-1ec6-704b-e053-15f76fa0b4fa",
       "role": "task",
       "_asset": "content/models.json#tangent-galvanometer",
-      "_scale": "Exempt from the 15% scale test: the scan measures about 0.145 m, the record 0.2159 m (DECISIONS D-11). realSize is the record value in record order; the scan is never measured or shown at true size.",
-      "scene": "gallery"
+      "_scale": "Exempt: the scan measures about 0.145 m, the record 0.2159 m (DECISIONS D-11); realSize is null so no scale test runs, and the scan is never measured or shown at true size.",
+      "scene": "gallery",
+      "realSizeNote": "No scale test: the scan measures about 0.145 m but the record gives 0.2159 m (DECISIONS D-11), so the scan is never measured or shown at true size."
     },
     {
       "id": "draft-label",
@@ -187,8 +184,8 @@
       "whyItMatters": "Measure tool: size claims on the label.",
       "realSize": [
         0.0856,
-        0.002,
-        0.054
+        0.00076,
+        0.05398
       ],
       "honesty": "real",
       "source": "https://en.wikipedia.org/wiki/Quarter_(United_States_coin)",
@@ -272,14 +269,15 @@
       "whyItMatters": "Where the inspection tools are used.",
       "realSize": [
         1.4,
-        0.9,
+        1.56,
         0.8
       ],
       "honesty": "fictional",
       "source": "",
       "role": "explore",
       "_asset": "built in code (gallery.js)",
-      "scene": "gallery"
+      "scene": "gallery",
+      "_scale": "Height includes the photographic sweep, which rises 0.66 m above the 0.9 m table top."
     },
     {
       "id": "grandfather-clock",
@@ -306,8 +304,8 @@
       "whyItMatters": "",
       "realSize": [
         1.2,
-        2.6,
-        0.1
+        2.64,
+        0.15
       ],
       "honesty": "fictional",
       "source": "",
@@ -410,8 +408,8 @@
       "whyItMatters": "",
       "realSize": [
         0.1,
-        0.2,
-        0.2
+        0.26,
+        0.265
       ],
       "honesty": "fictional",
       "source": "",
@@ -443,15 +441,16 @@
       "more": "The desk belongs to the fictional Lantern Museum. The visitor book shows no entries for tonight: the museum is closed.",
       "whyItMatters": "",
       "realSize": [
-        2,
-        1.1,
+        2.0,
+        1.51,
         0.7
       ],
       "honesty": "fictional",
       "source": "",
       "role": "explore",
       "_asset": "built in code + content/assets-v3.json#textures.Wood051, Marble012, Paper004",
-      "scene": "gallery"
+      "scene": "gallery",
+      "_scale": "Height includes the brass desk lamp on the counter (the counter is 1.1 m)."
     },
     {
       "id": "night-guard",
@@ -489,7 +488,7 @@
       "id": "exit-sign",
       "name": "Exit sign",
       "short": "A lit exit sign over the door. Its light flickers now and then.",
-      "more": "This sign stays lit while the museum is closed. The flicker is a small mood detail, kept slow and dim so it stays well inside flash-safety limits.",
+      "more": "This sign stays lit while the museum is closed. Its flicker is illustrative: a small mood detail, kept slow and dim so it stays well inside flash-safety limits.",
       "whyItMatters": "",
       "realSize": [
         0.35,
@@ -509,7 +508,7 @@
       "more": "The curtains frame the tall windows. Their slow movement in a draught is illustrative.",
       "whyItMatters": "",
       "realSize": [
-        1,
+        0.5,
         2.8,
         0.1
       ],
@@ -542,14 +541,15 @@
       "whyItMatters": "",
       "realSize": [
         0.7465,
-        0.7983,
+        0.98,
         0.8155
       ],
       "honesty": "illustrative",
       "source": "https://polyhaven.com/a/Chandelier_01",
       "role": "explore",
       "_asset": "public/assets/models/manifest.json#Chandelier_01",
-      "scene": "gallery"
+      "scene": "gallery",
+      "_scale": "Height includes the 0.2 m ceiling chain added in museum.js (the Poly Haven model is 0.80 m tall)."
     }
   ]
 }

@@ -1,0 +1,258 @@
+{
+  "_note": "Extra states for the plan 10 \u00a77 gates and catalog reach (object-detective v3). Module states m1-m5 come from the stepper. Gallery views are places a learner walks to with the camera rig (WASD, drag, double-click); each one is a rig view inside the room, not a framing chosen for a gate. Case states open the Now-card steps and the drawers a learner opens from the card. The v2 built-in state start-shift is replaced by these states.",
+  "settleMs": 3500,
+  "extraStates": [
+    {
+      "name": "walk-north",
+      "label": "Walk up to the north wall cases",
+      "steps": [
+        {
+          "eval": "window.__TEST__.app.goModule(0)"
+        },
+        {
+          "wait": 2500
+        },
+        {
+          "eval": "window.__TEST__.rig.flyTo({ target: [0, 1.15, -5.4], radius: 3.4, theta: 0.15, phi: 1.36 }, 0.05)"
+        },
+        {
+          "wait": 4000
+        }
+      ]
+    },
+    {
+      "name": "walk-west",
+      "label": "Turn to the west wall (paintings, clock, bench)",
+      "steps": [
+        {
+          "eval": "window.__TEST__.app.goModule(0)"
+        },
+        {
+          "wait": 2500
+        },
+        {
+          "eval": "window.__TEST__.rig.flyTo({ target: [-5.2, 1.55, -2.0], radius: 5.0, theta: 1.35, phi: 1.42 }, 0.05)"
+        },
+        {
+          "wait": 4000
+        }
+      ]
+    },
+    {
+      "name": "walk-south",
+      "label": "Turn round to the entrance (reception, exit, bench cases)",
+      "steps": [
+        {
+          "eval": "window.__TEST__.app.goModule(0)"
+        },
+        {
+          "wait": 2500
+        },
+        {
+          "eval": "window.__TEST__.rig.flyTo({ target: [0, 1.35, 2.6], radius: 5.6, theta: 3.14159, phi: 1.4 }, 0.05)"
+        },
+        {
+          "wait": 4000
+        }
+      ]
+    },
+    {
+      "name": "walk-archive",
+      "label": "Look into the archive corner (evidence board, cabinet, shelves)",
+      "steps": [
+        {
+          "eval": "window.__TEST__.app.goModule(0)"
+        },
+        {
+          "wait": 2500
+        },
+        {
+          "eval": "window.__TEST__.rig.flyTo({ target: [7.2, 1.35, -0.8], radius: 5.2, theta: -1.3, phi: 1.42 }, 0.05)"
+        },
+        {
+          "wait": 4000
+        }
+      ]
+    },
+    {
+      "name": "c1-brief",
+      "label": "Case 1, step 1: Open the draft card (drawer)",
+      "steps": [
+        {
+          "eval": "window.__TEST__.app.goModule(1)"
+        },
+        {
+          "wait": 3500
+        },
+        {
+          "eval": "window.__TEST__.lessons._setCaseStep('tutorial', 'brief'); window.__TEST__.lessons.openCaseDrawer('tutorial', 'brief')"
+        },
+        {
+          "wait": 2000
+        }
+      ]
+    },
+    {
+      "name": "c1-lens",
+      "label": "Case 1, inspect: spot 1 with the lens on",
+      "steps": [
+        {
+          "eval": "window.__TEST__.app.goModule(1)"
+        },
+        {
+          "wait": 3500
+        },
+        {
+          "eval": "(async () => { const L = window.__TEST__.lessons; L._setCaseStep('tutorial', 'inspect'); await L.chooseSpot('f-number'); if (!L.stage.magnifier.on) L.toggle('lens'); })()"
+        },
+        {
+          "wait": 4000
+        }
+      ]
+    },
+    {
+      "name": "c1-light",
+      "label": "Case 1, inspect: spot 4 with the raking light on",
+      "steps": [
+        {
+          "eval": "window.__TEST__.app.goModule(1)"
+        },
+        {
+          "wait": 3500
+        },
+        {
+          "eval": "(async () => { const L = window.__TEST__.lessons; L._setCaseStep('tutorial', 'inspect'); if (L.stage.magnifier.on) L.toggle('lens'); await L.chooseSpot('f-underside'); if (!L.stage.rake.on) L.toggle('light'); })()"
+        },
+        {
+          "wait": 4000
+        }
+      ]
+    },
+    {
+      "name": "c1-truesize",
+      "label": "Case 1, inspect: true-size view",
+      "steps": [
+        {
+          "eval": "window.__TEST__.app.goModule(1)"
+        },
+        {
+          "wait": 3500
+        },
+        {
+          "eval": "(() => { const L = window.__TEST__.lessons; L._setCaseStep('tutorial', 'inspect'); if (L.stage.rake.on) L.toggle('light'); if (L.stage.magnifier.on) L.toggle('lens'); if (!L.stage.trueSize) L.toggle('size'); })()"
+        },
+        {
+          "wait": 4000
+        }
+      ]
+    },
+    {
+      "name": "c1-archive",
+      "label": "Case 1, step 3: Open the records drawer",
+      "steps": [
+        {
+          "eval": "window.__TEST__.app.goModule(1)"
+        },
+        {
+          "wait": 3500
+        },
+        {
+          "eval": "(() => { const L = window.__TEST__.lessons; if (L.stage.trueSize) L.toggle('size'); L._setCaseStep('tutorial', 'archive'); L.openCaseDrawer('tutorial', 'archive'); })()"
+        },
+        {
+          "wait": 2000
+        }
+      ]
+    },
+    {
+      "name": "c2-compare",
+      "label": "Case 2, inspect: compare two objects side by side",
+      "steps": [
+        {
+          "eval": "window.__TEST__.app.goModule(2)"
+        },
+        {
+          "wait": 4000
+        },
+        {
+          "eval": "(async () => { const L = window.__TEST__.lessons; L._setCaseStep('main', 'inspect'); await L.compareNext(); })()"
+        },
+        {
+          "wait": 4500
+        }
+      ]
+    },
+    {
+      "name": "c2-board",
+      "label": "Case 2, step 4: Open the evidence board (drawer)",
+      "steps": [
+        {
+          "eval": "window.__TEST__.app.goModule(2)"
+        },
+        {
+          "wait": 3500
+        },
+        {
+          "eval": "(async () => { const L = window.__TEST__.lessons; if (L.stage.compareId) await L.stage.setCompare(null); L._caseGo('main', 'board'); })()"
+        },
+        {
+          "wait": 2500
+        }
+      ]
+    },
+    {
+      "name": "c2-label",
+      "label": "Case 2, step 5: Open the label writer (drawer)",
+      "steps": [
+        {
+          "eval": "window.__TEST__.app.goModule(2)"
+        },
+        {
+          "wait": 3500
+        },
+        {
+          "eval": "window.__TEST__.lessons._caseGo('main', 'label')"
+        },
+        {
+          "wait": 2500
+        }
+      ]
+    },
+    {
+      "name": "m4-card",
+      "label": "Module 4: Open the visitor card (drawer)",
+      "steps": [
+        {
+          "eval": "window.__TEST__.app.goModule(3)"
+        },
+        {
+          "wait": 3500
+        },
+        {
+          "eval": "window.__TEST__.lessons._openTransferCard()"
+        },
+        {
+          "wait": 2000
+        }
+      ]
+    },
+    {
+      "name": "m5-report",
+      "label": "Module 5: Open the shift report (drawer)",
+      "steps": [
+        {
+          "eval": "window.__TEST__.app.goModule(4)"
+        },
+        {
+          "wait": 3500
+        },
+        {
+          "eval": "document.querySelector('[data-ui=now-card] [data-action=now-primary]').click()"
+        },
+        {
+          "wait": 2000
+        }
+      ]
+    }
+  ]
+}
