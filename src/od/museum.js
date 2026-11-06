@@ -21,6 +21,7 @@
  */
 import * as THREE from 'three';
 import { Parts, box, cyl, pbr, lazyTexture, loadGLB, cardTexture, contactShadow, restOnFloor, shadows, pendingTextures, V } from './kit.js';
+import { FakeLights } from './fake-lights.js';
 
 export const ROOM = { minX: -6, maxX: 6, minZ: -8, maxZ: 4, H: 4.2 };
 export const TABLE = { x: 0, z: 0.45, top: 0.9, w: 1.4, d: 0.8 };
@@ -67,6 +68,12 @@ export class Museum {
     this.caseHolders = new Map(); // record id -> { holder, placard, scan }
     this.scans = new Map(); // record id -> Promise<Object3D> (base scan, shared with the stage)
     this.mode = 'gallery';
+    // Display lights as cheap analytic lights (GPU budget, see fake-lights.js).
+    this.fake = new FakeLights();
+    app.engine.onUpdate(() => this.fake.update(app.engine.camera));
+    // Backstop: materials that arrive later (streamed scans, props) get the light loop too.
+    let sweep = 0;
+    app.engine.onUpdate((dt) => { sweep += dt; if (sweep > 0.5) { sweep = 0; this.fake.patchScene(this.scene); } });
     this._mats();
   }
 
@@ -170,7 +177,7 @@ export class Museum {
     this.setMode(this.mode);
   }
 
-  _add(obj) { this.root.add(obj); obj.updateMatrixWorld(true); return obj; }
+  _add(obj) { this.root.add(obj); obj.updateMatrixWorld(true); this.fake?.patchScene(obj); return obj; }
 
   /**
    * A contact shadow under `g`, as a sibling with the same placement: kept out
@@ -610,7 +617,8 @@ export class Museum {
       gl.add(box(W - 0.01, HH, W - 0.01), this.M.glass, { pos: [0, PH + HH / 2, 0] });
       g.add(p.build('plinth'), fr.build('frame', { cast: false }), d.build('deck', { cast: false }));
       const hood = gl.build('glass hood', { cast: false, receive: false });
-      hood.children.forEach((m) => { m.renderOrder = 10; });
+      // Clicks pass through the glass to the object inside (the plinth and frame still open the case card).
+      hood.traverse((m) => { m.renderOrder = 10; if (m.isMesh) m.raycast = () => {}; });
       g.add(hood);
       const card = this._labelCard(v.label);
       card.position.set(0, PH - 0.2, W / 2 + 0.002);
@@ -648,6 +656,7 @@ export class Museum {
       const lid = new THREE.Mesh(box(b.w - 0.03, 0.2, D - 0.02), this.M.glass);
       lid.position.y = top + 0.1;
       lid.renderOrder = 10;
+      lid.raycast = () => {}; // clicks reach the exhibit under the glass
       g.add(lid);
       const card = this._labelCard(b.label, 0.2, 0.11);
       card.position.set(0, top - 0.06, D / 2 + 0.002);
@@ -745,7 +754,8 @@ export class Museum {
     t.add(tbl);
     // Photographic sweep: flat floor, a quarter-circle bend and a rise at the back (-z).
     const sweep = new THREE.Mesh(makeSweep(1.3, 0.42, 0.18, 0.48), this.M.sweep);
-    sweep.position.set(0, TABLE.top + 0.001, STAGE_POS.z - TABLE.z + 0.2);
+    // Rise at the back edge, floor to the front edge: the sweep fits the 0.8 m table top.
+    sweep.position.set(0, TABLE.top + 0.001, STAGE_POS.z - TABLE.z - 0.12);
     sweep.receiveShadow = true;
     sweep.userData.surfaceDetail = true;
     t.add(sweep);
@@ -933,6 +943,7 @@ export class Museum {
     const gl = new THREE.Mesh(new THREE.PlaneGeometry(1.7, 0.9), this.M.windowGlass);
     gl.position.set(0, 2.0, maxZ - 0.06);
     gl.rotation.y = Math.PI;
+    gl.userData.plainBox = true; // the fanlight is a flat pane of glass
     g.add(gl);
     this._add(g);
     // Exit sign over the door: 0.35 x 0.15 x 0.05 box, own-work face texture, glowing.
@@ -1162,14 +1173,14 @@ export class Museum {
     L.add(this.moon, this.moon.target);
     this.chandelierLight = new THREE.PointLight('#ffd9a0', 7, 9, 2);
     this.chandelierLight.position.set(0, ROOM.H - 0.85, -2.2);
-    L.add(this.chandelierLight);
+    this.fake.add(this.chandelierLight);
     // Track spots: one per tall vitrine; the bench cases share two.
     this.trackLights = [];
     const spot = (x, z, tx, tz, ty, power = 16, angle = 0.3) => {
       const s = new THREE.SpotLight('#ffd7a8', power, 6, angle, 0.55, 2);
       s.position.set(x, ROOM.H - 0.35, z);
       s.target.position.set(tx, ty, tz);
-      L.add(s, s.target);
+      this.fake.add(s);
       this.trackLights.push(s);
       return s;
     };
@@ -1180,7 +1191,7 @@ export class Museum {
     this.museLight = new THREE.SpotLight('#ffe2b8', 14, 6, 0.5, 0.7, 2);
     this.museLight.position.set(ROOM.minX + 1.4, ROOM.H - 0.3, -2.6);
     this.museLight.target.position.set(ROOM.minX, 2.0, -2.6);
-    L.add(this.museLight, this.museLight.target);
+    this.fake.add(this.museLight);
     // Studio key over the inspection table (the only shadow-casting gallery light).
     this.key = new THREE.SpotLight('#fff4e8', 7, 4.5, 0.55, 0.9, 2);
     this.key.position.set(-0.6, TABLE.top + 1.5, STAGE_POS.z + 1.0);
@@ -1196,7 +1207,7 @@ export class Museum {
     this.archiveLight = new THREE.SpotLight('#ffd7a8', 6, 4.5, 0.6, 0.7, 2);
     this.archiveLight.position.set(8.4, 2.75, -2.0);
     this.archiveLight.target.position.set(9.4, 1.0, -2.4);
-    L.add(this.archiveLight, this.archiveLight.target);
+    this.fake.add(this.archiveLight);
     this._add(L);
   }
 
@@ -1276,8 +1287,9 @@ export class Museum {
     const blade = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.5, 2.2, 20, 1, true), new THREE.ShaderMaterial({
       transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide,
       uniforms: { uOpacity: { value: 0.0 } },
-      vertexShader: 'varying float vY; void main(){ vY = uv.y; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }',
-      fragmentShader: 'uniform float uOpacity; varying float vY; void main(){ gl_FragColor = vec4(1.0, 0.84, 0.56, uOpacity * (0.25 + 0.75 * vY)); }',
+      // Soft at the cone's edges (seen through dusty air), like the track-light beams.
+      vertexShader: 'varying float vY; varying vec3 vN; varying vec3 vV; void main(){ vY = uv.y; vec4 mv = modelViewMatrix * vec4(position,1.0); vN = normalize(normalMatrix * normal); vV = normalize(-mv.xyz); gl_Position = projectionMatrix * mv; }',
+      fragmentShader: 'uniform float uOpacity; varying float vY; varying vec3 vN; varying vec3 vV; void main(){ float rim = pow(abs(dot(vN, vV)), 2.0); gl_FragColor = vec4(1.0, 0.84, 0.56, uOpacity * rim * (0.15 + 0.85 * vY * vY)); }',
     }));
     blade.rotation.z = Math.PI / 2 - 0.35;
     blade.position.set(-0.9, -0.35, 0);
@@ -1288,9 +1300,9 @@ export class Museum {
     g.position.set(8.9, 1.45, -3.6);
     this.torchBeam = new THREE.SpotLight('#ffc47e', 0, 6, 0.42, 0.7, 2);
     this.torchBeam.position.set(0, 0, 0);
-    g.add(this.torchBeam);
     this.torchBeam.target.position.set(-1.8, -1.4, 0);
-    g.add(this.torchBeam.target);
+    this.torchBeam.userData.fkParent = g; // moves with the guard's torch, outside the scene's light list
+    this.fake.add(this.torchBeam);
     this._add(g);
     this.torch = { group: g, blade, pool };
     this._register('night-guard', g);
@@ -1330,7 +1342,7 @@ export class Museum {
         const on = k < 0.3 ? Math.sin((k / 0.3) * Math.PI) : 0;
         M.torch.group.position.z = THREE.MathUtils.lerp(-4.1, 0.0, k);
         M.torch.group.rotation.y = Math.sin(t * 1.3) * 0.25;
-        M.torch.blade.material.uniforms.uOpacity.value = on * 0.22;
+        M.torch.blade.material.uniforms.uOpacity.value = on * 0.12;
         M.torch.pool.material.opacity = on * 0.6;
         M.torchBeam.intensity = on * 22;
       } });

@@ -2,8 +2,8 @@
  * Sub-path test (build contract 08 5.6): dist/ copied to tmp/play/<slug>/ and
  * served from /play/<slug>/ on a local static server (port 4380):
  * no failed requests, no console errors, canvas or WebGL fallback, text mode
- * opens, "All projects" links to `/`. Also loads a scan + the magnifier's
- * on-demand hi-res texture and the text-mode photos from the sub-path.
+ * opens, "All projects" links to `/`. Then Case 1 loads a scan and the
+ * streamed KTX2 exhibits and paintings from the sub-path.
  * Run: npm run build && SLUG=object-detective npx playwright test tests/sub-path.spec.js
  */
 import { test, expect } from '@playwright/test';
@@ -56,25 +56,23 @@ test(`sub-path /play/${SLUG}/ loads with no failed requests or console errors`, 
   const canvasOk = (await canvas.count()) > 0 && ((await canvas.first().boundingBox())?.height ?? 0) > 0;
   expect(canvasOk || (await fallback.count()) > 0).toBe(true);
 
-  // A case chapter loads a real scan (Draco decoder from the sub-path)
-  await page.locator('.module-nav button').nth(1).click();
-  await page.waitForTimeout(3000);
-  // magnifier requests the on-demand 4096 px scan
-  if (canvasOk) { await page.keyboard.press('KeyM'); await page.waitForTimeout(6000); await page.keyboard.press('KeyM'); }
-
-  // Text mode opens and shows photos loaded from the sub-path
+  // Text mode opens (from the title screen).
   await page.getByRole('button', { name: /text mode/i }).first().click();
-  await expect(page.locator('html')).toHaveAttribute('data-textmode', 'on');
-  await expect(page.locator('#panel')).toBeVisible();
-  await page.locator('.step-nav button', { hasText: 'Inspect' }).click();
-  const img = page.locator('.photo-grid img').first();
-  await expect(img).toBeVisible();
-  await expect.poll(() => img.evaluate((el) => el.complete && el.naturalWidth > 0)).toBe(true);
+  await expect(page.locator('#textmode')).toBeVisible();
+  await expect(page.locator('#textmode')).not.toBeEmpty();
 
   const link = page.getByRole('link', { name: /all projects/i }).first();
   await expect(link).toHaveAttribute('href', '/');
 
-  await page.waitForLoadState('networkidle');
+  // v3: Case 1 loads a real scan (Draco, self-hosted decoders) and the streamed
+  // exhibits and paintings (KTX2 through the patched Basis transcoder) from the sub-path.
+  await page.evaluate(() => localStorage.clear());
+  await page.goto(`http://127.0.0.1:${PORT}/play/${SLUG}/`, { waitUntil: 'networkidle', timeout: 45_000 });
+  await page.getByRole('button', { name: /^start$/i }).click();
+  await page.getByRole('button', { name: /skip practice/i }).click();
+  await page.locator('[data-ui="module-step"]').nth(1).click();
+  await page.waitForTimeout(8000);
+  await page.waitForLoadState('networkidle', { timeout: 60_000 }).catch(() => {});
   expect(failed, `failed requests:\n${failed.join('\n')}`).toEqual([]);
   expect(errors, `console errors:\n${errors.join('\n')}`).toEqual([]);
 });

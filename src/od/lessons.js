@@ -39,10 +39,10 @@ const LONG = {
 };
 /** Tutorial hint per tool: the one action that reveals a finding. */
 export const TOOL_ACTIONS = {
-  view: 'Look at the whole object from this side. Then press Record what I see.',
-  magnify: 'Press Lens and move it over the mark. Then press Record what I see.',
-  raking: `Press Light and set its height to ${RAKING_REVEAL_MAX_ELEVATION}° or lower. Then press Record what I see.`,
-  measure: 'Press Measure to measure the longest side. Then press Record what I see.',
+  view: 'Look at the whole object. Then press Record what I see.',
+  magnify: 'Put the lens on the mark. Then press Record what I see.',
+  raking: `Press Light and set it to ${RAKING_REVEAL_MAX_ELEVATION}° or lower. Then press Record what I see.`,
+  measure: 'Press Measure. Then press Record what I see.',
 };
 const STEP_GOALS = { brief: 'Read the draft card', inspect: 'Examine the object', archive: 'Source the records', board: 'Weigh the evidence', label: 'Write the label', debrief: 'Read the debrief' };
 const DRAWERS = { brief: 'Draft card', archive: 'Records drawer', board: 'Evidence board', label: 'Label writer', debrief: 'Debrief' };
@@ -104,7 +104,7 @@ export class Lessons {
     this.stage = stage;
     if (!stage) return;
     stage.measure.onMeasured = (m) => {
-      this.ins.msg = `Measured ${m.method === 'preset' ? 'the longest side' : 'between your two points'}: ${m.text}.`;
+      this.ins.msg = `${m.method === 'preset' ? 'Longest side' : 'Between your points'}: ${m.text}.`;
       announce(this.ins.msg);
       app.record.log('experienced', { id: `measure-${m.objectId}`, name: 'Measurement' }, { response: m.text });
       this.refresh();
@@ -122,7 +122,7 @@ export class Lessons {
       if (stage.magnifier.on && type !== 'mouse') stage.magnifier.moveTo((x - r.left) / r.width, (y - r.top) / r.height);
       if (this.pointMeasure) {
         const hit = stage.measure.pick(((x - r.left) / r.width) * 2 - 1, -((y - r.top) / r.height) * 2 + 1);
-        if (!hit && stage.measure.points.length === 1) { this.ins.msg = 'First point placed. Click a second point on the object.'; this.refresh(); }
+        if (!hit && stage.measure.points.length === 1) { this.ins.msg = 'First point placed. Click a second point.'; this.refresh(); }
       }
     });
   }
@@ -302,9 +302,9 @@ export class Lessons {
   whyNotRevealed(objectId, hs, tool) {
     const st = this.stage;
     if (!st) return null;
-    if (tool === 'magnify' && st.magnifier.on) return 'The lens is on, but not over the mark. Move it onto the spot, or choose the spot number again.';
-    if (tool === 'raking' && st.rake.on && !st.rake.revealing) return `The light is too high to show faint relief. Set its height to ${RAKING_REVEAL_MAX_ELEVATION}° or lower.`;
-    if (tool === 'raking' && st.rake.revealing) return 'The light is low, but you are looking at another side. Choose the spot number again.';
+    if (tool === 'magnify' && st.magnifier.on) return 'Move the lens onto the mark.';
+    if (tool === 'raking' && st.rake.on && !st.rake.revealing) return `Too high: set the light to ${RAKING_REVEAL_MAX_ELEVATION}° or lower.`;
+    if (tool === 'raking' && st.rake.revealing) return 'The light is low, but on another side. Press the spot number again.';
     return null;
   }
 
@@ -349,24 +349,24 @@ export class Lessons {
     } else if (tool === 'measure') {
       const slot = st.primary;
       if (!slot) return;
-      if (!this.scaleOk(slot.id)) { this.ins.msg = 'This scan is not at a verified true scale, so it is not measured here. Use the record measurements.'; announce(this.ins.msg); }
+      if (!this.scaleOk(slot.id)) { this.ins.msg = "This scan's scale is not verified. Use the record's sizes."; announce(this.ins.msg); }
       else st.measure.preset(slot.id, longestPreset(st.localSize(slot.id)));
     } else if (tool === 'points') {
       this.pointMeasure = !this.pointMeasure;
       st.measure.clear();
       this.app.inspect.setEnabled(!this.pointMeasure && !st.magnifier.on);
-      this.ins.msg = this.pointMeasure ? 'Two-point measuring: click a first point on the object.' : '';
+      this.ins.msg = this.pointMeasure ? 'Two points: click a first point on the object.' : '';
       announce(this.pointMeasure ? this.ins.msg : 'Two-point measuring off.');
     } else if (tool === 'flip') {
       const pose = st.flip();
       announce(pose === 'flipped' ? 'Object turned over: you see the underside.' : 'Object turned upright.');
       st.frameAll(0, pose === 'flipped' ? 60 : 14, 0.8);
     } else if (tool === 'size') {
-      if (!this.scaleOk()) { this.ins.msg = 'The true-size view is not offered for this scan: its scale does not match the record.'; announce(this.ins.msg); }
+      if (!this.scaleOk()) { this.ins.msg = "No true size: this scan's scale is not verified."; announce(this.ins.msg); }
       else {
         const on = st.setTrueSize(!st.trueSize);
         const obj = this.records[st.primary.id];
-        this.ins.msg = on ? `True size: the record gives ${obj.measurementsText.split(';')[0].replace('overall: ', '')}.` : '';
+        this.ins.msg = on ? 'True size: ruler, quarter and card beside it.' : '';
         announce(on ? `True-size view. ${sizeStatement(obj)}` : 'True-size view off.');
         if (!on) st.frameAll(0, 14);
       }
@@ -385,7 +385,7 @@ export class Lessons {
     const next = i + 1 < opts.length ? opts[i + 1] : null;
     await st.setCompare(next);
     if (next) this.app.record.log('experienced', { id: `compare-${primary}-${next}`, name: 'Side-by-side compare' });
-    this.ins.msg = next ? `Side by side: ${SHORT[primary]} and ${SHORT[next]}, at true scale.` : '';
+    this.ins.msg = next ? `True scale, side by side: ${SHORT[primary]} and ${SHORT[next]}.` : '';
     announce(next ? `Comparing ${this.records[primary].title} with ${this.records[next].title}.` : 'Comparison off.');
     this._tagsSync();
     this.refresh();
@@ -407,7 +407,7 @@ export class Lessons {
         this._boardSync();
         this.persist();
       } else {
-        this.ins.msg = why || (def.assessed ? 'Nothing new shows up with that. Try another tool: the lens, a low light, or measuring.' : `Nothing new shows up yet. Hint: this spot needs ${TOOL_NAMES[f.tool]}.`);
+        this.ins.msg = why || (def.assessed ? 'Nothing new. Try the lens, a low light or measuring.' : `Nothing new yet. Hint: this spot needs ${TOOL_NAMES[f.tool]}.`);
         announce(this.ins.msg);
       }
       this.refresh();
@@ -580,9 +580,9 @@ export class Lessons {
     const found = f && engine.isDiscovered(f.id);
     const count = engine.state.discovered.length;
     let action;
-    if (!f) action = `Press a spot number to move the camera to it. Then look closely and record what you see.`;
+    if (!f) action = 'Press a spot number. Then use a tool and record what you see.';
     else if (found) action = 'Recorded. Press another spot number, or Next step.';
-    else action = def.assessed ? 'Use a tool to look closely. Then press Record what I see.' : TOOL_ACTIONS[f.tool];
+    else action = def.assessed ? 'Use a tool, then press Record what I see.' : TOOL_ACTIONS[f.tool];
     const tool = (el) => {
       if (def.objects.length > 1) {
         el.append(h('div', { class: 'od-row', role: 'group', 'aria-label': 'Object on the table' }, ...def.objects.map((id) => btn(SHORT[id], () => this.chooseObject(id), { pressed: id === objId, aria: `${this.records[id].title}${id === objId ? ' (on the table)' : ''}` }))));
@@ -602,13 +602,13 @@ export class Lessons {
       if (st.magnifier.on) el.append(h('div', { class: 'od-row' }, btn(`Zoom ${st.magnifier.zoom}×`, () => this.toggle('zoom'), { aria: `Lens zoom ${st.magnifier.zoom} times; press for the next` })));
     };
     return {
-      ...base, goal: f ? `Spot ${n}: ${f.hotspot.label}` : `Examine the ${LONG[objId]}`,
+      ...base, goal: f ? f.hotspot.label : `Examine the ${LONG[objId]}`,
       action,
       result: ins.msg || (count ? `Findings recorded: ${count} of ${def.findings.length}.` : ''),
       tool,
       primary: f && !found ? { label: 'Record what I see', onClick: () => this.recordFinding() } : next(),
       secondary: f && !found ? next() : (count ? { label: 'Open the observation log', onClick: () => this.openCaseDrawer(caseId, 'log', this.app.shell.now.querySelector('[data-action="now-secondary"]')) } : null),
-      readMore: { label: 'How the tools work', title: 'Inspection tools', render: (b) => this._renderToolsHelp(b) },
+      readMore: f ? null : { label: 'Tool help', title: 'Inspection tools', render: (b) => this._renderToolsHelp(b) },
     };
   }
 

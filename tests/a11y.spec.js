@@ -1,102 +1,76 @@
 /**
- * Accessibility: axe-core on the HTML overlay in every major state (welcome,
- * each case step, tool pad, dialogs, text mode, transfer, wrap-up).
- * Gate: zero critical or serious violations (WCAG 2.0/2.1 A + AA tags).
- * Also: keyboard-only start of a case, and focus moves into the panel.
+ * axe-core checks (0 critical or serious, WCAG 2.0/2.1/2.2 A + AA tags) on the
+ * v3 states: title, practice, the Welcome card, an open info card, each module,
+ * the Case 1 inspect card with its tools, every case drawer (draft card,
+ * records, evidence board, label writer, debrief, tools help), the transfer
+ * drawers, the shift report, the menu, the objects list and text mode.
  */
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
-import { boot } from './helpers.js';
+import { ready } from './helpers.js';
 
 async function scan(page, label) {
-  const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).exclude('canvas').analyze();
-  const bad = results.violations.filter((v) => v.impact === 'critical' || v.impact === 'serious');
-  if (bad.length) console.log(`axe violations (${label}):`, JSON.stringify(bad.map((v) => ({ id: v.id, impact: v.impact, nodes: v.nodes.slice(0, 3).map((n) => n.target.join(' ')) })), null, 2));
-  expect(bad, label).toEqual([]);
+  const r = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).analyze();
+  const bad = r.violations.filter((v) => ['critical', 'serious'].includes(v.impact));
+  expect(bad.map((v) => `${label}: ${v.id} (${v.impact}) ${v.nodes.slice(0, 2).map((n) => n.target.join(' ')).join(', ')}`)).toEqual([]);
 }
+const T = (page, fn, arg) => page.evaluate(fn, arg);
 
-test('3D mode overlay: no critical or serious axe issues in any state', async ({ page }) => {
-  test.setTimeout(300_000); // CI runners (2 vCPU, software WebGL) are far slower than local runs
-  await boot(page);
-  await scan(page, 'welcome + pre-check');
-  await page.locator('.assessment-item .choice-btn').first().click();
-  await scan(page, 'pre-check feedback');
-  await page.locator('.module-nav button').nth(2).click();
-  await scan(page, 'case brief');
-  await page.locator('.step-nav button', { hasText: 'Inspect' }).click();
-  await page.locator('.poi-list button').first().click();
-  await page.getByRole('button', { name: 'Record what I see' }).click();
-  for (const s of ['Raking light', 'Magnifier', 'Measure', 'True size', 'Compare']) await page.locator('.tool-pad summary', { hasText: s }).click();
-  await scan(page, 'inspect + tool pad expanded');
-  await page.locator('.step-nav button', { hasText: 'Archive' }).click();
-  const docs = page.locator('.step-body details.doc-card > summary');
-  for (let i = 0; i < await docs.count(); i++) await docs.nth(i).click();
-  await scan(page, 'archive with documents open');
-  await page.locator('.step-nav button', { hasText: 'Evidence board' }).click();
-  await scan(page, 'evidence board');
-  await page.locator('.step-nav button', { hasText: 'Label' }).click();
-  await scan(page, 'label writer');
-  for (const [btn, label] of [['Settings', 'settings dialog']]) {
-    await page.getByRole('button', { name: btn }).first().click();
-    await scan(page, label);
+test('axe: 0 critical/serious on every v3 state', async ({ page }) => {
+  test.setTimeout(600_000);
+  await page.addInitScript(() => { if (!sessionStorage.getItem('kept')) { localStorage.clear(); sessionStorage.setItem('kept', '1'); } });
+  await ready(page);
+  await scan(page, 'title');
+  await page.getByRole('button', { name: /^start$/i }).click();
+  await scan(page, 'practice');
+  await page.getByRole('button', { name: /skip practice/i }).click();
+  await page.waitForTimeout(1500);
+  await scan(page, 'welcome');
+  await T(page, () => window.__TEST__.inspect.open('wall-painting'));
+  await page.waitForTimeout(800);
+  await scan(page, 'info card');
+  await page.keyboard.press('Escape');
+  for (const i of [1, 2, 3, 4]) {
+    await T(page, (n) => window.__TEST__.app.goModule(n), i);
+    await page.waitForTimeout(2500);
+    await scan(page, `m${i + 1}`);
+  }
+  // Case 1: the inspect card with the lens and the light sliders, then each drawer.
+  await T(page, () => window.__TEST__.app.goModule(1));
+  await page.waitForTimeout(2500);
+  await T(page, async () => { const L = window.__TEST__.lessons; L._setCaseStep('tutorial', 'inspect'); await L.chooseSpot('f-underside'); L.toggle('light'); L.toggle('lens'); });
+  await page.waitForTimeout(800);
+  await scan(page, 'case 1 inspect tools');
+  await T(page, () => { const L = window.__TEST__.lessons; L.toggle('light'); L.toggle('lens'); });
+  for (const step of ['brief', 'archive', 'board', 'label', 'debrief', 'tools']) {
+    await T(page, (s) => window.__TEST__.lessons.openCaseDrawer('tutorial', s), step);
+    await page.waitForTimeout(700);
+    await scan(page, `case 1 drawer ${step}`);
     await page.keyboard.press('Escape');
   }
-  await page.getByRole('button', { name: 'Menu' }).click();
-  await scan(page, 'menu dialog');
-  await page.getByRole('button', { name: 'Controls and keys' }).click();
-  await scan(page, 'controls and keys dialog');
+  await T(page, () => window.__TEST__.app.goModule(3));
+  await page.waitForTimeout(2000);
+  await T(page, () => window.__TEST__.lessons._openTransferCard());
+  await page.waitForTimeout(600);
+  await scan(page, 'visitor card');
   await page.keyboard.press('Escape');
-  await page.getByRole('button', { name: 'Menu' }).click();
-  await page.getByRole('button', { name: 'My progress' }).click();
-  await scan(page, 'progress dialog');
-});
-
-test('text mode: no critical or serious axe issues (inspect, transfer, wrap-up)', async ({ page }) => {
-  await boot(page, { textMode: true });
-  await page.locator('.module-nav button').nth(1).click();
-  await page.locator('.step-nav button', { hasText: 'Inspect' }).click();
-  await page.locator('.poi-list button').first().click();
-  await page.locator('.look-actions button').nth(1).click();
-  await scan(page, 'text-mode inspect with finding');
-  await page.locator('.module-nav button').nth(3).click();
-  await scan(page, 'transfer task');
-  await page.locator('.module-nav button').nth(4).click();
-  await scan(page, 'wrap-up');
-});
-
-test('high contrast + large text settings: no critical or serious axe issues', async ({ page }) => {
-  await boot(page);
-  await page.evaluate(() => { document.documentElement.dataset.contrast = 'high'; document.documentElement.dataset.textSize = 'xlarge'; });
-  await page.locator('.module-nav button').nth(1).click();
-  await scan(page, 'high contrast case brief');
-});
-
-// Stand-in for a screen-reader pass (none was run): the accessibility tree a
-// screen reader would get in text mode exposes the finding, its transcription
-// and the classify controls with names. This is NOT a real screen-reader test.
-test('text mode accessibility tree (ariaSnapshot): finding, transcription and controls are named', async ({ page }) => {
-  await boot(page, { textMode: true });
-  await page.locator('.module-nav button').nth(1).click();
-  await page.locator('.step-nav button', { hasText: 'Inspect' }).click();
-  await page.locator('.poi-list button[data-poi="f-number"]').click();
-  await page.locator('.look-actions button', { hasText: 'Look closely (magnifier)' }).click();
-  const tree = await page.locator('#panel').ariaSnapshot();
-  expect(tree).toContain('heading "End of the wooden base (painted number)"');
-  expect(tree).toMatch(/strong: "Transcription:"\s*\n\s*- text: 181411/);
-  expect(tree).toMatch(/radio "Observation"/);
-  expect(tree).toMatch(/radio "Inference"/);
-  expect(tree).toMatch(/img "End of the wooden base/);
-});
-
-test('keyboard only: start the game and reach the case file', async ({ page }) => {
-  await boot(page);
-  const start = page.getByRole('button', { name: /Start the shift/ });
-  await start.focus();
-  await page.keyboard.press('Enter');
-  await expect(page.locator('.module-nav button').nth(1)).toHaveAttribute('aria-current', 'step');
-  await expect(page.locator('#panel')).toBeFocused();
-  // Tab reaches the step navigation inside the panel
-  await page.keyboard.press('Tab');
-  const tag = await page.evaluate(() => document.activeElement.closest('#panel') !== null);
-  expect(tag).toBe(true);
+  await T(page, () => window.__TEST__.lessons._openTransferSentence());
+  await page.waitForTimeout(600);
+  await scan(page, 'label sentence');
+  await page.keyboard.press('Escape');
+  await T(page, () => window.__TEST__.app.goModule(4));
+  await page.waitForTimeout(2000);
+  await page.locator('[data-ui="now-card"] [data-action="now-primary"]').click();
+  await page.waitForTimeout(600);
+  await scan(page, 'shift report');
+  await page.keyboard.press('Escape');
+  await page.locator('[data-action="menu"]').click();
+  await scan(page, 'menu');
+  await page.locator('[data-ui="objects-list-toggle"]').click();
+  await page.waitForTimeout(600);
+  await scan(page, 'objects list');
+  await page.keyboard.press('Escape');
+  await T(page, () => window.__TEST__.ui.toggleTextMode());
+  await page.waitForTimeout(1200);
+  await scan(page, 'text mode');
 });

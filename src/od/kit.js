@@ -29,7 +29,28 @@ export function getGLTF(renderer) {
   gltf = new GLTFLoader().setKTX2Loader(getKTX2(renderer)).setMeshoptDecoder(MeshoptDecoder).setDRACOLoader(draco);
   return gltf;
 }
-export function loadGLB(renderer, path) { return getGLTF(renderer).loadAsync(url(path)); }
+export function loadGLB(renderer, path) { return getGLTF(renderer).loadAsync(url(path)).then((g) => { noTransmission(g.scene); return g; }); }
+
+/**
+ * Transmissive glTF glass (KHR_materials_transmission, e.g. the CC0 magnifying
+ * glass's lens) makes three.js render the whole opaque scene a second time into
+ * a mipmapped target every frame: a headed M1 trace (2026-11-06) measured about
+ * 26 ms of GPU time for that one small lens. Thin glass reads the same as a
+ * transparent, reflective surface, so transmission is swapped for opacity.
+ */
+export function noTransmission(root) {
+  root.traverse((o) => {
+    if (!o.isMesh) return;
+    for (const m of [o.material].flat()) {
+      if (!m?.isMeshPhysicalMaterial || !(m.transmission > 0)) continue;
+      m.transmission = 0;
+      m.transparent = true;
+      m.opacity = Math.min(m.opacity, 0.25);
+      m.depthWrite = false;
+      m.needsUpdate = true;
+    }
+  });
+}
 
 /** A texture that fills in when its file arrives (KTX2 or an image). Never rejects. */
 export function lazyTexture(renderer, path, { srgb = true, repeat = [1, 1], anisotropy = 8 } = {}) {
