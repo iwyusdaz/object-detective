@@ -1,60 +1,47 @@
 /**
- * Self-hosted case typography for object-detective (v2.0.0).
- * Roles:
- *   --font-display : headings, titles, hero banners (Cormorant Garamond)
- *   --font-body    : body copy, instructions, controls (Source Serif 4)
- *   --font-accent  : in-world signage, tags, telemetry, notes (Special Elite)
- * Accessibility:
- *   html[data-plain-font="on"] switches all three roles to clean system/hyperlegible sans.
+ * Case typography and colours for object-detective v3 (S0 owner choice, pair A,
+ * design/art-bible.md): Libre Baskerville 700 for the title screen, chapter
+ * cards and in-world museum labels and signage; Source Sans 3 400/600 for all
+ * body and UI text. Self-hosted WOFF2 (@fontsource 5.3.x), SIL OFL 1.1
+ * (fonts/LICENSE-*.txt, ATTRIBUTION.md). Plain font (menu) swaps the display
+ * face for the body face (src/v3/type.css).
  */
 @font-face {
-  font-family: 'Cormorant Garamond';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('./fonts/cormorant-garamond-latin-600-normal.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Cormorant Garamond';
+  font-family: 'Libre Baskerville';
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url('./fonts/cormorant-garamond-latin-700-normal.woff2') format('woff2');
+  src: url('./fonts/libre-baskerville-latin-700-normal.woff2') format('woff2');
 }
-
 @font-face {
-  font-family: 'Source Serif 4';
+  font-family: 'Source Sans 3';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('./fonts/source-serif-4-latin-400-normal.woff2') format('woff2');
+  src: url('./fonts/source-sans-3-latin-400-normal.woff2') format('woff2');
 }
-
 @font-face {
-  font-family: 'Source Serif 4';
+  font-family: 'Source Sans 3';
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url('./fonts/source-serif-4-latin-600-normal.woff2') format('woff2');
+  src: url('./fonts/source-sans-3-latin-600-normal.woff2') format('woff2');
 }
-
-@font-face {
-  font-family: 'Special Elite';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('./fonts/special-elite-latin-400-normal.woff2') format('woff2');
-}
-
 :root {
-  --font-display: 'Cormorant Garamond', Georgia, serif;
-  --font-body: 'Source Serif 4', Georgia, serif;
-  --font-accent: 'Special Elite', ui-monospace, monospace;
+  --font-body: 'Source Sans 3', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Libre Baskerville', Georgia, serif;
+  /* Art bible palette: night-blue surfaces, tungsten amber accent, warm paper text. */
+  --v3-bg: #0b0d12;
+  --v3-surface: rgba(16, 14, 13, 0.9);
+  --v3-surface-solid: #12100f;
+  --v3-text: #f3ede2;
+  --v3-muted: #cfc5b4;
+  --v3-accent: #f2b25c;
+  --v3-accent-ink: #1a1006;
+  --v3-border: rgba(243, 237, 226, 0.22);
+  --v3-focus: #ffd166;
 }
-
-html[data-plain-font="on"] {
-  --font-display: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+:root[data-plain-font="on"] {
   --font-body: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-accent: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-display: var(--font-body);
 }

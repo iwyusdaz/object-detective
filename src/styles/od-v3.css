@@ -1,0 +1,101 @@
+/**
+ * od-v3.css — repo styles for The Object Detective on the v3 shell: the
+ * inspection tools in the Now card, the v2 case views inside the drawer and
+ * text mode (documents, badges, the evidence board, the label writer, the
+ * debrief) and the reduced-motion Continue button of the cinematic. Type uses
+ * the template tokens only (body and small inside drawers, three sizes per
+ * screen); z-index only through layer tokens (none needed here).
+ */
+
+/* ---------- Now card tools ---------- */
+.od-row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; width: 100%; }
+.od-row .v3-btn { min-height: 40px; padding: 0 12px; }
+.od-spot { min-width: 44px; justify-content: center; font-variant-numeric: tabular-nums; }
+.v3-now-tool .v3-btn[aria-pressed="true"] { background: var(--v3-accent); color: var(--v3-accent-ink); box-shadow: none; }
+.od-sliders { gap: 4px 14px; }
+.od-slider { display: flex; align-items: center; gap: 8px; flex: 1 1 160px; min-height: 40px; }
+.od-slider input[type="range"] { flex: 1 1 auto; min-width: 70px; height: 32px; accent-color: var(--v3-accent); }
+.od-slider output { min-width: 3.2em; text-align: right; font-variant-numeric: tabular-nums; }
+.od-quote { margin: 0; font-style: italic; max-width: var(--measure); }
+@media (pointer: coarse) {
+  .od-row .v3-btn { min-height: 44px; }
+  .od-slider { min-height: 44px; }
+  .od-slider input[type="range"] { height: 44px; }
+}
+
+/* ---------- v2 case views in the drawer and in text mode ---------- */
+.v3-drawer-body .doc-card, .v3-tm .doc-card {
+  border: 1px solid var(--v3-border); border-radius: 10px; padding: 10px 12px; margin: 10px 0;
+  background: rgba(243, 237, 226, 0.05);
+}
+.v3-drawer-body .doc-card.fictional, .v3-tm .doc-card.fictional { border-style: dashed; border-color: rgba(242, 178, 92, 0.6); }
+.v3-drawer-body .badge, .v3-tm .badge { font-size: var(--type-small); font-weight: 600; margin: 0 0 4px; color: var(--v3-muted); }
+.v3-drawer-body .badge.fiction, .v3-tm .badge.fiction { color: var(--v3-accent); }
+.v3-drawer-body .badge.fiction::before, .v3-tm .badge.fiction::before { content: '✎ '; }
+.v3-drawer-body blockquote, .v3-tm blockquote { margin: 6px 0; padding-left: 10px; border-left: 3px solid var(--v3-accent); }
+.v3-drawer-body .doc-meta, .v3-drawer-body .doc-note, .v3-tm .doc-meta, .v3-tm .doc-note { color: var(--v3-muted); }
+.v3-drawer-body dl.sourcing, .v3-tm dl.sourcing { display: grid; grid-template-columns: max-content 1fr; gap: 2px 10px; margin: 6px 0; }
+.v3-drawer-body dl.sourcing dt, .v3-tm dl.sourcing dt { font-weight: 600; }
+.v3-drawer-body dl.sourcing dd, .v3-tm dl.sourcing dd { margin: 0; }
+.v3-drawer-body ul, .v3-drawer-body ol, .v3-tm ul, .v3-tm ol { padding-left: 1.2em; margin: 4px 0 8px; }
+.v3-drawer-body details, .v3-tm details { margin: 8px 0; }
+.v3-drawer-body .radio-group, .v3-tm .radio-group { border: 1px solid var(--v3-border); border-radius: 10px; padding: 6px 10px 8px; margin: 8px 0; }
+.v3-drawer-body .radio-group legend, .v3-tm .radio-group legend { font-weight: 600; padding: 0 4px; }
+.v3-drawer-body .radio-row, .v3-tm .radio-row { display: flex; align-items: center; gap: 10px; min-height: 44px; }
+.v3-drawer-body .radio-row label, .v3-tm .radio-row label { cursor: pointer; flex: 1; }
+.v3-drawer-body .feedback, .v3-tm .feedback { border-left: 4px solid var(--v3-accent); padding: 6px 10px; margin: 6px 0; background: rgba(242, 178, 92, 0.08); }
+.v3-drawer-body .feedback-ok, .v3-tm .feedback-ok { border-color: var(--v3-ok); background: rgba(111, 220, 155, 0.08); }
+.v3-drawer-body .feedback-warn, .v3-tm .feedback-warn { border-color: var(--v3-err); background: rgba(255, 154, 154, 0.08); }
+.v3-drawer-body .claim-card, .v3-tm .claim-card { border-top: 1px solid var(--v3-border); padding-top: 8px; margin-top: 12px; }
+.v3-drawer-body .pin-list, .v3-tm .pin-list { list-style: none; padding: 0; }
+.v3-drawer-body .pin-row, .v3-tm .pin-row { display: flex; flex-direction: column; gap: 4px; margin: 0 0 10px; }
+.v3-drawer-body .pin-type, .v3-tm .pin-type { font-size: var(--type-small); color: var(--v3-muted); font-weight: 600; }
+.v3-drawer-body select, .v3-tm select, .v3-drawer-body textarea, .v3-tm textarea {
+  font: inherit; font-size: var(--type-body); color: var(--v3-text); background: var(--v3-surface-solid);
+  border: 1px solid var(--v3-border); border-radius: 8px; min-height: 44px; padding: 6px 8px; width: 100%;
+}
+.v3-drawer-body textarea, .v3-tm textarea { min-height: 7em; resize: vertical; }
+.v3-drawer-body button:not(.v3-btn):not(.v3-icon-btn), .v3-tm button:not(.v3-btn):not(.v3-icon-btn) {
+  font: inherit; color: var(--v3-text); background: rgba(243, 237, 226, 0.08); border: 1px solid var(--v3-border);
+  border-radius: 10px; min-height: 44px; padding: 6px 12px; margin: 4px 6px 4px 0; cursor: pointer; text-align: left;
+}
+.v3-drawer-body button.primary, .v3-tm button.primary { background: var(--v3-accent); color: var(--v3-accent-ink); border-color: var(--v3-accent); font-weight: 600; }
+.v3-drawer-body button:not(.v3-btn):hover, .v3-tm button:not(.v3-btn):hover { border-color: var(--v3-accent); }
+.v3-drawer-body .starters, .v3-tm .starters { display: flex; flex-wrap: wrap; gap: 4px; margin: 6px 0; }
+.v3-drawer-body .label-compare, .v3-tm .label-compare { display: grid; gap: 8px; }
+.v3-drawer-body figure, .v3-tm figure { margin: 6px 0; }
+.v3-drawer-body figcaption, .v3-tm figcaption { font-weight: 600; }
+.v3-drawer-body img, .v3-tm img { max-width: 100%; height: auto; border-radius: 6px; display: block; }
+.v3-drawer-body .row-ok td:first-of-type, .v3-tm .row-ok td:first-of-type { color: var(--v3-ok); }
+.v3-drawer-body .row-miss td:first-of-type, .v3-tm .row-miss td:first-of-type { color: var(--v3-err); }
+.v3-drawer-body .debrief-table th[scope="row"], .v3-tm .debrief-table th[scope="row"] { display: block; text-align: left; font-weight: 600; }
+.v3-drawer-body caption { text-align: left; font-weight: 600; margin-bottom: 4px; }
+.v3-drawer-body .next-row, .v3-tm .next-row { margin: 12px 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.v3-drawer-body .assessment-item h3, .v3-tm .assessment-item h3 { font-size: var(--type-body); }
+.v3-drawer-body .od-log-item, .v3-tm .od-log-item { border-top: 1px solid var(--v3-border); padding-top: 8px; margin-top: 8px; }
+.v3-drawer-body dl.od-tools div { margin: 0 0 8px; }
+.v3-drawer-body dl.od-tools dt { font-weight: 600; }
+.v3-drawer-body dl.od-tools dd { margin: 0; }
+.v3-drawer-body .linklike, .v3-tm .linklike { background: none; border: 0; color: var(--v3-accent); text-decoration: underline; padding: 0; min-height: 0; }
+.v3-drawer-body .transcription, .v3-tm .transcription { font-family: var(--font-mono); }
+
+/* Text mode: the v2 case panel (its step navigation, photo grid and look actions). */
+.v3-tm .case-title { font-size: var(--type-card-heading); }
+.v3-tm .step-nav { display: flex; flex-wrap: wrap; gap: 4px; margin: 6px 0 10px; }
+.v3-tm .step-nav button[aria-current="step"] { background: var(--v3-accent); color: var(--v3-accent-ink); }
+.v3-tm .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; }
+.v3-tm .object-chooser, .v3-tm .look-actions { display: flex; flex-wrap: wrap; gap: 4px; }
+.v3-tm .poi-list { list-style: none; padding: 0; }
+.v3-tm .choice-btn { display: block; width: 100%; }
+.v3-tm .choice-btn.correct { border-color: var(--v3-ok); }
+.v3-tm .choice-btn.incorrect { border-color: var(--v3-err); }
+.v3-tm h3, .v3-tm h4, .v3-tm h5 { font-size: var(--type-body); font-weight: 700; margin: 12px 0 4px; }
+.v3-tm .scores { padding-left: 1.2em; }
+
+/* Reduced-motion cinematic stills wait for the learner (Continue) instead of a timer. */
+.v3-cinematic .cinematic-continue {
+  position: absolute; right: 16px; bottom: 76px; pointer-events: auto;
+  font: inherit; font-weight: 600; min-height: 44px; padding: 0 18px; border-radius: 10px;
+  background: var(--v3-accent); color: var(--v3-accent-ink); border: 0; cursor: pointer;
+}
+.v3-cinematic .cinematic-progress, .v3-cinematic .cinematic-overlay[hidden] { display: none; }

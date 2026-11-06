@@ -8,16 +8,18 @@
     "node": ">=22"
   },
   "scripts": {
-    "dev": "node scripts/sync-content.mjs && vite",
-    "build": "node scripts/sync-content.mjs && node scripts/gen-attribution.mjs && vite build",
+    "dev": "vite",
+    "build": "node scripts/gen-attribution.mjs && vite build",
     "preview": "vite preview",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "test:subpath": "playwright test tests/sub-path.spec.js",
+    "test:subpath": "npm run build && playwright test tests/sub-path.spec.js",
     "check:a11y": "playwright test tests/a11y.spec.js",
     "check:content": "node scripts/check-content.mjs",
+    "check:v3-assets": "node scripts/check-v3-assets.mjs",
     "poster": "node scripts/render-poster.mjs",
-    "attribution": "node scripts/gen-attribution.mjs"
+    "attribution": "node scripts/gen-attribution.mjs",
+    "make:lut": "node scripts/make-lut.mjs"
   },
   "dependencies": {
     "n8ao": "2.0.1",
