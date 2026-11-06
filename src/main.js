@@ -38,6 +38,7 @@ const app = await createSceneApp({
   slug: SLUG,
   title: 'The Object Detective',
   shortTitle: 'Object Detective',
+  lut: url('lut/lantern-night-33.png'),
   modules: mods,
   catalog,
   home: mods[0].view,

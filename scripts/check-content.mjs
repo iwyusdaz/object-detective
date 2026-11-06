@@ -22,7 +22,7 @@ const items = j('items.json');
 const photos = j('photos.json');
 const desc = j('text-mode/descriptions.json');
 const cine = j('cinematics.json');
-const objects = j('objects.json').objects;
+const objects = j('records.json').objects;
 const problems = [];
 const ok = (cond, msg) => { if (!cond) problems.push(msg); };
 

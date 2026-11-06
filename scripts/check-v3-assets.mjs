@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * check-v3-assets.mjs — offline checks for the plan 10 S4 staging:
- *  1. catalog (content/objects.json "scenes"): §4.1 fields, short <= 25 words,
+ *  1. catalog (content/objects.json "objects", one scene "gallery"): §4.1 fields, short <= 25 words,
  *     more <= 120 words, honesty and role values, unique ids, >= 20 objects,
  *     every non-empty source appears in the research notes (research/*.md, *.json), "real" entries
  *     have a source;
@@ -43,8 +43,9 @@ const ids = new Set();
 let count = 0;
 const honestyCount = {};
 for (const scene of catalog.scenes) {
-  ok(scene.objects.length >= 20, `${scene.id}: ${scene.objects.length} objects (< 20)`);
-  for (const o of scene.objects) {
+  const inScene = catalog.objects.filter((o) => (o.scene || 'gallery') === scene.id);
+  ok(inScene.length >= 20, `${scene.id}: ${inScene.length} objects (< 20)`);
+  for (const o of inScene) {
     count++;
     for (const f of FIELDS) ok(f in o, `${o.id}: missing ${f}`);
     ok(!ids.has(o.id), `duplicate id ${o.id}`);
@@ -81,7 +82,7 @@ const V2_BOUNDS = {
   Lantern_01: [0.1221, 0.2942, 0.0972],
 };
 const scale = [];
-for (const o of catalog.scenes.flatMap((s) => s.objects)) {
+for (const o of catalog.objects) {
   // "_scale" notes that start with Exempt / No scale are exceptions; other notes only explain the value.
   if (/^(Exempt|No scale)/.test(o._scale || '')) { scale.push(`${o.id}: exception (${o._scale.slice(0, 70)}…)`); continue; }
   const b = boundsFor(o._asset);
@@ -124,7 +125,7 @@ for (const u of urls) {
 }
 ok(attrMd.includes('exit sign face, night facade'), 'ATTRIBUTION.md has no row for the own-work textures');
 
-console.log(`catalog: ${count} objects in ${catalog.scenes.length} scene(s); task ${catalog.scenes.flatMap((s) => s.objects).filter((o) => o.role === 'task').length}, explore ${catalog.scenes.flatMap((s) => s.objects).filter((o) => o.role === 'explore').length}; honesty ${JSON.stringify(honestyCount)}`);
+console.log(`catalog: ${count} objects in ${catalog.scenes.length} scene(s); task ${catalog.objects.filter((o) => o.role === 'task').length}, explore ${catalog.objects.filter((o) => o.role === 'explore').length}; honesty ${JSON.stringify(honestyCount)}`);
 console.log(scale.map((s) => `  scale ${s}`).join('\n'));
 console.log(`files: ${files.length} v3 files, largest ${(Math.max(...files.map((f) => f.bytes)) / 1e6).toFixed(2)} MB; tier first ${(tiers.first / 1e6).toFixed(2)} MB, stream ${(tiers.stream / 1e6).toFixed(2)} MB`);
 console.log(`licences: ${[...new Set(groups.map((g) => g.licence))].join(', ')}; ${urls.length} source URLs checked in ATTRIBUTION.md and public/attribution.json`);

@@ -7,7 +7,7 @@
  * .cube from a grading tool and convert it with this script's PNG writer, or
  * edit grade() below.
  *
- * Usage: node scripts/make-lut.mjs [name]      (default name: template-grade)
+ * Usage: node scripts/make-lut.mjs [name]      (template-grade or lantern-night; default template-grade)
  */
 import { writeFileSync, mkdirSync } from 'node:fs';
 import { deflateSync } from 'node:zlib';
@@ -24,7 +24,7 @@ const N = 33;
 const clamp = (x) => Math.min(1, Math.max(0, x));
 
 /** Template grade: +4% contrast around mid-grey, slightly warm highlights, cool shadows, -5% saturation. */
-function grade(r, g, b) {
+function templateGrade(r, g, b) {
   const l = 0.2126 * r + 0.7152 * g + 0.0722 * b;
   const sat = 0.95;
   r = l + (r - l) * sat; g = l + (g - l) * sat; b = l + (b - l) * sat;
@@ -36,6 +36,26 @@ function grade(r, g, b) {
   b += 0.016 * sh - 0.018 * hi;
   return [clamp(r), clamp(g), clamp(b)];
 }
+/**
+ * Lantern Museum after hours (object-detective art bible §2): tungsten-warm
+ * highlights for the display lights, night-blue shadows, -8% saturation,
+ * +6% contrast, gently lifted blacks so dark wood keeps its grain.
+ */
+function lanternNight(r, g, b) {
+  const l = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  const sat = 0.92;
+  r = l + (r - l) * sat; g = l + (g - l) * sat; b = l + (b - l) * sat;
+  const c = 1.06;
+  r = 0.5 + (r - 0.5) * c; g = 0.5 + (g - 0.5) * c; b = 0.5 + (b - 0.5) * c;
+  const sh = (1 - l) ** 3, hi = l ** 2;
+  r += -0.010 * sh + 0.030 * hi + 0.012;
+  g += 0.000 * sh + 0.012 * hi + 0.010;
+  b += 0.026 * sh - 0.030 * hi + 0.014;
+  return [clamp(r), clamp(g), clamp(b)];
+}
+const GRADES = { 'template-grade': templateGrade, 'lantern-night': lanternNight };
+if (!GRADES[NAME]) throw new Error(`unknown grade ${NAME}; one of ${Object.keys(GRADES).join(', ')}`);
+function grade(r, g, b) { return GRADES[NAME](r, g, b); }
 
 let cube = `TITLE "${NAME}"\nLUT_3D_SIZE ${N}\nDOMAIN_MIN 0 0 0\nDOMAIN_MAX 1 1 1\n`;
 for (let bi = 0; bi < N; bi++) for (let gi = 0; gi < N; gi++) for (let ri = 0; ri < N; ri++) {

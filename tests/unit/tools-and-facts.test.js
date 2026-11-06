@@ -12,7 +12,7 @@ import { comparisons, REFERENCES } from '../../src/systems/true-size-view.js';
 import { longestPreset } from '../../src/app-tools.js';
 
 const load = (p) => JSON.parse(readFileSync(new URL(`../../${p}`, import.meta.url), 'utf8'));
-const objects = load('content/objects.json').objects;
+const objects = load('content/records.json').objects;
 const models = load('content/models.json');
 const main = load('content/cases/main.json');
 const tutorial = load('content/cases/tutorial.json');

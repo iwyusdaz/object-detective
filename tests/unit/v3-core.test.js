@@ -51,7 +51,7 @@ describe('catalog (plan 10 §4.1)', () => {
   it('throws in strict mode and serves lookups', () => {
     expect(() => createCatalog([entry({ honesty: 'x' })])).toThrow(/problem/);
     const c = createCatalog(catalogRaw);
-    expect(c.get('anemometer').name).toBe('Cup anemometer');
+    expect(c.get('chester-relay').name).toBe(catalogRaw.objects.find((o) => o.id === 'chester-relay').name);
     expect(c.has('nope')).toBe(false);
   });
 
@@ -197,8 +197,8 @@ describe('motion layers (plan 10 §5)', () => {
 
   it('time-lapse and illustrative motion must be named on a card', () => {
     const m = new MotionLayerManager({ root: null });
-    m.add(sys('sun', 'sky', { label: 'time-lapse', objects: ['solar-panel'] }));
-    m.add(sys('walk', 'agents', { label: 'illustrative', objects: ['field-technician'] }));
+    m.add(sys('sun', 'sky', { label: 'illustrative', objects: ['grandfather-clock'] }));
+    m.add(sys('walk', 'agents', { label: 'illustrative', objects: ['night-guard'] }));
     m.add(sys('bad', 'objects', { label: 'illustrative', objects: [] }));
     const problems = m.checkLabels(createCatalog(catalogRaw));
     expect(problems).toEqual(['bad: illustrative motion names no catalog object']);
@@ -304,9 +304,10 @@ if (existsSync(join(ROOT, 'src', 'demo', 'content.js'))) describe('demo Now card
   });
 });
 
-it('ships the case LUT strip and the font licence', () => {
-  expect(existsSync(join(ROOT, 'public', 'lut', 'template-grade-33.png'))).toBe(true);
+it('ships the case LUT strip and the font licences', () => {
+  expect(existsSync(join(ROOT, 'public', 'lut', 'lantern-night-33.png'))).toBe(true);
   expect(readFileSync(join(ROOT, 'src', 'v3', 'fonts', 'LICENSE-Inter.txt'), 'utf8')).toMatch(/SIL Open Font License/);
+  for (const f of ['LICENSE-Libre-Baskerville.txt', 'LICENSE-Source-Sans-3.txt']) expect(readFileSync(join(ROOT, 'src', 'styles', 'fonts', f), 'utf8')).toMatch(/SIL Open Font License/);
 });
 
 describe('one name per drawer (S5 pass 3, template-changes T-18)', async () => {

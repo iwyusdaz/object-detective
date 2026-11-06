@@ -126,25 +126,18 @@
     "changes": "GLB re-encoded; shelf dressing"
   },
   {
-    "asset": "Font: Cormorant Garamond (600, 700)",
-    "author": "Christian Thalmann (The Cormorant Project)",
-    "source": "https://github.com/CatharsisFonts/Cormorant",
+    "asset": "Font: Libre Baskerville (700) — v3 display face (S0 pair A)",
+    "author": "Pablo Impallari, Rodrigo Fuenzalida (The Libre Baskerville Project Authors)",
+    "source": "https://github.com/impallari/Libre-Baskerville",
     "license": "SIL Open Font License 1.1",
-    "changes": "Subset to Latin, WOFF2, self-hosted"
+    "changes": "Latin subset WOFF2 from @fontsource/libre-baskerville 5.x, self-hosted (src/styles/fonts)"
   },
   {
-    "asset": "Font: Source Serif 4 (400, 600)",
-    "author": "Frank Grießhammer (Adobe)",
-    "source": "https://github.com/adobe-fonts/source-serif",
+    "asset": "Font: Source Sans 3 (400, 600) — v3 body and UI face (S0 pair A)",
+    "author": "Paul D. Hunt (Adobe)",
+    "source": "https://github.com/adobe-fonts/source-sans",
     "license": "SIL Open Font License 1.1",
-    "changes": "Subset to Latin, WOFF2, self-hosted"
-  },
-  {
-    "asset": "Font: Special Elite (400)",
-    "author": "Astigmatic (AOETI)",
-    "source": "https://fonts.google.com/specimen/Special+Elite/about",
-    "license": "Apache License 2.0",
-    "changes": "Subset to Latin, WOFF2, self-hosted"
+    "changes": "Latin subset WOFF2 from @fontsource/source-sans-3 5.x, self-hosted (src/styles/fonts)"
   },
   {
     "asset": "Text-mode photo sets (public/assets/photos)",
@@ -193,7 +186,7 @@
     "author": "Smithsonian Institution",
     "source": "https://api.si.edu/openaccess/api/v1.0/ (Open Access API)",
     "license": "CC0 1.0",
-    "changes": "Facts paraphrased or quoted in content/objects.json (catalog \"scenes\")"
+    "changes": "Facts paraphrased or quoted in content/objects.json (catalog \"objects\")"
   },
   {
     "asset": "Painting image: Susan Walker Morse (The Muse), Samuel F. B. Morse, ca. 1836–37 (Met 45.62.1, Bequest of Herbert L. Pratt, 1945)",

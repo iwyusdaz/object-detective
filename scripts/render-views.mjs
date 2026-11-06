@@ -25,7 +25,7 @@ const ONLY = process.env.ONLY ? process.env.ONLY.split(',') : null;
 mkdirSync(OUT, { recursive: true });
 if (PUBLISH && !ONLY) for (const f of readdirSync(OUT)) rmSync(join(OUT, f));
 
-const objects = JSON.parse(readFileSync(join(root, 'content', 'objects.json'), 'utf8')).objects;
+const objects = JSON.parse(readFileSync(join(root, 'content', 'records.json'), 'utf8')).objects;
 export const VIEWS = [
   ['front', { preset: 'front' }],
   ['back', { preset: 'back' }],

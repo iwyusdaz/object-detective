@@ -8,7 +8,7 @@ import { readFileSync } from 'node:fs';
 
 export const load = (p) => JSON.parse(readFileSync(new URL(`../content/${p}`, import.meta.url), 'utf8'));
 export const CASES = { tutorial: load('cases/tutorial.json'), main: load('cases/main.json') };
-export const OBJECTS = Object.fromEntries(load('objects.json').objects.map((o) => [o.id, o]));
+export const OBJECTS = Object.fromEntries(load('records.json').objects.map((o) => [o.id, o]));
 export const ITEMS = load('items.json');
 
 export async function boot(page, { textMode = false } = {}) {

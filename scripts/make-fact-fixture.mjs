@@ -16,7 +16,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const raw = JSON.parse(readFileSync(join(root, 'data', 'raw', 'si3d.json'), 'utf8'));
-const objects = JSON.parse(readFileSync(join(root, 'content', 'objects.json'), 'utf8')).objects;
+const objects = JSON.parse(readFileSync(join(root, 'content', 'records.json'), 'utf8')).objects;
 const wanted = new Set(objects.map((o) => o.record.recordId));
 
 const rows = raw.response.rows
