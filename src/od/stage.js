@@ -493,8 +493,13 @@ export class Stage {
     const M = this.museum;
     if (!this.lamp && M.rakeLamp) {
       // Size check uses the rest pose: the articulated lamp's live box changes as it moves.
+      // Measured in the lamp's own axes (its yaw on the table would inflate a world box).
+      const yaw = M.rakeLamp.quaternion.clone();
+      M.rakeLamp.quaternion.identity();
       M.rakeLamp.updateMatrixWorld(true);
       M.rakeLamp.userData.restSize = new THREE.Box3().setFromObject(M.rakeLamp).getSize(new THREE.Vector3()).toArray();
+      M.rakeLamp.quaternion.copy(yaw);
+      M.rakeLamp.updateMatrixWorld(true);
       delete M.rakeLamp.userData.scaleFrame;
       this.lamp = new LampRig(M.rakeLamp, { light: this.rake.light, reduced: () => document.documentElement.dataset.motion === 'reduced' });
     }
