@@ -7,7 +7,17 @@
  * _tools/ui-audit.mjs.
  */
 import { test, expect } from '@playwright/test';
+import { readFileSync } from 'node:fs';
 import { ready, visibleLabels, pointOn, CASES, ITEMS, solveCase } from './helpers.js';
+const allObjects = JSON.parse(readFileSync(new URL('../content/objects.json', import.meta.url), 'utf8')).objects;
+// Only course-relevant objects (task, learn) are inspectable (owner decision 2026-11-07, DECISIONS OD-V3-10).
+const COURSE_IDS = allObjects.filter((o) => o.role === 'task' || o.role === 'learn').map((o) => o.id);
+const DECOR_IDS = allObjects.filter((o) => o.role === 'decorative').map((o) => o.id);
+/** The first course object with a pickable point on screen. */
+async function firstCoursePoint(page) {
+  for (const id of COURSE_IDS) { const p = await pointOn(page, id); if (p) return { id, ...p }; }
+  return null;
+}
 
 const T = (page, fn, arg) => page.evaluate(fn, arg);
 const card = (page) => page.locator('[data-ui="now-card"]');
@@ -47,8 +57,10 @@ test('title, practice on the painting, then the Welcome card in the dressed gall
   await expect(card(page)).toContainText(/Practice 1 of 4/);
   await page.getByRole('button', { name: /skip practice/i }).click();
   await expect(card(page)).toContainText('Your evening shift');
-  const s = await T(page, () => ({ ids: window.__TEST__.inspect.ids().length, legend: document.querySelector('[data-ui="legend"]').textContent }));
-  expect(s.ids).toBeGreaterThanOrEqual(20);
+  const s = await T(page, () => ({ ids: window.__TEST__.inspect.ids(), legend: document.querySelector('[data-ui="legend"]').textContent }));
+  // Every registered object is course-relevant; decorative dressing is not inspectable.
+  expect(s.ids.length).toBeGreaterThanOrEqual(8);
+  expect(s.ids.filter((id) => !COURSE_IDS.includes(id))).toEqual([]);
 });
 
 test('labels are hidden at rest; hover shows one; a click opens the card beside the object', async ({ page }) => {
@@ -56,13 +68,13 @@ test('labels are hidden at rest; hover shows one; a click opens the card beside 
   await T(page, () => window.__TEST__.app.goModule(0));
   await page.waitForTimeout(3000);
   expect(await visibleLabels(page)).toEqual([]);
-  const p = await pointOn(page, 'vitrine');
+  const p = await firstCoursePoint(page);
   expect(p).not.toBeNull();
   await page.mouse.move(p.x, p.y);
   await page.waitForTimeout(600);
-  expect(await visibleLabels(page)).toContain('vitrine');
+  expect(await visibleLabels(page)).toContain(p.id);
   await page.mouse.click(p.x, p.y);
-  await expect(page.locator('[data-ui="info-card"][data-object-id="vitrine"]')).toBeVisible();
+  await expect(page.locator(`[data-ui="info-card"][data-object-id="${p.id}"]`)).toBeVisible();
   await expect(page.locator('[data-ui="discovered"]')).toContainText(/1 of \d+/);
   await page.keyboard.press('Escape');
   await expect(page.locator('[data-ui="info-card"]')).toBeHidden();
@@ -71,21 +83,24 @@ test('labels are hidden at rest; hover shows one; a click opens the card beside 
   await page.locator('[data-action="show-labels"]').click();
   await page.keyboard.press('Escape');
   await page.waitForTimeout(600);
-  expect((await visibleLabels(page)).length).toBeGreaterThan(3);
+  expect((await visibleLabels(page)).length).toBeGreaterThanOrEqual(3);
 });
 
-test('every catalog object is in the keyboard list or opens by id; the list opens a card by Enter', async ({ page }) => {
+test('every course object is in the keyboard list or opens by id; the list opens a card by Enter', async ({ page }) => {
   await ready(page);
   await T(page, () => window.__TEST__.app.goModule(0));
   await page.waitForTimeout(2500);
   await T(page, () => window.__TEST__.scene.museum.streamDetail());
-  await page.waitForFunction(() => window.__TEST__.inspect.ids().length >= window.__TEST__.catalog.size, null, { timeout: 120_000 });
-  const missing = await T(page, () => { const ids = new Set(window.__TEST__.inspect.ids()); return window.__TEST__.catalog.objects.map((o) => o.id).filter((id) => !ids.has(id)); });
-  expect(missing).toEqual([]);
+  await page.waitForFunction((n) => window.__TEST__.inspect.ids().length >= n, COURSE_IDS.length, { timeout: 120_000 });
+  const ids = await T(page, () => window.__TEST__.inspect.ids());
+  expect(COURSE_IDS.filter((id) => !ids.includes(id))).toEqual([]);
+  expect(ids.filter((id) => DECOR_IDS.includes(id))).toEqual([]);
   await page.locator('[data-action="menu"]').click();
   await page.locator('[data-ui="objects-list-toggle"]').click();
   const list = page.locator('[data-ui="objects-list"] [data-object-id]');
-  expect(await list.count()).toBeGreaterThanOrEqual(20);
+  const listed = await list.evaluateAll((els) => els.map((e) => e.dataset.objectId));
+  expect(listed.filter((id) => DECOR_IDS.includes(id))).toEqual([]);
+  expect(listed.length).toBeGreaterThanOrEqual(3);
   const first = list.first();
   const id = await first.getAttribute('data-object-id');
   await first.focus();
@@ -265,10 +280,10 @@ test.describe('touch', () => {
     await ready(page);
     await T(page, () => window.__TEST__.app.goModule(0));
     await page.waitForTimeout(3000);
-    const p = await pointOn(page, 'vitrine');
+    const p = await firstCoursePoint(page);
     expect(p).not.toBeNull();
     await page.touchscreen.tap(p.x, p.y);
-    await expect(page.locator('[data-ui="info-card"][data-object-id="vitrine"]')).toBeVisible();
+    await expect(page.locator(`[data-ui="info-card"][data-object-id="${p.id}"]`)).toBeVisible();
   });
 });
 
@@ -280,4 +295,57 @@ test('without WebGL2 the app runs in text mode with every objective', async ({ p
   await page.waitForFunction(() => window.__APP_READY__, null, { timeout: 60_000 });
   await expect(page.locator('#textmode')).toBeVisible();
   expect(errors).toEqual([]);
+});
+test('Back steps back inside a case and closes a card first; Back to start shows the title; no link to all projects', async ({ page }) => {
+  await ready(page);
+  await expect(page.getByRole('link', { name: /all projects/i })).toHaveCount(0);
+  await T(page, () => window.__TEST__.app.goModule(1));
+  await page.waitForTimeout(2500);
+  await T(page, () => window.__TEST__.lessons._setCaseStep('tutorial', 'inspect'));
+  await expect(card(page)).toContainText(/Step 2 of/);
+  await T(page, () => window.__TEST__.inspect.open('magnifier'));
+  await expect(page.locator('[data-ui="info-card"]')).toBeVisible();
+  await page.locator('[data-ui="back"]').click();
+  await expect(page.locator('[data-ui="info-card"]')).toBeHidden();
+  await expect(card(page)).toContainText(/Step 2 of/);
+  await page.locator('[data-ui="back"]').click();
+  await expect(card(page)).toContainText(/Step 1 of/);
+  await page.getByRole('button', { name: 'Menu' }).click();
+  await page.getByRole('button', { name: 'Back to start' }).focus();
+  await page.keyboard.press('Enter');
+  await expect(page.locator('[data-ui="title-screen"]')).toBeVisible();
+  await expect(page.getByRole('button', { name: /^start$/i })).toBeFocused();
+});
+test('decorative dressing has no label, card or list entry, and a click on it opens nothing', async ({ page }) => {
+  await ready(page);
+  await T(page, () => window.__TEST__.app.goModule(0));
+  await page.waitForTimeout(3000);
+  expect(await T(page, () => window.__TEST__.journal.total)).toBe(COURSE_IDS.length);
+  const spot = await T(page, (ids) => {
+    const T = window.__TEST__;
+    const r = T.shell.canvas.getBoundingClientRect();
+    const roots = new Map();
+    T.engine.scene.traverse((o) => { if (o.userData?.decorative && ids.includes(o.userData.objectId) && !roots.has(o.userData.objectId)) roots.set(o.userData.objectId, o); });
+    for (const [id, root] of roots) {
+      const box = new (Object.getPrototypeOf(T.inspect._box).constructor)().setFromObject(root);
+      const p = box.getCenter(root.position.clone()).project(T.engine.camera);
+      if (p.z < -1 || p.z > 1) continue;
+      const x = r.left + (p.x + 1) / 2 * r.width, y = r.top + (1 - p.y) / 2 * r.height;
+      if (x < 20 || y < 80 || x > r.right - 20 || y > r.bottom - 20 || document.elementFromPoint(x, y)?.id !== 'app') continue;
+      const ray = new T.inspect.raycaster.constructor();
+      ray.setFromCamera({ x: p.x, y: p.y }, T.engine.camera);
+      const hit = ray.intersectObjects(T.engine.scene.children, true).find((h) => h.object.isMesh && !h.object.userData.outlineHull);
+      let o = hit?.object; while (o && !o.userData?.objectId) o = o.parent;
+      if (o?.userData.objectId === id) return { id, x, y, pick: T.inspect.pick(x, y) };
+    }
+    return null;
+  }, DECOR_IDS);
+  expect(spot, 'a decorative object on screen').not.toBeNull();
+  expect(spot.pick).toBeNull();
+  await page.mouse.move(spot.x, spot.y);
+  await page.waitForTimeout(400);
+  expect(await visibleLabels(page)).toEqual([]);
+  await page.mouse.click(spot.x, spot.y);
+  await page.waitForTimeout(600);
+  await expect(page.locator('[data-ui="info-card"]')).toBeHidden();
 });

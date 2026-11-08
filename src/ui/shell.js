@@ -1,6 +1,6 @@
 /**
  * HTML overlay shell (template shell adapted for a side-panel game layout):
- * header with Menu / Settings / Text mode / "All projects" (-> `/`), module
+ * header with Menu / Settings / Text mode, module
  * navigation, status HUD, and a stage that holds the 3D canvas, a view-control
  * pad, the cinematic host and the learning PANEL (all semantic HTML).
  * Text mode = panel full width, canvas hidden (html[data-textmode="on"]).
@@ -21,7 +21,6 @@ export class Shell {
           <button type="button" data-action="menu">Menu</button>
           <button type="button" data-action="settings">Settings</button>
           <button type="button" data-action="textmode" aria-pressed="false">Text mode</button>
-          <a class="all-projects" href="/">All projects</a>
         </nav>
       </header>
       <nav class="module-nav" aria-label="Chapters"></nav>
@@ -44,7 +43,6 @@ export class Shell {
           <li><button type="button" data-action="help">Controls and keys</button></li>
           <li><button type="button" data-action="progress">My progress</button></li>
           <li><button type="button" data-action="restart">Restart the whole game</button></li>
-          <li><a href="/">All projects</a></li>
         </ul>
       </dialog>
     `;

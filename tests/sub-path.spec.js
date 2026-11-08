@@ -2,7 +2,7 @@
  * Sub-path test (build contract 08 5.6): dist/ copied to tmp/play/<slug>/ and
  * served from /play/<slug>/ on a local static server (port 4380):
  * no failed requests, no console errors, canvas or WebGL fallback, text mode
- * opens, "All projects" links to `/`. Then Case 1 loads a scan and the
+ * opens, Back to start is there and no "All projects" link (owner, 2026-11-07). Then Case 1 loads a scan and the
  * streamed KTX2 exhibits and paintings from the sub-path.
  * Run: npm run build && SLUG=object-detective npx playwright test tests/sub-path.spec.js
  */
@@ -61,8 +61,9 @@ test(`sub-path /play/${SLUG}/ loads with no failed requests or console errors`, 
   await expect(page.locator('#textmode')).toBeVisible();
   await expect(page.locator('#textmode')).not.toBeEmpty();
 
-  const link = page.getByRole('link', { name: /all projects/i }).first();
-  await expect(link).toHaveAttribute('href', '/');
+  // No link to the showcase from a project page; Back to start instead (owner, 2026-11-07).
+  await expect(page.getByRole('link', { name: /all projects/i })).toHaveCount(0);
+  await expect(page.locator('#textmode').getByRole('button', { name: 'Back to start' })).toBeVisible();
 
   // v3: Case 1 loads a real scan (Draco, self-hosted decoders) and the streamed
   // exhibits and paintings (KTX2 through the patched Basis transcoder) from the sub-path.

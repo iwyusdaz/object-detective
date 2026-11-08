@@ -1,11 +1,12 @@
 {
-  "_about": "Plan 10 §4.1 object catalog (v3.0.0), under \"objects\". One entry per inspectable thing; an instructional designer can edit it without touching code. The verbatim Smithsonian records the case engine uses are in content/records.json (moved there in v3, DECISIONS OD-V3-1). realSize is [x, y, z] in metres of the object as placed (glTF frame, y up, 1 unit = 1 m), taken from the record where one exists; null means no scale test. Fields starting with \"_\" are builder notes: \"_asset\" names the file or code that renders the object, \"_scale\" explains a scale-test exception. Sources are listed in research/sources.md; asset licences in ATTRIBUTION.md and research/v3-licence-log.json.",
+  "_about": "Plan 10 §4.1 object catalog (v3.0.0), under \"objects\". One entry per catalogued thing. Roles (owner decision 2026-11-07, DECISIONS OD-V3-10): \"task\" and \"learn\" objects are inspectable and carry whyItMatters plus the objective they serve; \"decorative\" objects are set dressing, not inspectable, kept for the scale check and the honesty record; an instructional designer can edit it without touching code. The verbatim Smithsonian records the case engine uses are in content/records.json (moved there in v3, DECISIONS OD-V3-1). realSize is [x, y, z] in metres of the object as placed (glTF frame, y up, 1 unit = 1 m), taken from the record where one exists; null means no scale test. Fields starting with \"_\" are builder notes: \"_asset\" names the file or code that renders the object, \"_scale\" explains a scale-test exception. Sources are listed in research/sources.md; asset licences in ATTRIBUTION.md and research/v3-licence-log.json.",
   "catalogFields": [
     "id",
     "name",
     "short",
     "more",
     "whyItMatters",
+    "objective",
     "realSize",
     "honesty",
     "source",
@@ -30,7 +31,8 @@
       "name": "Morse-Vail telegraph key",
       "short": "A wood and brass key made by Alfred Vail in 1844, believed to come from the first Baltimore–Washington telegraph line.",
       "more": "The Smithsonian record says Vail made this key as an improvement on Samuel Morse's original transmitter. Pressing the lever closes the circuit; short and long presses send dots and dashes. Vail helped Morse develop the system, which was demonstrated in 1844.",
-      "whyItMatters": "Tutorial case: practise checking a label against the record and the object.",
+      "whyItMatters": "The object of Case 1: you look at it closely to check each claim on its draft card.",
+      "objective": "m2 Case 1: check a label claim against the object and its record",
       "realSize": [
         0.1715,
         0.0762,
@@ -47,7 +49,8 @@
       "name": "Davenport electric motor (US patent 132)",
       "short": "The model for the first US patent for an electric motor, issued to Thomas Davenport in 1837.",
       "more": "The record describes this as the model to accompany US patent number 132, issued to Thomas Davenport on 25 February 1837, and notes no surviving markings. The patent claims the use of magnetic and electromagnetic power as a moving principle for machinery.",
-      "whyItMatters": "Case 2: one of the objects the draft label describes.",
+      "whyItMatters": "One of the four objects the draft label describes: its marks and its record test the label's claims.",
+      "objective": "m3 Case 2: verify, correct or reject each claim on the draft label with evidence",
       "realSize": [
         0.254,
         0.381,
@@ -64,7 +67,8 @@
       "name": "Henry trough battery",
       "short": "An early battery dated 1832 in its Smithsonian record. The record gives no maker and no description.",
       "more": "The record gives the name and the date 1832, but no maker and no description. Anything you can say beyond that has to come from looking at the scan itself. The app labels those notes as your observations, not as facts from the record.",
-      "whyItMatters": "Case 2: the record is thin, so the evidence must come from close looking.",
+      "whyItMatters": "Its record is thin, so any claim about it must rest on what you can see on the scan.",
+      "objective": "m3 Case 2: verify, correct or reject each claim on the draft label with evidence",
       "realSize": [
         0.2032,
         0.0476,
@@ -81,7 +85,8 @@
       "name": "Chester telegraph relay",
       "short": "A brass, marble and copper relay from about 1860. It boosted weak signals on long telegraph lines.",
       "more": "Telegraph pulses grew weak as they travelled down a long wire. A relay used the weak incoming pulse to switch on a fresh local battery, which could then work the sounder. The record credits Charles T. Chester and dates the relay to about 1860.",
-      "whyItMatters": "Case 2: one of the objects the draft label describes.",
+      "whyItMatters": "One of the four objects the draft label describes: its maker and date are claims you check.",
+      "objective": "m3 Case 2: verify, correct or reject each claim on the draft label with evidence",
       "realSize": [
         0.2127,
         0.0889,
@@ -98,7 +103,8 @@
       "name": "Page induction coil (patent model, US 76654)",
       "short": "A patent model credited to Charles G. Page, dated about 1868 in its record.",
       "more": "An induction coil has a few turns of wire on an iron core inside many turns of thinner wire. Each time the current in the inner coil is broken, the outer coil gives a short pulse of high voltage. This is a patent model, made to show how an invention worked. The record gives the patent number, the maker and the date, but no description.",
-      "whyItMatters": "Case 2: the fourth object on the label.",
+      "whyItMatters": "The fourth object on the draft label: its patent-model status is a claim you check.",
+      "objective": "m3 Case 2: verify, correct or reject each claim on the draft label with evidence",
       "realSize": [
         0.1207,
         0.1778,
@@ -115,7 +121,8 @@
       "name": "Western Electric tangent galvanometer",
       "short": "A brass, glass and copper instrument from about 1870 that measured electric current with a compass needle.",
       "more": "Current through the coil makes a magnetic field that pushes the compass needle away from north. The current is proportional to the tangent of the angle the needle turns through, which gives the instrument its name. The record lists Western Electric as maker, and rubber, glass, brass, copper and steel as materials.",
-      "whyItMatters": "Transfer task object.",
+      "whyItMatters": "The object you examine on your own: you apply the case checks without step-by-step help.",
+      "objective": "m4 On your own: apply the same checks to a new object",
       "realSize": null,
       "honesty": "real",
       "source": "https://n2t.net/ark:/65665/ng49ca746a5-1ec6-704b-e053-15f76fa0b4fa",
@@ -130,7 +137,8 @@
       "name": "Draft label card",
       "short": "The museum's draft label for the case. Your job is to check every claim on it against the evidence.",
       "more": "The draft label was written for this game. Some of its claims are supported by the objects and records, and some are not. The label is fictional; the objects it describes are real.",
-      "whyItMatters": "Case 2: the claims you verify, correct or reject.",
+      "whyItMatters": "It lists the claims you must verify, correct or reject; your corrected label replaces it.",
+      "objective": "m3 Case 2: verify, correct or reject each claim on the draft label with evidence",
       "realSize": [
         0.15,
         0.1,
@@ -147,7 +155,8 @@
       "name": "Magnifier",
       "short": "A hand lens that enlarges surface detail such as tool marks, stamps, wear and corrosion.",
       "more": "Close looking at the object is evidence in its own right, much like close reading of a document. In the app the lens shows the full-resolution scan texture, loaded when you need it, inside a round lens. The magnifying glass on the table is a CC0 Poly Haven model.",
-      "whyItMatters": "Inspection tool used in every case.",
+      "whyItMatters": "The lens reveals stamps, tool marks and wear, which count as evidence for a finding.",
+      "objective": "m2-m4: find marks and wear that support or contradict a claim",
       "realSize": [
         0.1321,
         0.2716,
@@ -164,7 +173,8 @@
       "name": "Raking light lamp",
       "short": "A lamp set low to one side, so tiny bumps and scratches cast shadows you can see.",
       "more": "Conservators examine objects with a single light placed at a low angle to the surface. The low light brings out surface texture, so faint engraving, file marks and old repairs stand out. The app shows what the technique reveals on the scan; it is not a conservation tool.",
-      "whyItMatters": "Inspection tool used to find faint marks.",
+      "whyItMatters": "Low light from one side shows faint engraving and file marks that flat light hides.",
+      "objective": "m2-m4: find marks and wear that support or contradict a claim",
       "realSize": [
         0.2017,
         0.8926,
@@ -181,7 +191,8 @@
       "name": "Scale card with a quarter",
       "short": "A bank-card-sized card and a US quarter (24.26 mm across) placed beside the object to show its real size.",
       "more": "Photographs and scans can hide how big an object is. A familiar object of known size in the same view fixes the scale. A US quarter is 24.26 mm across, and the card is the size of a bank card: 85.60 by 53.98 mm.",
-      "whyItMatters": "Measure tool: size claims on the label.",
+      "whyItMatters": "A card and a coin of known size show the object's real size, so you can test size claims.",
+      "objective": "m2-m3: check size claims on the label",
       "realSize": [
         0.0856,
         0.00076,
@@ -198,7 +209,8 @@
       "name": "Evidence board",
       "short": "A cork board by the archive door. Each finding you record is pinned here as a card.",
       "more": "Each finding appears as a pinned card, linked to the claim it supports or contradicts. Sorting evidence this way helps you see which claims hold up before you write the corrected label.",
-      "whyItMatters": "Case 2: where your evidence is organised before the verdict.",
+      "whyItMatters": "Your findings are pinned here, linked to the claims they support or contradict, before the verdict.",
+      "objective": "m3 Case 2: verify, correct or reject each claim on the draft label with evidence",
       "realSize": [
         1.2,
         0.9,
@@ -215,7 +227,8 @@
       "name": "Archive drawer cabinet",
       "short": "A tall wooden cabinet of drawers in the archive corner, where the case documents are kept.",
       "more": "The documents in the drawers were made for this game and are labelled 'Fictional document created for this game'. Treat them like any source: ask who wrote each one, when and why. The cabinet is a CC0 Poly Haven model.",
-      "whyItMatters": "Case 2: documents to source and corroborate.",
+      "whyItMatters": "The case documents live here; you source and corroborate them against the objects.",
+      "objective": "m3 Case 2: verify, correct or reject each claim on the draft label with evidence",
       "realSize": [
         1.1411,
         1.8813,
@@ -232,7 +245,6 @@
       "name": "Reference shelves",
       "short": "Worn wooden shelves in the archive corner, where the museum keeps its reference books and catalogues.",
       "more": "Curators check objects against reference books: catalogues, trade lists and histories of the makers. The shelves are a CC0 Poly Haven model used as dressing for the fictional Lantern Museum; the books on them are not readable sources in this game.",
-      "whyItMatters": "",
       "realSize": [
         1.374,
         2.0634,
@@ -240,7 +252,7 @@
       ],
       "honesty": "illustrative",
       "source": "https://polyhaven.com/a/wooden_bookshelf_worn",
-      "role": "explore",
+      "role": "decorative",
       "scene": "gallery",
       "_asset": "public/assets/models/manifest.json#wooden_bookshelf_worn"
     },
@@ -249,7 +261,6 @@
       "name": "Display case (vitrine)",
       "short": "A glass case on a dark base that protects an object from dust, handling and changes in humidity.",
       "more": "Museum cases let visitors see an object while keeping it safe. Sealed cases protect against changes in humidity, air pollution and theft; even simple cases stop people touching the object. The glass reflects the room around it. The cases here are modelled for the fictional Lantern Museum.",
-      "whyItMatters": "",
       "realSize": [
         0.6,
         1.6,
@@ -257,7 +268,7 @@
       ],
       "honesty": "fictional",
       "source": "https://www.museumsgalleriesscotland.org.uk/advice-article/choosing-new-display-cases/",
-      "role": "explore",
+      "role": "decorative",
       "_asset": "built in code + content/assets-v3.json#textures.Wood051, Marble012, Metal048A, Fingerprints002",
       "scene": "gallery"
     },
@@ -266,7 +277,6 @@
       "name": "Inspection table and photo sweep",
       "short": "A work table with a curved white backdrop, for photographing and examining objects without distraction.",
       "more": "The curved sweep hides the corner between table and wall, so the object sits on a plain background in soft, even light. Bring an object here to look closely with the tools.",
-      "whyItMatters": "Where the inspection tools are used.",
       "realSize": [
         1.4,
         1.56,
@@ -274,7 +284,7 @@
       ],
       "honesty": "fictional",
       "source": "",
-      "role": "explore",
+      "role": "decorative",
       "_asset": "built in code (gallery.js)",
       "scene": "gallery",
       "_scale": "Height includes the photographic sweep, which rises 0.66 m above the 0.9 m table top."
@@ -284,7 +294,6 @@
       "name": "Grandfather clock",
       "short": "A tall case clock in the corner. Its long pendulum swings once each second.",
       "more": "A grandfather (or longcase) clock is a tall pendulum clock, commonly 1.8 to 2.4 m high. A seconds pendulum is just under one metre long and takes one second for each swing. The hands start at about 9:40 pm, after closing, and move on from there; they never show your local time. The clock is a CC0 Poly Haven model used as period dressing.",
-      "whyItMatters": "",
       "realSize": [
         0.6256,
         2.1906,
@@ -292,7 +301,7 @@
       ],
       "honesty": "illustrative",
       "source": "https://en.wikipedia.org/wiki/Grandfather_clock",
-      "role": "explore",
+      "role": "decorative",
       "_asset": "public/assets/models/manifest.json#vintage_grandfather_clock_01",
       "scene": "gallery"
     },
@@ -301,7 +310,6 @@
       "name": "Tall windows in the rain",
       "short": "Rain runs down the glass. Across the street, a few windows are still lit.",
       "more": "Drops on the glass grow, join up and run down in streaks. Outside, clouds drift over the wet street, a car passes now and then and lights go on and off in the building opposite. All of this is illustrative: the building is a painted backdrop, and the timing of the cars, clouds and lit windows is made up.",
-      "whyItMatters": "",
       "realSize": [
         1.2,
         2.64,
@@ -309,7 +317,7 @@
       ],
       "honesty": "fictional",
       "source": "",
-      "role": "explore",
+      "role": "decorative",
       "_asset": "built in code + content/assets-v3.json#own.night-facade",
       "scene": "gallery"
     },
@@ -318,7 +326,8 @@
       "name": "Susan Walker Morse (The Muse), by Samuel F. B. Morse",
       "short": "A portrait painted about 1836–37 by Samuel Morse, the painter who later helped invent the telegraph.",
       "more": "Samuel F. B. Morse made his name as a portrait painter before he worked on the telegraph; his name is on the telegraph key in this gallery. Here he painted his daughter Susan, sketchbook in hand. Oil on canvas, 187.3 by 146.4 cm. The Metropolitan Museum of Art, Bequest of Herbert L. Pratt, 1945 (45.62.1). The image is public domain (Met Open Access, CC0).",
-      "whyItMatters": "",
+      "whyItMatters": "Morse was a portrait painter before the telegraph; the key's record credits Alfred Vail, so a famous name on a label is a claim to check.",
+      "objective": "m2 Case 1: check a label claim against the object and its record",
       "realSize": [
         1.797,
         2.191,
@@ -326,7 +335,7 @@
       ],
       "honesty": "real",
       "source": "https://www.metmuseum.org/art/collection/search/11605",
-      "role": "explore",
+      "role": "learn",
       "_asset": "content/assets-v3.json#paintings.morse-the-muse",
       "_scale": "realSize is the framed size from the Met record; the canvas is 1.464 x 1.873 m.",
       "scene": "gallery"
@@ -336,7 +345,6 @@
       "name": "Mathew B. Brady, by Charles Loring Elliott",
       "short": "An 1857 portrait of the photographer Mathew Brady, who studied under Samuel Morse.",
       "more": "Charles Loring Elliott, an American portrait painter, painted Mathew B. Brady in 1857. Brady learned photography under Samuel Morse and became one of the best-known American photographers. Oil on canvas, 61 by 50.8 cm. The Metropolitan Museum of Art, Gift of the Friends of Mathew Brady, 1896 (96.24). The image is public domain (Met Open Access, CC0).",
-      "whyItMatters": "",
       "realSize": [
         0.8001,
         0.8922,
@@ -344,7 +352,7 @@
       ],
       "honesty": "real",
       "source": "https://www.metmuseum.org/art/collection/search/10850",
-      "role": "explore",
+      "role": "decorative",
       "_asset": "content/assets-v3.json#paintings.elliott-mathew-brady",
       "_scale": "realSize is the framed size from the Met record; the canvas is 0.508 x 0.61 m.",
       "scene": "gallery"
@@ -354,7 +362,8 @@
       "name": "Abraham Lincoln's patent model",
       "short": "A wooden model of Lincoln's 1849 invention for lifting boats over shoals. A side case shows this neighbouring exhibit.",
       "more": "On 22 May 1849, Congressman Abraham Lincoln received patent 6469 for a method of lifting boats over shoals. The record says he made the model with the help of Walter Davis, a Springfield mechanic, and that there is no evidence he tried to put the idea into production. Wood and fabric. Smithsonian National Museum of American History (PL.031940), CC0 scan.",
-      "whyItMatters": "",
+      "whyItMatters": "Shows what a patent model is (a small working model sent with a patent application), which you need to judge the label's claims about two patent models.",
+      "objective": "m3 Case 2: verify, correct or reject each claim on the draft label with evidence",
       "realSize": [
         0.1207,
         0.2477,
@@ -362,7 +371,7 @@
       ],
       "honesty": "real",
       "source": "https://n2t.net/ark:/65665/ng49ca746a0-e40b-704b-e053-15f76fa0b4fa",
-      "role": "explore",
+      "role": "learn",
       "_asset": "content/assets-v3.json#exhibits.lincoln-patent-model",
       "scene": "gallery"
     },
@@ -371,7 +380,6 @@
       "name": "Refrigerator patent model by Thomas Elkins",
       "short": "Thomas Elkins' 1879 patent model of a refrigerator design: metal outside, ceramic inside, on a wooden base.",
       "more": "The record describes a metal model with a ceramic interior and a tarnished, decorated top. A funnel-like spout sits at one end, and the wooden base has eighteen holes in the bottom. Thomas Elkins, American, 1879. Smithsonian National Museum of African American History and Culture (2012.113.2), CC0 scan.",
-      "whyItMatters": "",
       "realSize": [
         0.1,
         0.102,
@@ -379,7 +387,7 @@
       ],
       "honesty": "real",
       "source": "http://n2t.net/ark:/65665/fd5244cea00-6a12-4850-b907-84ee99c5c52b",
-      "role": "explore",
+      "role": "decorative",
       "_asset": "content/assets-v3.json#exhibits.elkins-refrigerator-patent-model",
       "scene": "gallery"
     },
@@ -388,7 +396,6 @@
       "name": "Stereoscope by A. Mattey, Paris",
       "short": "A wooden viewer with two lenses. It merges a pair of photographs into one picture with depth.",
       "more": "A stereoscope shows each eye a slightly different photograph of the same scene, and the brain fuses them into one three-dimensional image. The record describes a wooden box with glass eyepieces, a cut-out for the nose and a glass back door. Its plaque reads \"76 / UNIS-FRANCE / 3 / STEROSCOPES - PARIS\". Dated 1905–1920. Smithsonian NMAAHC (2017.111.16), gift of Alan Laird, CC0 scan.",
-      "whyItMatters": "",
       "realSize": [
         0.175,
         0.103,
@@ -396,7 +403,7 @@
       ],
       "honesty": "real",
       "source": "http://n2t.net/ark:/65665/fd5cd643bc5-e071-49f7-b610-da88ec7e3a56",
-      "role": "explore",
+      "role": "decorative",
       "_asset": "content/assets-v3.json#exhibits.mattey-stereoscope",
       "scene": "gallery"
     },
@@ -405,7 +412,6 @@
       "name": "Track spotlights",
       "short": "Warm spotlights aimed at each case. Dust drifts through their beams.",
       "more": "Narrow, warm beams pick out each case against the darker room. Dust motes catch the light as they drift; the motes are illustrative.",
-      "whyItMatters": "",
       "realSize": [
         0.1,
         0.26,
@@ -413,7 +419,7 @@
       ],
       "honesty": "fictional",
       "source": "",
-      "role": "explore",
+      "role": "decorative",
       "_asset": "built in code (gallery.js)",
       "scene": "gallery"
     },
@@ -422,7 +428,6 @@
       "name": "Gallery bench",
       "short": "A padded leather seat where visitors can sit and look at the paintings.",
       "more": "The seat faces the end wall, so you can sit and look at the Morse portrait. It is a CC0 Poly Haven model used as dressing.",
-      "whyItMatters": "",
       "realSize": [
         0.8846,
         0.6243,
@@ -430,7 +435,7 @@
       ],
       "honesty": "illustrative",
       "source": "https://polyhaven.com/a/Ottoman_01",
-      "role": "explore",
+      "role": "decorative",
       "_asset": "content/assets-v3.json#props.Ottoman_01",
       "scene": "gallery"
     },
@@ -439,7 +444,6 @@
       "name": "Reception desk",
       "short": "The front desk by the entrance, with a lamp, a visitor book and leaflets.",
       "more": "The desk belongs to the fictional Lantern Museum. The visitor book shows no entries for tonight: the museum is closed.",
-      "whyItMatters": "",
       "realSize": [
         2.0,
         1.51,
@@ -447,7 +451,7 @@
       ],
       "honesty": "fictional",
       "source": "",
-      "role": "explore",
+      "role": "decorative",
       "_asset": "built in code + content/assets-v3.json#textures.Wood051, Marble012, Paper004",
       "scene": "gallery",
       "_scale": "Height includes the brass desk lamp on the counter (the counter is 1.1 m)."
@@ -457,11 +461,10 @@
       "name": "Night guard's torch",
       "short": "A torch beam sweeps the far gallery now and then as the guard makes their rounds.",
       "more": "The guard is part of the fictional museum and stays out of sight in the next room. Their round repeats about every 25 seconds; the timing is illustrative. The guard never interrupts your work.",
-      "whyItMatters": "",
       "realSize": null,
       "honesty": "fictional",
       "source": "",
-      "role": "explore",
+      "role": "decorative",
       "_asset": "built in code (gallery.js torch beam)",
       "_scale": "No scale test: a moving light; the guard is never shown.",
       "scene": "gallery",
@@ -472,7 +475,6 @@
       "name": "Security camera",
       "short": "A camera high on the wall that slowly pans across the gallery.",
       "more": "This camera is dressing for the fictional museum and records nothing. It is a CC0 Poly Haven model.",
-      "whyItMatters": "",
       "realSize": [
         0.1695,
         0.2861,
@@ -480,7 +482,7 @@
       ],
       "honesty": "illustrative",
       "source": "https://polyhaven.com/a/security_camera_01",
-      "role": "explore",
+      "role": "decorative",
       "_asset": "content/assets-v3.json#props.security_camera_01",
       "scene": "gallery"
     },
@@ -489,7 +491,6 @@
       "name": "Exit sign",
       "short": "A lit exit sign over the door. Its light flickers now and then.",
       "more": "This sign stays lit while the museum is closed. Its flicker is illustrative: a small mood detail, kept slow and dim so it stays well inside flash-safety limits.",
-      "whyItMatters": "",
       "realSize": [
         0.35,
         0.15,
@@ -497,7 +498,7 @@
       ],
       "honesty": "fictional",
       "source": "",
-      "role": "explore",
+      "role": "decorative",
       "_asset": "built in code + content/assets-v3.json#own.exit-sign",
       "scene": "gallery"
     },
@@ -506,7 +507,6 @@
       "name": "Curtains",
       "short": "Heavy curtains beside the windows that stir a little in a draught.",
       "more": "The curtains frame the tall windows. Their slow movement in a draught is illustrative.",
-      "whyItMatters": "",
       "realSize": [
         0.5,
         2.8,
@@ -514,7 +514,7 @@
       ],
       "honesty": "fictional",
       "source": "",
-      "role": "explore",
+      "role": "decorative",
       "_asset": "built in code + content/assets-v3.json#textures.Fabric085",
       "scene": "gallery"
     },
@@ -523,11 +523,10 @@
       "name": "Wainscoting and brass rail",
       "short": "Dark wood panelling along the lower wall, with a brass rail in front that keeps visitors back.",
       "more": "The panelling and rail are part of the fictional gallery. The rail marks how close visitors should stand to the works.",
-      "whyItMatters": "",
       "realSize": null,
       "honesty": "fictional",
       "source": "https://ambientcg.com/view?id=Wood051",
-      "role": "explore",
+      "role": "decorative",
       "_asset": "built in code + content/assets-v3.json#textures.Wood051, Metal048A",
       "_scale": "No scale test: a room surface.",
       "scene": "gallery",
@@ -538,7 +537,6 @@
       "name": "Chandelier",
       "short": "A brass chandelier, dimmed for the night.",
       "more": "The chandelier is a CC0 Poly Haven model used as period dressing. Its candle-like bulbs flicker gently; the flicker is illustrative.",
-      "whyItMatters": "",
       "realSize": [
         0.7465,
         0.7983,
@@ -546,7 +544,7 @@
       ],
       "honesty": "illustrative",
       "source": "https://polyhaven.com/a/Chandelier_01",
-      "role": "explore",
+      "role": "decorative",
       "_asset": "public/assets/models/manifest.json#Chandelier_01",
       "scene": "gallery"
     }

@@ -106,6 +106,6 @@ export function renderWrapUp(app, panel) {
     ),
     h('p', {}, 'These skills follow the historical-thinking approach of the Digital Inquiry Group (formerly the Stanford History Education Group), whose "Reading Like a Historian" lessons teach sourcing, contextualization, corroboration and close reading.'),
     h('p', {}, 'Your learning record stays in this browser. Open ', h('button', { type: 'button', class: 'linklike', onclick: (e) => app.progressPage.open(e.currentTarget) }, 'My progress'), ' to view it, download it as JSON, or clear it.'),
-    h('p', {}, h('a', { href: '/' }, 'Back to all projects')),
+    h('p', {}, h('button', { type: 'button', class: 'v3-btn', onclick: () => app.backToStart?.() }, 'Back to start')),
   );
 }

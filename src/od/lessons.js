@@ -146,6 +146,7 @@ export class Lessons {
       startTutorial: () => L.app.completeModule(0),
       gotoChapter: (i) => { if (i === 4) L.app.completeModule(3); else L.app.goModule(i); },
       progressPage: { open: (b) => L.app.shell._emit('action:progress', b) },
+      backToStart: () => L.app.backToStart(),
     };
   }
 
@@ -189,8 +190,8 @@ export class Lessons {
   // ---------------------------------------------------------------- module definitions
   modules() {
     const L = this;
-    const mk = (i, id, label, { view, calm = false, enter, now, text }) => ({
-      id, label, calm,
+    const mk = (i, id, label, { view, calm = false, enter, now, text, back }) => ({
+      id, label, calm, back,
       get view() { return view(); },
       enter: () => { L.mod = i; enter?.(); },
       now: () => now(),
@@ -200,8 +201,8 @@ export class Lessons {
     const tableView = () => ({ target: [STAGE_POS.x - 0.12, STAGE_POS.y + 0.08, STAGE_POS.z], radius: 0.75, theta: 0, phi: 1.2 });
     return [
       mk(0, 'welcome', 'Welcome', { view: galleryView, enter: () => L._enterGallery(), now: () => L.welcomeNow(), text: (el) => renderWelcome(L.v2, L._tmPanel(el)) }),
-      mk(1, 'case-tutorial', 'Case 1: the key', { view: tableView, calm: true, enter: () => L._enterCase('tutorial'), now: () => L.caseNow('tutorial'), text: (el) => L._caseText('tutorial', el) }),
-      mk(2, 'case-main', 'Case 2: the label', { view: tableView, calm: true, enter: () => L._enterCase('main'), now: () => L.caseNow('main'), text: (el) => L._caseText('main', el) }),
+      mk(1, 'case-tutorial', 'Case 1: the key', { view: tableView, calm: true, enter: () => L._enterCase('tutorial'), now: () => L.caseNow('tutorial'), back: () => L._caseBack('tutorial'), text: (el) => L._caseText('tutorial', el) }),
+      mk(2, 'case-main', 'Case 2: the label', { view: tableView, calm: true, enter: () => L._enterCase('main'), now: () => L.caseNow('main'), back: () => L._caseBack('main'), text: (el) => L._caseText('main', el) }),
       mk(3, 'transfer', 'On your own', { view: tableView, calm: true, enter: () => L._enterTransfer(), now: () => L.transferNow(), text: (el) => renderTransfer(L.v2, L._tmPanel(el)) }),
       mk(4, 'wrap-up', 'Wrap-up', { view: () => ({ target: [0, 1.3, -2.8], radius: 7.4, theta: -0.45, phi: 1.32 }), enter: () => L._enterGallery(), now: () => L.wrapNow(), text: (el) => renderWrapUp(L.v2, L._tmPanel(el)) }),
     ];
@@ -430,6 +431,14 @@ export class Lessons {
     else shell.closeDrawer();
     this._tagsSync();
     this.refresh();
+  }
+
+  /** Back inside a case (top-bar Back): the previous case step; false at the first step or once submitted. */
+  _caseBack(caseId) {
+    const i = this.step[caseId] || 0;
+    if (i <= 0 || this.cases[caseId].engine.state.submitted) return false;
+    this._caseGo(caseId, STEPS[i - 1][0]);
+    return true;
   }
 
   openCaseDrawer(caseId, step, trigger = null) {
