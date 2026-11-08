@@ -223,7 +223,7 @@ test('keyboard-only completion of all five modules', async ({ page }) => {
   expect(done).toEqual([0, 1, 2, 3, 4]);
 });
 
-test('text mode: every module renders, every catalog object is listed, Case 2 solved with the same engine (parity)', async ({ page }) => {
+test('text mode: every module renders, every course object is listed and no decorative one, Case 2 solved with the same engine (parity)', async ({ page }) => {
   test.setTimeout(600_000);
   await ready(page);
   await T(page, () => window.__TEST__.app.goModule(2));
@@ -231,9 +231,12 @@ test('text mode: every module renders, every catalog object is listed, Case 2 so
   await T(page, () => window.__TEST__.ui.toggleTextMode());
   const tm = page.locator('#textmode');
   await expect(tm).toBeVisible();
-  const names = await T(page, () => window.__TEST__.catalog.objects.map((o) => o.name));
+  // Course objects (task, learn) have text-mode cards; decorative ones do not (T-29).
+  const names = await T(page, () => window.__TEST__.catalog.inspectable.map((o) => o.name));
   const text = await tm.innerText();
   for (const n of names) expect(text).toContain(n);
+  const cardIds = await tm.locator('[data-object-id]').evaluateAll((els) => els.map((e) => e.dataset.objectId));
+  for (const id of DECOR_IDS) expect(cardIds).not.toContain(id);
   await solveCase(page, 'main', { text: true });
   const s = await T(page, () => window.__TEST__.lessons.cases.main.engine.score());
   expect(s.verdictCorrect).toBe(CASES.main.claims.length);

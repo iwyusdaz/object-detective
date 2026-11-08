@@ -35,7 +35,9 @@ export function visibleLabels(page) {
 export function pointOn(page, id) {
   return page.evaluate((oid) => {
     const T = window.__TEST__;
-    const s = T.inspect._screenBox(T.inspect.items.get(oid));
+    const item = T.inspect.items.get(oid);
+    if (!item) return null; // not registered (yet): e.g. a streamed exhibit still loading
+    const s = T.inspect._screenBox(item);
     if (!s) return null;
     for (let gy = 2; gy < 10; gy++) for (let gx = 2; gx < 9; gx++) {
       const x = s.left + ((s.right - s.left) * gx) / 10, y = s.top + ((s.bottom - s.top) * gy) / 10;
