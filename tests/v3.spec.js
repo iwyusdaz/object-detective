@@ -274,8 +274,33 @@ test('motion report: at least eight systems on four layers, every label on a car
   expect(r.problems).toEqual([]);
 });
 
+// Plan 10 §3: an object on the inspection table is framed at >= 35% of the view height.
+async function framedShare(page, module) {
+  await T(page, (m) => window.__TEST__.app.goModule(m), module);
+  await page.waitForFunction(() => { const S = window.__TEST__.lessons.stage; return S.slots.length && !S.worldBox().isEmpty() && !window.__TEST__.rig.anim; }, null, { timeout: 120_000 });
+  await page.waitForTimeout(500);
+  return T(page, () => {
+    const S = window.__TEST__.lessons.stage; const b = S.worldBox(); const cam = window.__TEST__.engine.camera;
+    let y0 = 9, y1 = -9;
+    for (let i = 0; i < 8; i++) { const p = b.min.clone().set(i & 1 ? b.max.x : b.min.x, i & 2 ? b.max.y : b.min.y, i & 4 ? b.max.z : b.min.z).project(cam); y0 = Math.min(y0, p.y); y1 = Math.max(y1, p.y); }
+    return (y1 - y0) / 2;
+  });
+}
+test('case objects on the table fill at least 35% of the view height; true size frames the references too', async ({ page }) => {
+  await ready(page);
+  for (const m of [1, 2, 3]) expect(await framedShare(page, m)).toBeGreaterThanOrEqual(0.35);
+  await framedShare(page, 1);
+  await T(page, () => { const L = window.__TEST__.lessons; L._setCaseStep('tutorial', 'inspect'); L.toggle('size'); });
+  await page.waitForFunction(() => window.__TEST__.lessons.stage.trueSize && !window.__TEST__.rig.anim, null, { timeout: 30_000 });
+  await expect(card(page)).toContainText(/True size: ruler, quarter and card at the same scale/);
+});
+
 test.describe('touch', () => {
   test.use({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+  test('phone held upright: case objects fill at least 35% of the view height', async ({ page }) => {
+    await ready(page);
+    for (const m of [1, 2, 3]) expect(await framedShare(page, m)).toBeGreaterThanOrEqual(0.35);
+  });
   test('a tap on an object opens its card in the bottom sheet', async ({ page }) => {
     await ready(page);
     await T(page, () => window.__TEST__.app.goModule(0));

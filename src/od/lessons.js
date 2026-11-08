@@ -204,7 +204,7 @@ export class Lessons {
       mk(1, 'case-tutorial', 'Case 1: the key', { view: tableView, calm: true, enter: () => L._enterCase('tutorial'), now: () => L.caseNow('tutorial'), back: () => L._caseBack('tutorial'), text: (el) => L._caseText('tutorial', el) }),
       mk(2, 'case-main', 'Case 2: the label', { view: tableView, calm: true, enter: () => L._enterCase('main'), now: () => L.caseNow('main'), back: () => L._caseBack('main'), text: (el) => L._caseText('main', el) }),
       mk(3, 'transfer', 'On your own', { view: tableView, calm: true, enter: () => L._enterTransfer(), now: () => L.transferNow(), text: (el) => renderTransfer(L.v2, L._tmPanel(el)) }),
-      mk(4, 'wrap-up', 'Wrap-up', { view: () => ({ target: [0, 1.3, -2.8], radius: 7.4, theta: -0.45, phi: 1.32 }), enter: () => L._enterGallery(), now: () => L.wrapNow(), text: (el) => renderWrapUp(L.v2, L._tmPanel(el)) }),
+      mk(4, 'wrap-up', 'Wrap-up', { view: () => ({ target: [2.4, 1.3, -0.6], radius: 7.0, theta: -0.95, phi: 1.36 }), enter: () => L._enterGallery(), now: () => L.wrapNow(), text: (el) => renderWrapUp(L.v2, L._tmPanel(el)) }),
     ];
   }
 
@@ -369,7 +369,7 @@ export class Lessons {
       else {
         const on = st.setTrueSize(!st.trueSize);
         const obj = this.records[st.primary.id];
-        this.ins.msg = on ? 'True size: ruler, quarter and card beside it.' : '';
+        this.ins.msg = on ? `True size: ruler, quarter and card at the same scale. Longest side ${Math.max(...obj.dimensionsCm).toFixed(1)} cm (record).` : '';
         announce(on ? `True-size view. ${sizeStatement(obj)}` : 'True-size view off.');
         if (!on) st.frameAll(0, 14);
       }

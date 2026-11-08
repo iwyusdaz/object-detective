@@ -20,6 +20,7 @@
  * @module od/museum
  */
 import * as THREE from 'three';
+import { LightProbeGridWebGL } from 'three/addons/lighting/LightProbeGridWebGL.js';
 import { Parts, box, cyl, pbr, lazyTexture, loadGLB, cardTexture, contactShadow, restOnFloor, shadows, pendingTextures, V } from './kit.js';
 import { FakeLights } from './fake-lights.js';
 
@@ -27,6 +28,8 @@ export const ROOM = { minX: -6, maxX: 6, minZ: -8, maxZ: 4, H: 4.2 };
 export const TABLE = { x: 0, z: 0.45, top: 0.9, w: 1.4, d: 0.8 };
 /** Where an object rests on the inspection table (the stage origin). */
 export const STAGE_POS = new THREE.Vector3(0, TABLE.top, 0.5);
+/** Height of the photographic sweep's floor above the table top (m). */
+export const SWEEP_LIFT = 0.001;
 const DEG = Math.PI / 180;
 
 /** Case objects in the tall vitrines (record ids) and the neighbouring exhibits in bench cases. */
@@ -179,7 +182,40 @@ export class Museum {
     if (this._envRT) this._envRT.dispose(); else prev?.dispose?.();
     this._envRT = rt;
     pmrem.dispose();
+    this.bakeBounce(vis);
     this.setMode(this.mode);
+  }
+
+  /**
+   * Bounce light (plan 10 §6.2): a LightProbeGridWebGL over the gallery and the
+   * archive corner, baked on the GPU from the room as lit for the evening (the
+   * display lights included), with one extra bounce. 9 x 3 x 7 probes, about
+   * 1.9 m apart; spikes/RESULTS.md measured probe count as free at runtime.
+   * The bake uses the gallery lighting, so the grid is on only in gallery mode;
+   * at the inspection table (studio key, lamp, raking light) the room is dimmed
+   * and the cube map's ambient is used as before. Medium preset and up only.
+   */
+  bakeBounce(hide = []) {
+    if (!this.app.engine.quality.presetDef.features?.lightProbes) return;
+    const t0 = performance.now();
+    if (!this.probes) {
+      const minX = ROOM.minX, maxX = 9.4, minZ = ROOM.minZ, maxZ = ROOM.maxZ;
+      this.probes = new LightProbeGridWebGL(maxX - minX, ROOM.H, maxZ - minZ, 9, 3, 7);
+      this.probes.name = 'bounce light probes';
+      this.probes.position.set((minX + maxX) / 2, ROOM.H / 2, (minZ + maxZ) / 2);
+      this.scene.add(this.probes);
+    }
+    const mode = this.mode;
+    if (mode !== 'gallery') this.setMode('gallery');
+    for (const o of hide) o.visible = false;
+    const env = this.scene.environment;
+    this.scene.environment = null; // direct light only; the grid's own pass adds the bounce
+    this.probes.visible = true;
+    try { this.probes.bake(this.renderer, this.scene, { cubemapSize: 8, near: 0.05, far: 30, bounces: 1 }); } catch (e) { console.warn('light probes:', e); this.scene.remove(this.probes); this.probes = null; }
+    this.scene.environment = env;
+    for (const o of hide) o.visible = true;
+    this.bakeMs = Math.round(performance.now() - t0);
+    if (mode !== 'gallery') this.setMode(mode);
   }
 
   _add(obj) { this.root.add(obj); obj.updateMatrixWorld(true); this.fake?.patchScene(obj); return obj; }
@@ -760,7 +796,7 @@ export class Museum {
     // Photographic sweep: flat floor, a quarter-circle bend and a rise at the back (-z).
     const sweep = new THREE.Mesh(makeSweep(1.3, 0.42, 0.18, 0.48), this.M.sweep);
     // Rise at the back edge, floor to the front edge: the sweep fits the 0.8 m table top.
-    sweep.position.set(0, TABLE.top + 0.001, STAGE_POS.z - TABLE.z - 0.12);
+    sweep.position.set(0, TABLE.top + SWEEP_LIFT, STAGE_POS.z - TABLE.z - 0.12);
     sweep.receiveShadow = true;
     sweep.userData.surfaceDetail = true;
     // No outline hull: the inverted hull of this curved sheet filled the whole table view (25 ms GPU on hover).
@@ -807,7 +843,8 @@ export class Museum {
 
   /** Scale card and quarter on the table: at rest beside the sweep, or in front of the object (true size). */
   placeScaleRefs(objBox) {
-    const y = TABLE.top;
+    // On the sweep's floor (1 mm above the wood): below it, the card was hidden and unclickable.
+    const y = TABLE.top + SWEEP_LIFT;
     if (!objBox) {
       this.scaleCard.position.set(0.52, y + 0.0004, TABLE.z - 0.05);
       this.quarter.position.set(0.52, y + 0.000875, TABLE.z + 0.04);
@@ -818,7 +855,7 @@ export class Museum {
     const cx = (objBox.min.x + objBox.max.x) / 2;
     this.scaleCard.position.set(objBox.max.x + 0.07, y + 0.0004, (objBox.min.z + objBox.max.z) / 2);
     this.quarter.position.set(objBox.min.x - 0.04, y + 0.000875, (objBox.min.z + objBox.max.z) / 2);
-    this.ruler.position.set(cx, y + 0.001, front + 0.018);
+    this.ruler.position.set(cx, y + 0.0006, front + 0.018);
     this.ruler.visible = true;
   }
 
@@ -1157,7 +1194,8 @@ export class Museum {
         g.add(m);
         // Lying flat on the table: the 2.7 cm thickness is now the height.
         g.rotation.set(-Math.PI / 2, 0, 0.5);
-        g.position.set(-0.42, TABLE.top + 0.0134, TABLE.z + 0.25);
+        // Front of the table, clear of the edges the lamp clamps to (od/lamp-rig.js).
+        g.position.set(0.2, TABLE.top + SWEEP_LIFT + 0.0134, TABLE.z + 0.32);
         g.userData.scaleFrame = 'local';
         g.name = 'magnifier';
         this._add(g);
@@ -1319,6 +1357,7 @@ export class Museum {
   /** 'gallery' (after-hours room), 'inspect' (studio key on the table) or 'raking' (only the raking light). */
   setMode(mode) {
     this.mode = mode;
+    if (this.probes) this.probes.visible = mode === 'gallery';
     const env = { gallery: 1.0, inspect: 0.9, raking: 0.05 }[mode];
     this.scene.environmentIntensity = env;
     const warm = { gallery: 1, inspect: 0.6, raking: 0.05 }[mode];

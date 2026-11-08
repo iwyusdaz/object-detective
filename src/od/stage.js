@@ -19,9 +19,12 @@ import { loadGLB } from './kit.js';
 import { RakingLight } from '../systems/raking-light.js';
 import { Magnifier } from '../systems/magnifier.js';
 import { Measure } from '../systems/measure.js';
+import { LampRig, lampPlan } from './lamp-rig.js';
 
 const DEG = Math.PI / 180;
 export const POSES = { upright: 0, flipped: Math.PI };
+/** An object framed whole fills at least this share of the view height (plan 10 §3). */
+export const MIN_FRAME_H = 0.35;
 export const PRESET_VIEWS = {
   front: { yaw: 0, elev: 14, pose: 'upright', label: 'Front' },
   back: { yaw: 180, elev: 14, pose: 'upright', label: 'Back' },
@@ -257,13 +260,70 @@ export class Stage {
     return THREE.MathUtils.clamp(Math.max(fitH, fitW), 0.09, 3);
   }
 
-  /** The whole object (or pair) from a preset side. */
+  /**
+   * Fraction of the canvas height and width a world box covers when the camera
+   * stands at rig view `v` (plan 10 §3: an inspected object fills >= 35% of the
+   * viewport height). Uses a copy of the camera, so it can be asked before flying.
+   */
+  coverage(box, v) {
+    const cam = this.engine.camera.clone();
+    const back = new THREE.Vector3(Math.sin(v.phi) * Math.sin(v.theta), Math.cos(v.phi), Math.sin(v.phi) * Math.cos(v.theta));
+    const t = new THREE.Vector3().fromArray(v.target);
+    cam.position.copy(t).addScaledVector(back, v.radius);
+    cam.lookAt(t);
+    cam.updateMatrixWorld(true);
+    let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
+    for (let i = 0; i < 8; i++) {
+      const p = new THREE.Vector3(i & 1 ? box.max.x : box.min.x, i & 2 ? box.max.y : box.min.y, i & 4 ? box.max.z : box.min.z).project(cam);
+      x0 = Math.min(x0, p.x); x1 = Math.max(x1, p.x); y0 = Math.min(y0, p.y); y1 = Math.max(y1, p.y);
+    }
+    return { h: (y1 - y0) / 2, w: (x1 - x0) / 2, x0, x1, y0, y1 };
+  }
+  /** Room for the object beside the Now card: wanted height and the widest it may be (fractions of the canvas). */
+  _frameRoom() {
+    const lay = this.app.shell.layout;
+    if (lay === 'phone-portrait') return { h: 0.4, w: 0.88 };
+    if (lay === 'phone-landscape') return { h: 0.55, w: 0.56 };
+    return { h: 0.45, w: 0.62 };
+  }
+  /**
+   * The radius at which a box fills the wanted share of the view height from
+   * this side, without growing wider than the room beside the card.
+   */
+  fitView(box, yaw, elev, room = this._frameRoom()) {
+    const center = box.getCenter(new THREE.Vector3());
+    const at = (e, y) => {
+      let radius = this.fitRadius(box);
+      for (let i = 0; i < 4; i++) {
+        const c = this.coverage(box, this.viewOf(center, radius, y, e));
+        if (!(c.h > 0) || !(c.w > 0)) break;
+        // Projected size scales about as 1 / distance.
+        radius *= Math.max(c.h / room.h, c.w / room.w);
+        radius = THREE.MathUtils.clamp(radius, 0.09, 3);
+      }
+      return this.viewOf(center, radius, y, e);
+    };
+    const first = at(elev, yaw);
+    if (this.coverage(box, first).h >= MIN_FRAME_H) return first;
+    // A long, low object in a tall view (the key on a phone held upright) hits the
+    // width limit before it fills 35% of the height: look down more steeply (up to
+    // 50°), then also along its length, so its depth adds to its height on screen.
+    let best = first, bestH = this.coverage(box, first).h;
+    for (const y of [yaw, yaw + 90]) {
+      for (let e = elev; e <= 50; e += 8) {
+        const v = at(e, y); const h = this.coverage(box, v).h;
+        if (h >= MIN_FRAME_H) return v;
+        if (h > bestH) { best = v; bestH = h; }
+      }
+    }
+    return best;
+  }
+  /** The whole object (or pair) from a preset side, framed by fitView. */
   frameAll(yaw = 0, elev = 14, duration = 1.0) {
     const box = this.worldBox();
     if (box.isEmpty()) return null;
-    const radius = this.fitRadius(box);
-    this.view.dist = radius;
-    const v = this.viewOf(box.getCenter(new THREE.Vector3()), radius, yaw, elev);
+    const v = this.fitView(box, yaw, elev);
+    this.view.dist = v.radius;
     this.app.rig.flyTo(v, duration);
     return v;
   }
@@ -372,9 +432,10 @@ export class Stage {
     // Frame the object and the three references, so the coin and card are in shot.
     const box = this.worldBox();
     for (const r of [this.museum.scaleCard, this.museum.quarter, this.museum.ruler]) box.expandByObject(r);
-    const radius = this.fitRadius(box, 0.6);
-    this.view.dist = radius;
-    this.app.rig.flyTo(this.viewOf(box.getCenter(new THREE.Vector3()), radius, 0, 40), 1.0);
+    // Comparison view: from 55° above, the object and the card, coin and ruler at one scale, filling the room beside the card.
+    const v = this.fitView(box, 0, 55, { ...this._frameRoom(), h: 0.6 });
+    this.view.dist = v.radius;
+    this.app.rig.flyTo(v, 1.0);
     return true;
   }
 
@@ -419,8 +480,51 @@ export class Stage {
     this.onChange?.();
   }
 
-  /** Per frame: the lens (after the rig has moved the camera). */
+  // ------------------------------------------------------------------ the inspection lamp
+  /** What the lamp lights: the chosen spot's mark, else the selected (primary) object's centre. */
+  lampTarget() {
+    if (this.current) { const p = this.hotspotWorld(this.current.id, this.current.hs); if (p) return p; }
+    const slot = this.primary;
+    if (slot) return new THREE.Box3().setFromObject(slot.model).getCenter(new THREE.Vector3());
+    return STAGE_POS.clone().add(new THREE.Vector3(0, 0.04, 0));
+  }
+  /** The lamp aims at and lights the object on the table; it parks over the empty sweep. */
+  _lampUpdate(dt) {
+    const M = this.museum;
+    if (!this.lamp && M.rakeLamp) {
+      // Size check uses the rest pose: the articulated lamp's live box changes as it moves.
+      M.rakeLamp.updateMatrixWorld(true);
+      M.rakeLamp.userData.restSize = new THREE.Box3().setFromObject(M.rakeLamp).getSize(new THREE.Vector3()).toArray();
+      delete M.rakeLamp.userData.scaleFrame;
+      this.lamp = new LampRig(M.rakeLamp, { light: this.rake.light, reduced: () => document.documentElement.dataset.motion === 'reduced' });
+    }
+    if (!this.lamp?.ok) return;
+    const lit = this.slots.length > 0;
+    const target = this.lampTarget();
+    const box = this.primary ? new THREE.Box3().setFromObject(this.primary.model) : null;
+    const objectRadius = box ? Math.hypot(box.max.x - box.min.x, box.max.z - box.min.z) / 2 : 0.08;
+    const st = this.rake.state;
+    const sig = [target.x, target.y, target.z, objectRadius].map((v) => v.toFixed(4)).join(',') + `|${st.azimuth}|${this.rake.elevationNow}`;
+    if (sig !== this._lampSig) {
+      this._lampSig = sig;
+      const local = this.root.worldToLocal(target.clone());
+      const plan = lampPlan({ azimuth: st.azimuth, elevation: this.rake.elevationNow }, local, { objectRadius });
+      const base = this.root.localToWorld(plan.base.clone());
+      base.y = this.root.getWorldPosition(new THREE.Vector3()).y;
+      this.lamp.aim(target, this.root.localToWorld(plan.light.clone()), base);
+    }
+    this.lamp.update(dt);
+    this.rake.ambientLevel = lit ? 1.6 : 0;
+    this.rake.light.castShadow = lit;
+    this.rake.syncIntensity();
+  }
+
+  /** Per frame: the lamp, then the lens (after the rig has moved the camera). */
   update() {
+    const now = performance.now();
+    const dt = Math.min(0.1, ((now - (this._t || now)) / 1000));
+    this._t = now;
+    this._lampUpdate(dt);
     const sig = this._shadowSignature();
     if (sig !== this._shadowSig) { this._shadowSig = sig; this.engine.renderer.shadowMap.needsUpdate = true; }
     if (this.lensFollow && this.magnifier.on) this.lensToHotspot({ follow: false });

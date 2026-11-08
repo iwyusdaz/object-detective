@@ -63,6 +63,14 @@ export class FakeLights {
       // Thin clear glass reflects; it has next to no diffuse reflectance.
       if (glass) shader.fragmentShader = `#define FK_GLASS\n${shader.fragmentShader}`;
       shader.fragmentShader = shader.fragmentShader
+        // With the room's LightProbeGrid (od/museum.js) the probes give the diffuse
+        // indirect light; the gallery cube map then only gives reflections, so the
+        // first bounce is not counted twice.
+        .replace('#include <lights_fragment_maps>', `#ifdef USE_LIGHT_PROBES_GRID
+${THREE.ShaderChunk.lights_fragment_maps.replace('iblIrradiance += getIBLIrradiance( geometryNormal );', '')}
+#else
+#include <lights_fragment_maps>
+#endif`)
         .replace('#include <common>', `#include <common>
 #define FK_MAX ${MAX_FAKE_LIGHTS}
 uniform int fkCount;
@@ -121,17 +129,43 @@ uniform vec4 fkCone[FK_MAX];`)
     else o.matrixWorld.copy(o.matrix);
   }
 
+  /**
+   * A sphere around everything a light can reach: its range sphere, or for a
+   * spot narrower than 45° the sphere around its cone (apex to range). Lights
+   * whose sphere is outside the view frustum light nothing on screen, so the
+   * fragment loop skips them (no change to the picture).
+   */
+  _reach(l, out) {
+    this._v.setFromMatrixPosition(l.matrixWorld);
+    out.center.copy(this._v);
+    out.radius = l.distance > 0 ? l.distance : Infinity;
+    if (l.isSpotLight && l.distance > 0 && l.angle < Math.PI / 4) {
+      this._t.setFromMatrixPosition(l.target.matrixWorld).sub(this._v).normalize();
+      out.center.addScaledVector(this._t, l.distance / 2);
+      out.radius = Math.hypot(l.distance / 2, l.distance * Math.tan(l.angle));
+    }
+    // Margin for the camera moving between this update and the render.
+    out.radius += 0.5;
+    return out;
+  }
   /** Per frame: lights to view space (three's lit fragments work in view space). */
   update(camera) {
     const u = this.uniforms;
     const view = camera.matrixWorldInverse;
+    this._frustum ||= new THREE.Frustum();
+    this._m ||= new THREE.Matrix4();
+    this._s ||= new THREE.Sphere();
+    camera.updateMatrixWorld();
+    this._frustum.setFromProjectionMatrix(this._m.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse));
     let n = 0;
     for (const l of this.lights) {
       if (!l.visible || l.intensity <= 0) continue;
       this._world(l);
+      if (l.isSpotLight) this._world(l.target, l.userData.fkParent);
+      const reach = this._reach(l, this._s);
+      if (Number.isFinite(reach.radius) && !this._frustum.intersectsSphere(reach)) continue;
       u.fkPos.value[n].setFromMatrixPosition(l.matrixWorld).applyMatrix4(view);
       if (l.isSpotLight) {
-        this._world(l.target, l.userData.fkParent);
         this._v.setFromMatrixPosition(l.matrixWorld);
         this._t.setFromMatrixPosition(l.target.matrixWorld);
         u.fkDir.value[n].subVectors(this._t, this._v).normalize().transformDirection(view);

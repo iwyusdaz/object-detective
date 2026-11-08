@@ -3,8 +3,12 @@
  * angle, as conservators do to reveal relief, tool marks and stamped marks.
  * Controlled by azimuth / elevation / intensity (sliders + keyboard); while on,
  * the gallery switches to its 'raking' mode (room lights and reflections dim).
- * Physically based: a DirectionalLight with a tight shadow camera around the
- * object on the inspection table.
+ * v3 (owner G2 feedback 2026-11-07): the light is the inspection lamp's own
+ * spotlight. The lamp rig (od/lamp-rig.js) moves the lamp to the side set by
+ * azimuth, raises or lowers the shade to the elevation, and keeps the beam on
+ * the object; `position` and `target` are set by the rig each frame. The
+ * intensity setting is the illuminance on the object (the spot's candela are
+ * scaled by the squared distance from the shade mouth).
  * @module systems/raking-light
  */
 import * as THREE from 'three';
@@ -38,14 +42,19 @@ export class RakingLight {
     this.room = room;
     this.state = { ...RAKING_DEFAULTS };
     this.on = false;
-    this.light = new THREE.DirectionalLight('#fff6ea', 0);
+    // Tungsten-halogen desk lamp: warm white, a 35° half-angle shade with a soft edge.
+    this.light = new THREE.SpotLight('#fff1dc', 0, 3, 0.62, 0.55, 2);
+    this.light.name = 'inspection lamp';
     this.light.castShadow = false;
-    this.light.shadow.mapSize.set(2048, 2048);
+    this.light.shadow.mapSize.set(1024, 1024);
     this.light.shadow.bias = -0.0002;
     this.light.shadow.normalBias = 0.004;
-    const cam = this.light.shadow.camera;
-    cam.left = -0.45; cam.right = 0.45; cam.top = 0.45; cam.bottom = -0.45; cam.near = 0.05; cam.far = 3;
+    this.light.shadow.camera.near = 0.03;
+    this.light.shadow.camera.far = 2;
+    this.light.position.copy(target).add(new THREE.Vector3(-0.3, 0.3, 0));
     this.light.target.position.copy(target);
+    /** Illuminance the lamp gives when the raking light is off (an object on the table). */
+    this.ambientLevel = 0;
     scene.add(this.light, this.light.target);
     this.listeners = [];
     this._apply();
@@ -63,12 +72,18 @@ export class RakingLight {
   }
   /** Is the light currently low enough to reveal surface relief? */
   get revealing() { return this.on && this.state.elevation <= RAKING_REVEAL_MAX_ELEVATION; }
+  /** Illuminance on the object now: the raking setting, or the lamp's working level. */
+  get level() { return this.on ? this.state.intensity : this.ambientLevel; }
+  /** The elevation the lamp is set to now (the working angle when raking is off). */
+  get elevationNow() { return this.on ? this.state.elevation : 40; }
   _apply() {
-    const [x, y, z] = rakingDirection(this.state.azimuth, this.state.elevation);
-    const t = this.light.target.position;
-    this.light.position.set(t.x + x * 1.4, t.y + y * 1.4, t.z + z * 1.4);
-    this.light.intensity = this.on ? this.state.intensity : 0;
+    this.syncIntensity();
     for (const fn of this.listeners) fn(this.state, this.on);
+  }
+  /** Spot candela for the wanted illuminance at the current shade-to-object distance. */
+  syncIntensity() {
+    const d = this.light.position.distanceTo(this.light.target.position);
+    this.light.intensity = this.level * d * d;
   }
   describe() {
     const s = this.state;
