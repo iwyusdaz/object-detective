@@ -170,6 +170,11 @@ export class Museum {
 
   /** Environment light and reflections from a cube render of the gallery (PMREM). */
   bakeEnvironment() {
+    // Without a GPU (software WebGL) this cube render compiles every material's
+    // shader on the main thread and blocks input for many seconds, including the
+    // title screen's "Use text mode". Skip it there: the room's own lights still
+    // light the scene; only the baked reflections and bounce light are missing.
+    if (this.app.engine.softwareGL) { this.setMode(this.mode); return; }
     const pmrem = new THREE.PMREMGenerator(this.renderer);
     const vis = [];
     // Leave the see-through effects and lens out of the bake.

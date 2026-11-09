@@ -59,7 +59,15 @@ const app = await createSceneApp({
     // Detail streams after the learner's first interaction (plan §7 download gate).
     // 'click' too: a screen reader's virtual cursor activates buttons with a click and no pointerdown or keydown.
     const FIRST = ['pointerdown', 'keydown', 'click'];
-    const first = () => { museum.streamDetail(); for (const ev of FIRST) window.removeEventListener(ev, first, true); };
+    // Text mode hides the 3D view, so choosing it is not a reason to stream 3D detail.
+    // Decide after this event's own handlers ran (the title's "Use text mode" turns it on);
+    // if text mode is on, keep listening and stream on the first interaction after leaving it.
+    const textModeOn = () => document.documentElement.dataset.textmode === 'on' || !!document.getElementById('textmode')?.checkVisibility?.();
+    const first = () => setTimeout(() => {
+      if (textModeOn()) return;
+      museum.streamDetail();
+      for (const ev of FIRST) window.removeEventListener(ev, first, true);
+    }, 0);
     for (const ev of FIRST) window.addEventListener(ev, first, true);
     return {
       colliders: museum.colliders,
