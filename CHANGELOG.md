@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.0.0 (2026-11-09) — scene-first revamp (plan 10 §6.2)
+- Scene-first v3 shell: one top bar with the module steps, a short Now card with one action, drawers and a discovery journal. Dressed Lantern Museum gallery and inspection table.
+- Articulated clamp lamp aims at the inspected object; circular magnifier (render target + circular composite); True size view with scale references; light-probe bounce light in the gallery.
+- Object roles: 12 task, 2 learn, 17 decorative.
+- Owner visual approval (G2), 2026-11-09, with the known open issues in STATUS.md accepted. Not user testing.
+- Navigation: Back and Back to start; no "All projects" link on project pages. Only course objects open cards; decorative objects open nothing.
+- Posters re-taken from the v3 scene (`poster-3.0.0.webp/.jpg`, headed-GPU screenshots); the v2 posters are removed.
 ## 2.0.1 (2026-10-29) — patch
 
 - Shared v2 core fixes: hover tooltips are suppressed while a tool or dialog owns the pointer; the collapsed HUD drawer is `inert` and `aria-hidden`, so Tab can't reach hidden controls; the reduced-motion character gaze snaps instead of drifting; the hotspot ring and disc are one mesh.

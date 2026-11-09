@@ -49,6 +49,7 @@ The v3.0.0 assets (rows marked v3, and everything under `public/assets/v3/`) are
 | Texture: Fingerprints 002 (1K) | ambientCG (Lennart Demes) | https://ambientcg.com/view?id=Fingerprints002 | CC0 1.0 | Roughness map only, 1024 px KTX2 (glass smudges) |
 | Texture: Paper 004 (1K) | ambientCG (Lennart Demes) | https://ambientcg.com/view?id=Paper004 | CC0 1.0 | Colour, NormalGL, Roughness at 512 px, KTX2 |
 | Textures: exit sign face, night facade across the street | Built for this project (scripts/fetch-v3-assets.mjs; exit-sign lettering set in Source Sans 3, SIL OFL 1.1) | This repository | CC BY 4.0 (content) | Original, generated with ImageMagick; KTX2 (public/assets/v3/own) |
+| Posters (`public/poster-3.0.0.webp`, `.jpg`) | This project (original work) | This repository | CC BY 4.0 (content) | Headed-GPU screenshot of the v3 inspection table (overlay hidden), 1200 × 630; the object in it is the Smithsonian CC0 scan credited above. Replaces the v2 posters. |
 
 ## Fictional elements
 

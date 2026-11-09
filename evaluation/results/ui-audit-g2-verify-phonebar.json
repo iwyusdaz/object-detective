@@ -1,0 +1,614 @@
+{
+  "tool": "ui-audit",
+  "toolVersion": "1.2.1",
+  "plan": "implementation-plans/immersive/10-visual-richness.md §7",
+  "label": "G2 verify-all subset phonebar",
+  "repo": "object-detective",
+  "version": "2.0.1",
+  "git": {
+    "branch": "v3",
+    "commit": "8b0d8cb",
+    "dirty": true
+  },
+  "measuredAt": "2026-11-09T08:14:18.289Z",
+  "mode": "headed Chromium on the local GPU",
+  "machine": {
+    "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M1, Unspecified Version)",
+    "browser": "Chromium 143.0.7499.4 (Playwright 1.57.0)"
+  },
+  "method": "VITE_TEST_HOOKS=1 build served on 127.0.0.1:5202 (gzip for text types, no cache). Fresh browser context per viewport (desktop DSF 2; phone DSF 3, isMobile, hasTouch). Download = bytes the server sent from navigation until 2 s of network silence. States: first load, then each module tab (and its cinematic sub-state while a shot plays). Medium preset forced after the download measurement. Alive: two canvas-only screenshots 5 s apart, 3x3 grid, a region counts when >= 0.25% of its pixels change by > 12/255. Performance: 4 s sample per state; GPU time from EXT_disjoint_timer_query_webgl2 around each requestAnimationFrame dispatch; draw calls and triangles counted at the WebGL call level (all passes), max over the sample.",
+  "thresholds": {
+    "panelMaxPctDesktop": 25,
+    "panelMaxPctPhone": 40,
+    "topBarMaxPx": 56,
+    "chromeRowsMax": 1,
+    "targetMinTouchPx": 44,
+    "targetMinMousePx": 32,
+    "textMinPx": 14,
+    "bodyMinPx": 16,
+    "maxTextSizes": 3,
+    "nowCardMaxWords": 60,
+    "fkMaxGrade": 8,
+    "scaleTolerance": 0.15,
+    "aliveMinRegions": 3,
+    "aliveGapMs": 5000,
+    "alivePixelDelta": 12,
+    "aliveRegionFraction": 0.0025,
+    "gpuMsP95Max": 12,
+    "fpsMin": 55,
+    "drawCallsMax": 300,
+    "trianglesMax": 1500000,
+    "downloadDesktopMaxMB": 15,
+    "downloadPhoneMaxMB": 8,
+    "fileMaxMB": 20,
+    "primitiveMinScreenFraction": 0.001,
+    "markerMaxScreenFraction": 0.02
+  },
+  "config": {
+    "readability": {
+      "mode": "fk",
+      "maxGrade": 8
+    },
+    "states": "auto (module tabs)",
+    "configFile": "evaluation/ui-audit.config.json"
+  },
+  "pass": false,
+  "summary": {
+    "sceneCoverage": {
+      "status": "pass",
+      "failing": 0,
+      "judged": 1,
+      "skipped": 0,
+      "where": []
+    },
+    "topChrome": {
+      "status": "pass",
+      "failing": 0,
+      "judged": 2,
+      "skipped": 0,
+      "where": []
+    },
+    "blockedControls": {
+      "status": "pass",
+      "failing": 0,
+      "judged": 2,
+      "skipped": 0,
+      "where": []
+    },
+    "overlappingControls": {
+      "status": "pass",
+      "failing": 0,
+      "judged": 2,
+      "skipped": 0,
+      "where": []
+    },
+    "targetSize": {
+      "status": "pass",
+      "failing": 0,
+      "judged": 2,
+      "skipped": 0,
+      "where": []
+    },
+    "textSize": {
+      "status": "pass",
+      "failing": 0,
+      "judged": 2,
+      "skipped": 0,
+      "where": []
+    },
+    "typeface": {
+      "status": "pass",
+      "failing": 0,
+      "judged": 2,
+      "skipped": 0,
+      "where": []
+    },
+    "instructionLength": {
+      "status": "pass",
+      "failing": 0,
+      "judged": 1,
+      "skipped": 0,
+      "where": []
+    },
+    "readability": {
+      "status": "pass",
+      "failing": 0,
+      "judged": 1,
+      "skipped": 0,
+      "where": []
+    },
+    "inspectableObjects": {
+      "status": "pass",
+      "failing": 0,
+      "judged": 1,
+      "skipped": 0,
+      "where": []
+    },
+    "barePrimitives": {
+      "status": "pass",
+      "failing": 0,
+      "judged": 2,
+      "skipped": 0,
+      "where": []
+    },
+    "abstractMarkers": {
+      "status": "pass",
+      "failing": 0,
+      "judged": 2,
+      "skipped": 0,
+      "where": []
+    },
+    "alive": {
+      "status": "pass",
+      "failing": 0,
+      "judged": 2,
+      "skipped": 0,
+      "where": []
+    },
+    "performance": {
+      "status": "pass",
+      "failing": 0,
+      "judged": 2,
+      "skipped": 0,
+      "where": []
+    },
+    "download": {
+      "status": "pass",
+      "byViewport": {
+        "390x844": {
+          "status": "pass",
+          "mb": 7.61,
+          "limitMB": 8
+        }
+      }
+    },
+    "inspectableObjectsReach": {
+      "status": "fail"
+    },
+    "scale": {
+      "status": "pass"
+    }
+  },
+  "repoGates": {
+    "inspectableObjectsReach": {
+      "status": "fail",
+      "catalogEntries": 31,
+      "courseRelevant": 14,
+      "decorative": 17,
+      "unclassified": [],
+      "notReachedByMouse": [
+        "morse-vail-key",
+        "davenport-motor",
+        "henry-trough-battery",
+        "chester-relay",
+        "tangent-galvanometer",
+        "evidence-board",
+        "wall-painting",
+        "lincoln-patent-model"
+      ],
+      "notReachedByTouch": [
+        "morse-vail-key",
+        "davenport-motor",
+        "henry-trough-battery",
+        "chester-relay",
+        "tangent-galvanometer",
+        "evidence-board",
+        "archive-cabinet",
+        "wall-painting",
+        "lincoln-patent-model"
+      ],
+      "notInKeyboardList": [],
+      "notInTextMode": [],
+      "decorativeOpenedCard": [],
+      "decorativeInKeyboardList": [],
+      "decorativeInTextMode": [],
+      "note": "Mouse, keyboard list and text mode checked at 390x844, touch at 390x844, in every exploration state"
+    },
+    "scale": {
+      "status": "pass",
+      "checked": 31,
+      "failing": 0,
+      "items": [],
+      "exempt": [
+        {
+          "id": "tangent-galvanometer",
+          "status": "exempt",
+          "reason": "No scale test: the scan measures about 0.145 m but the record gives 0.2159 m (DECISIONS D-11), so the scan is never measured or shown at true size."
+        },
+        {
+          "id": "night-guard",
+          "status": "exempt",
+          "reason": "A moving light; the guard is never shown."
+        },
+        {
+          "id": "wainscoting",
+          "status": "exempt",
+          "reason": "A room surface."
+        }
+      ],
+      "angular": [],
+      "notWorldFrame": [
+        {
+          "id": "morse-vail-key",
+          "frame": "local"
+        },
+        {
+          "id": "davenport-motor",
+          "frame": "local"
+        },
+        {
+          "id": "henry-trough-battery",
+          "frame": "local"
+        },
+        {
+          "id": "chester-relay",
+          "frame": "local"
+        },
+        {
+          "id": "page-induction-coil",
+          "frame": "local"
+        },
+        {
+          "id": "magnifier",
+          "frame": "local"
+        },
+        {
+          "id": "raking-light",
+          "frame": "rest pose"
+        },
+        {
+          "id": "lincoln-patent-model",
+          "frame": "local"
+        },
+        {
+          "id": "elkins-refrigerator-patent-model",
+          "frame": "local"
+        },
+        {
+          "id": "mattey-stereoscope",
+          "frame": "local"
+        },
+        {
+          "id": "security-camera",
+          "frame": "rest pose"
+        }
+      ]
+    }
+  },
+  "textBeforeFirstAction": {
+    "390x844": {}
+  },
+  "statesRun": 2,
+  "errorStates": [],
+  "systemSuspended": [],
+  "runs": [
+    {
+      "viewport": "390x844",
+      "class": "phone",
+      "dsf": 3,
+      "states": [
+        {
+          "name": "start",
+          "label": "First load, no input",
+          "phase": "title",
+          "gates": {
+            "sceneCoverage": {
+              "status": "n/a",
+              "reason": "phase title"
+            },
+            "topChrome": {
+              "status": "pass",
+              "position": "top",
+              "value": {
+                "rows": 0,
+                "topHeightPx": 0
+              },
+              "limit": {
+                "rows": 1,
+                "topHeightPx": 56
+              },
+              "bars": []
+            },
+            "blockedControls": {
+              "status": "pass",
+              "value": 0,
+              "of": 2,
+              "items": [],
+              "blockers": {},
+              "inertUnderOverlay": 0
+            },
+            "overlappingControls": {
+              "status": "pass",
+              "value": 0,
+              "items": []
+            },
+            "targetSize": {
+              "status": "pass",
+              "value": 0,
+              "minPx": 44,
+              "items": []
+            },
+            "textSize": {
+              "status": "pass",
+              "value": {
+                "minPx": 14.88,
+                "bodyPx": 17,
+                "distinctSizes": 3
+              },
+              "minSample": "The Lantern Museum (fictional) · real Sm",
+              "sizes": [
+                {
+                  "px": 15,
+                  "chars": 57
+                },
+                {
+                  "px": 17,
+                  "chars": 145
+                },
+                {
+                  "px": 42.5,
+                  "chars": 20
+                }
+              ]
+            },
+            "typeface": {
+              "status": "pass",
+              "value": [],
+              "headings": {
+                "Libre Baskerville": 1
+              },
+              "offListChars": {}
+            },
+            "instructionLength": {
+              "status": "n/a",
+              "reason": "phase title"
+            },
+            "readability": {
+              "status": "n/a",
+              "reason": "phase title"
+            },
+            "inspectableObjects": {
+              "status": "n/a",
+              "reason": "phase title"
+            },
+            "barePrimitives": {
+              "status": "pass",
+              "value": 0,
+              "instances": 0,
+              "items": []
+            },
+            "abstractMarkers": {
+              "status": "pass",
+              "value": 0,
+              "groups": 0,
+              "items": []
+            },
+            "alive": {
+              "status": "pass",
+              "value": 9,
+              "limit": 3,
+              "fractions": [
+                0.9423,
+                0.9178,
+                0.7779,
+                0.8014,
+                0.7965,
+                0.8518,
+                0.5831,
+                0.6706,
+                0.9222
+              ]
+            },
+            "performance": {
+              "status": "pass",
+              "value": {
+                "preset": "medium",
+                "resolutionScale": 1,
+                "canvas": "585x1266",
+                "frames": 240,
+                "fps": 60,
+                "frameMsP95": 18.6,
+                "gpuMsP95": 4.38,
+                "gpuSamples": 240,
+                "gpuTimer": true,
+                "drawCallsMax": 74,
+                "trianglesMax": 3901,
+                "threeInfoLastFrame": {
+                  "calls": 74,
+                  "triangles": 3901
+                }
+              },
+              "failures": []
+            }
+          }
+        },
+        {
+          "name": "m5",
+          "label": "5Module 5 of 5: Wrap-up",
+          "phase": "explore",
+          "gates": {
+            "sceneCoverage": {
+              "status": "pass",
+              "value": 31.3,
+              "limit": 40,
+              "unionPct": 41.6,
+              "sceneVisiblePct": 51.6,
+              "panels": [
+                {
+                  "el": "section#v3-now.v3-now",
+                  "pct": 31.3,
+                  "chars": 241
+                },
+                {
+                  "el": "div.v3-cluster",
+                  "pct": 7.2,
+                  "chars": 17
+                },
+                {
+                  "el": "div.v3-joystick",
+                  "pct": 3.8,
+                  "chars": 0
+                }
+              ]
+            },
+            "topChrome": {
+              "status": "pass",
+              "position": "top",
+              "value": {
+                "rows": 1,
+                "topHeightPx": 56
+              },
+              "limit": {
+                "rows": 1,
+                "topHeightPx": 56
+              },
+              "bars": [
+                {
+                  "el": "header.v3-topbar",
+                  "edge": "top",
+                  "heightPx": 56,
+                  "rows": 1,
+                  "controls": 7
+                }
+              ]
+            },
+            "blockedControls": {
+              "status": "pass",
+              "value": 0,
+              "of": 16,
+              "items": [],
+              "blockers": {},
+              "inertUnderOverlay": 0
+            },
+            "overlappingControls": {
+              "status": "pass",
+              "value": 0,
+              "items": []
+            },
+            "targetSize": {
+              "status": "pass",
+              "value": 0,
+              "minPx": 44,
+              "items": []
+            },
+            "textSize": {
+              "status": "pass",
+              "value": {
+                "minPx": 14.88,
+                "bodyPx": 17,
+                "distinctSizes": 2
+              },
+              "minSample": "1",
+              "sizes": [
+                {
+                  "px": 15,
+                  "chars": 14
+                },
+                {
+                  "px": 17,
+                  "chars": 243
+                }
+              ]
+            },
+            "typeface": {
+              "status": "pass",
+              "value": [],
+              "headings": {},
+              "offListChars": {}
+            },
+            "instructionLength": {
+              "status": "pass",
+              "value": 43,
+              "limit": 60,
+              "source": "now-card",
+              "renderedTextChars": 278,
+              "uiTextChars": 436
+            },
+            "readability": {
+              "status": "pass",
+              "mode": "fk",
+              "value": 5,
+              "limit": 8
+            },
+            "inspectableObjects": {
+              "status": "pass",
+              "value": {
+                "inspectable": 14,
+                "decorativeShown": 17
+              },
+              "decorativeInspectable": [],
+              "courseNotInspectable": [],
+              "notInCatalog": [],
+              "catalogEntries": 31
+            },
+            "barePrimitives": {
+              "status": "pass",
+              "value": 0,
+              "instances": 0,
+              "items": []
+            },
+            "abstractMarkers": {
+              "status": "pass",
+              "value": 0,
+              "groups": 0,
+              "items": []
+            },
+            "alive": {
+              "status": "pass",
+              "value": 9,
+              "limit": 3,
+              "fractions": [
+                0.044,
+                0.0178,
+                0.0172,
+                0.0913,
+                0.1246,
+                0.1047,
+                0.2031,
+                0.1411,
+                0.0815
+              ]
+            },
+            "performance": {
+              "status": "pass",
+              "value": {
+                "preset": "medium",
+                "resolutionScale": 1,
+                "canvas": "585x1266",
+                "frames": 240,
+                "fps": 60,
+                "frameMsP95": 17.8,
+                "gpuMsP95": 6.12,
+                "gpuSamples": 240,
+                "gpuTimer": true,
+                "drawCallsMax": 75,
+                "trianglesMax": 170643,
+                "threeInfoLastFrame": {
+                  "calls": 75,
+                  "triangles": 170643
+                }
+              },
+              "failures": []
+            }
+          }
+        }
+      ],
+      "errors": [],
+      "download": {
+        "status": "pass",
+        "mb": 7.61,
+        "limitMB": 8,
+        "requests": 50,
+        "networkIdle": true,
+        "largestFile": {
+          "file": "assets/models/page-induction-coil-4k-20b0e48997.glb",
+          "bytes": 10083304,
+          "mb": 9.62
+        },
+        "filesOver20MB": [],
+        "streamedAfterFirstInteractionMB": 24.44
+      },
+      "preset": "medium"
+    }
+  ]
+}

@@ -1,5 +1,21 @@
 # Status
 
+## v3.0.0 release (2026-11-09)
+Released as v3.0.0 (plan 10 "scene-first revamp"). The code is the verified head `7e0c50d` plus docs: the owner visual approval record (`79db8e3`, DECISIONS.md) and the release commit (version 3.0.0, v3 posters, these notes). The owner approved the v3 scene on 2026-11-09 ("approve all for now") with the issues below accepted as known limitations. That is owner visual approval, not user testing; no learners have used v3.
+
+Checks on the verified head (Apple M1, headed Chromium 143 on the GPU for ui-audit 1.2.1, headless for the test suites): vitest 96/96; e2e 13/16 (on `8b0d8cb`, see below). Full results: `.agents/tasks/immersive-v3/g2/fix-round-report.md` in the portfolio workspace and `evaluation/results/ui-audit-g2-verify*.json` here.
+
+### Known open issues at v3.0.0
+- **Desktop GPU budget not met in the close-ups:** 33–42 ms GPU p95 at 1440×900 against 12 ms (c1-truesize 42.5 ms at 46 fps, m2 39.9 ms, m4 37.9 ms, c1-lens 37.0 ms, c1-light 36.7 ms, c2-compare 36.6 ms, m3 33.3 ms); 29 of 108 audit cells fail on performance, all on desktop. The fake-light fragment loop costs about 23 ms of 36 ms on Chromium 143. No fix was found. Phones pass (at most 10.8 ms, 60 fps).
+- **Lamp head:** the lamp now aims at the inspected object, but from the inspect angle its head hides most of the telegraph key, and it covers about a third of the True size view.
+- **Alive gate** at 390×844 in m5 measured 0 regions in the full run (the view faces a dark wall) and passed on the subset re-run.
+- **e2e:** 13 of 16 on `8b0d8cb`. The keyboard-only completion test hits its own 25-minute timeout (open since S6). The touch-tap test fails because no course object is on screen in the Welcome module at 390×844. The sub-path test timed out once under load and passed alone.
+- **Showcase CI:** on the GitHub runner (software WebGL) the "Use text mode" button never becomes clickable within 90 s, so the showcase's `validate` check fails on this build.
+- **Trailer** (`docs/trailer.webm`) still shows v2.
+- **Touch reach at 390×844:** `henry-trough-battery` and `lincoln-patent-model` are missed. Mouse, the keyboard "Objects in view" list and text mode reach every course object.
+- **Portrait zoom (template T-31 camera part)** is only in lunar-field-expedition. Syncing it here might improve phone framing and touch reach, but every phone view would need re-checking.
+
+
 Status values: **done**, **done (agent review)** (done, with an agent review still to come), **not possible** (reason given), **owner** (needs the repo owner or orchestrator).
 
 ## Final Quality Checklist (plan §14)
