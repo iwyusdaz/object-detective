@@ -104,3 +104,10 @@
 /* A link standing alone in a paragraph (e.g. a source link) is a control: 32 px with a mouse, 44 px on touch. */
 .v3-drawer-body p > a:only-child, .v3-tm p > a:only-child { display: inline-flex; align-items: center; min-height: 32px; }
 @media (pointer: coarse) { .v3-drawer-body p > a:only-child, .v3-tm p > a:only-child { min-height: 44px; } }
+
+/* G2 verify-all: Back now sits in the bar, so on a portrait phone the five module
+   steps, the count and Menu are packed tighter (each target stays 44 px) and
+   step 5 no longer scrolls out of view (same rule as lunar 1724c2a). */
+[data-layout="phone-portrait"] .v3-topbar { gap: 4px; padding: 0 4px; }
+[data-layout="phone-portrait"] .v3-stepper ol { gap: 0; }
+[data-layout="phone-portrait"] .v3-menu-btn { padding-left: 8px; padding-right: 8px; }
