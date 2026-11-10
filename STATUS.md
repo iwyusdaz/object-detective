@@ -10,7 +10,7 @@ Checks on the verified head (Apple M1, headed Chromium 143 on the GPU for ui-aud
 - **Lamp head:** the lamp now aims at the inspected object, but from the inspect angle its head hides most of the telegraph key, and it covers about a third of the True size view.
 - **Alive gate** at 390×844 in m5 measured 0 regions in the full run (the view faces a dark wall) and passed on the subset re-run.
 - **e2e:** 13 of 16 on `8b0d8cb`. The keyboard-only completion test hits its own 25-minute timeout (open since S6). The touch-tap test fails because no course object is on screen in the Welcome module at 390×844. The sub-path test timed out once under load and passed alone.
-- **Showcase CI:** on the GitHub runner (software WebGL) the "Use text mode" button never becomes clickable within 90 s, so the showcase's `validate` check fails on this build. **Fixed on `main` 2026-11-10 (T-33: no reflection bake and no drawing behind full-screen pages without a GPU; CI green); ships with v3.0.1.**
+- **Showcase CI:** on the GitHub runner (software WebGL) the "Use text mode" button never becomes clickable within 90 s, so the showcase's `validate` check fails on this build. **Closed in v3.0.1 (2026-11-10, T-33): no reflection bake and no drawing behind full-screen pages without a GPU; CI and the showcase `validate` check pass.**
 - **Trailer** (`docs/trailer.webm`) still shows v2.
 - **Touch reach at 390×844:** `henry-trough-battery` and `lincoln-patent-model` are missed. Mouse, the keyboard "Objects in view" list and text mode reach every course object.
 - **Portrait zoom (template T-31 camera part)** is only in lunar-field-expedition. Syncing it here might improve phone framing and touch reach, but every phone view would need re-checking.
