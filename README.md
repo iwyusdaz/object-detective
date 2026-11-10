@@ -89,5 +89,9 @@ Asset pipeline: `scripts/fetch-smithsonian-models.mjs` → `prepare-models.mjs`,
 - Real playtests using `evaluation/human-protocol/`.
 - More cases as data, for example other CC0 NMAH electricity objects.
 
+## Authorship
+
+AI assistance: an AI coding agent wrote the code, content and documents under my direction. Facts and CC0 status were checked against the sources logged in [research/](research/). Design reviews of earlier versions were done by a separate agent and are labeled as agent reviews in `evaluation/reviews/`; v3 had none.
+
 ## License
 Code: MIT ([LICENSE](LICENSE)). Content: CC BY 4.0 ([LICENSE-CONTENT](LICENSE-CONTENT)). Smithsonian scans and record metadata: CC0. Full credits are in [ATTRIBUTION.md](ATTRIBUTION.md).
