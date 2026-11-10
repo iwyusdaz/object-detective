@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.1 (2026-11-10) — patch: usable without a GPU
+- On computers without a GPU (software WebGL, as on CI runners), the page no longer freezes behind slow frames: the scene updates without drawing while the title screen or text mode fills the screen, and a frame slower than 500 ms is followed by an equal pause, so clicks such as "Use text mode" respond (0.58 s instead of 20–26 s, measured on object-detective with the CPU throttled 4× and 8×). No change on a GPU.
+- Without a GPU, the gallery reflection and bounce-light bakes are skipped (they blocked the page for about 7 s), and choosing text mode no longer streams the 3D detail.
+- Posters unchanged (same images, renamed `poster-3.0.1.*`).
 ## 3.0.0 (2026-11-09) — scene-first revamp (plan 10 §6.2)
 - Scene-first v3 shell: one top bar with the module steps, a short Now card with one action, drawers and a discovery journal. Dressed Lantern Museum gallery and inspection table.
 - Articulated clamp lamp aims at the inspected object; circular magnifier (render target + circular composite); True size view with scale references; light-probe bounce light in the gallery.

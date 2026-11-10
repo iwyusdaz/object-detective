@@ -5,7 +5,7 @@
 **Play now:** https://immersive-learning-showcase.vercel.app/play/object-detective/
 A draft museum label makes bold claims. You walk a living museum at night — dust drifting through the spotlight cones, a ticking grandfather clock, rain on the tall windows, a night guard's torch passing the archive doorway — examine **real Smithsonian 3D scans** under a raking torch you aim with the mouse, magnify and measure them, corroborate them with the catalog records, and write a corrected label that says what you know and how sure you are.
 
-![A brass telegraph key on a wooden base, lit by a low raking lamp on the inspection table and casting a long shadow.](public/poster-3.0.0.webp)
+![A brass telegraph key on a wooden base, lit by a low raking lamp on the inspection table and casting a long shadow.](public/poster-3.0.1.webp)
 
 | | |
 |---|---|
